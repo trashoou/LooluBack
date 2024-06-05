@@ -1,0 +1,11 @@
+### user registration
+POST http://localhost:8080/api/users/register
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "StrongPassword123!"
+}
+
+
+
