@@ -30,7 +30,7 @@ public class Product {
 
     @Column(nullable = false)
     private String picture;
-
-    @OneToMany(mappedBy = "product")
-    private Set<CartProduct> cartProducts;
+//
+//    @OneToMany(mappedBy = "product")
+//    private Set<CartProduct> cartProducts;
 }
