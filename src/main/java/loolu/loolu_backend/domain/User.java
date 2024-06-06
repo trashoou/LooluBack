@@ -19,7 +19,7 @@ public class User implements UserDetails {
     @Column(name = "id")
     private Integer id;
 
-    @Schema(description = "Username that use for logging in", example = "Vanya")
+    @Schema(description = "Username that use for logging in", example = "Sasha")
     @Column(name = "username")
     private String username;
 
