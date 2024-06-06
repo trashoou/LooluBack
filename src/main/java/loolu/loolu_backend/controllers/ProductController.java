@@ -88,4 +88,13 @@ public class ProductController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+    @Operation(
+            summary = "Find products by title",
+            description = "Retrieve products that match the given title"
+    )
+    @GetMapping("/search")
+    public ResponseEntity<List<Product>> findProductsByTitle(@RequestParam String title) {
+        List<Product> products = productService.findProductsByTitle(title);
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
 }

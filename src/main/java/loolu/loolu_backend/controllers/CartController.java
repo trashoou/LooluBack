@@ -1,6 +1,7 @@
 package loolu.loolu_backend.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import loolu.loolu_backend.dto.CartItemDto;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "Cart Controller", description = "Controller for managing cart items")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/cart")
@@ -27,7 +29,7 @@ public class CartController {
                 .body(cartService.addItemToCart(cartItem));
     }
 
-    @Operation(summary = "Get cart items")
+    @Operation(summary = "Get all cart's items")
     @GetMapping
     public ResponseEntity<List<CartItemDto>> getCartItems() {
         return ResponseEntity

@@ -9,4 +9,6 @@ public interface ProductService {
     Product getProductById(Long id);
     Product saveProduct(Product product);
     void deleteProduct(Long id);
+
+    List<Product> findProductsByTitle(String title);
 }
