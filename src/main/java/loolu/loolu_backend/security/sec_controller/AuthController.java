@@ -25,9 +25,6 @@ public class AuthController {
         this.service = service;
     }
 
-    // Метод доработан.
-    // Теперь в случае успешного логина токен доступа отправляется не только
-    // в теле ответа, но ещё и записывается в куки.
     @Operation(
             summary = "Login",
             description = "Logging into the system"
@@ -64,8 +61,6 @@ public class AuthController {
         return ResponseEntity.ok(accessToken);
     }
 
-    // При логауте куке с токеном доступа выставляется время жизни, равное 0,
-    // благодаря чему данная кука сразу же перестаёт действовать.
     @Operation(
             summary = "Logout",
             description = "Logging out from the system"
@@ -80,4 +75,19 @@ public class AuthController {
         cookie.setMaxAge(0);
         response.addCookie(cookie);
     }
+//    @Operation(
+//            summary = "Delete User",
+//            description = "Delete user by ID"
+//    )
+//    @DeleteMapping("/user/{id}")
+//    public ResponseEntity<String> deleteUser(
+//            @Parameter(description = "ID of the user to be deleted") @PathVariable("id") Long id
+//    ) {
+//        try {
+//            service.deleteUser(id);
+//            return ResponseEntity.ok("User deleted successfully");
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete user");
+//        }
+//    }
 }

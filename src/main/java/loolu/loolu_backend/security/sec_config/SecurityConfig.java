@@ -52,7 +52,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/api/products/**").permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/api/products/**").permitAll()
 
-
+                        .requestMatchers(HttpMethod.GET, "/api/cart").permitAll()
 
                         .requestMatchers(HttpMethod.POST, "/auth/login", "/auth/refresh").permitAll()
                         .anyRequest().authenticated())

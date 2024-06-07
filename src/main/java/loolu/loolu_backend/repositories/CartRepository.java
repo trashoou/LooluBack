@@ -1,7 +1,7 @@
 package loolu.loolu_backend.repositories;
 
+import loolu.loolu_backend.domain.User;
 import loolu.loolu_backend.models.Cart;
-import loolu.loolu_backend.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

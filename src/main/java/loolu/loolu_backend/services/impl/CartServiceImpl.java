@@ -1,18 +1,17 @@
 package loolu.loolu_backend.services.impl;
 
 import lombok.RequiredArgsConstructor;
+import loolu.loolu_backend.domain.User;
 import loolu.loolu_backend.dto.CartItemDto;
 import loolu.loolu_backend.dto.UpdateCartItemDto;
 import loolu.loolu_backend.models.Cart;
 import loolu.loolu_backend.models.CartProduct;
 import loolu.loolu_backend.models.Product;
-import loolu.loolu_backend.models.User;
 import loolu.loolu_backend.repositories.CartProductRepository;
 import loolu.loolu_backend.repositories.CartRepository;
 import loolu.loolu_backend.repositories.ProductRepository;
-import loolu.loolu_backend.repositories.UsersRepository;
+import loolu.loolu_backend.repositories.UserRepository;
 import loolu.loolu_backend.services.CartService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,11 +24,12 @@ public class CartServiceImpl implements CartService {
     private final CartRepository cartRepository;
     private final CartProductRepository cartProductRepository;
     private final ProductRepository productRepository;
-    private final UsersRepository userRepository;
+    private final UserRepository userRepository;
 
     @Override
     public CartItemDto addItemToCart(CartItemDto cartItem) {
-        User user = userRepository.findById(cartItem.getCartId()).orElseThrow(() -> new RuntimeException("User not found"));
+        User user = userRepository.findById(cartItem.getCartId().intValue())
+                .orElseThrow(() -> new RuntimeException("User not found"));
         Product product = productRepository.findById(cartItem.getProductId()).orElseThrow(() -> new RuntimeException("Product not found"));
 
         Cart cart = cartRepository.findByUser(user).orElseGet(() -> {

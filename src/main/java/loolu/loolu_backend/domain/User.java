@@ -2,6 +2,11 @@ package loolu.loolu_backend.domain;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import loolu.loolu_backend.models.Cart;
+import loolu.loolu_backend.models.UserOrder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -12,6 +17,8 @@ import java.util.Set;
 @Schema(description = "User entity")
 @Entity(name = "DomainUser")
 @Table(name = "user")
+@AllArgsConstructor
+@NoArgsConstructor
 public class User implements UserDetails {
 
     @Id
@@ -19,13 +26,26 @@ public class User implements UserDetails {
     @Column(name = "id")
     private Integer id;
 
-    @Schema(description = "Username that use for logging in", example = "Sasha")
-    @Column(name = "username")
-    private String username;
+    @Schema(description = "User's first name", example = "Sasha")
+    @Column(name = "first_name")
+    private String firstName;
+
+    @Schema(description = "User's last name", example = "Ivanyo")
+    @Column(name = "last_name")
+    private String lastName;
+
+    @Schema(description = "User's email address", example = "sasha@example.com")
+    @Column(name = "email", unique = true, nullable = false)
+    private String email;
 
     @Schema(description = "User's raw password for logging in", example = "111")
     @Column(name = "password")
     private String password;
+
+    @Setter
+    @Schema(description = "User's username or nickname for logging in", example = "Sancos")
+    @Column(name = "username", unique = true, nullable = false)
+    private String username;
 
     @ManyToMany
     @JoinTable(
@@ -34,6 +54,7 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles;
+
 
     @Schema(
             description = "List of authorities granted to user",
@@ -49,7 +70,7 @@ public class User implements UserDetails {
         return password;
     }
 
-    @Override
+    @Schema(description = "User's username for logging in", example = "sasha.ivanov")
     public String getUsername() {
         return username;
     }
@@ -94,21 +115,38 @@ public class User implements UserDetails {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(roles, user.roles);
+        return Objects.equals(id, user.id) &&
+                Objects.equals(firstName, user.firstName) &&
+                Objects.equals(lastName, user.lastName) &&
+                Objects.equals(email, user.email) &&
+                Objects.equals(password, user.password) &&
+                Objects.equals(username, user.username) &&
+                Objects.equals(roles, user.roles);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, roles);
+        return Objects.hash(id, firstName, lastName, email, password, username, roles);
     }
 
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", username='" + username + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
+                ", username='" + username + '\'' +
                 ", roles=" + roles +
                 '}';
     }
+//    @OneToMany(mappedBy = "user")
+//    private Set<Cart> carts;
+//
+//    @OneToOne(mappedBy = "user")
+//    private Set<Cart> carts;
+//
+//    @OneToMany(mappedBy = "user")
+//    private Set<UserOrder> orders;
 }

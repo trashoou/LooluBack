@@ -92,9 +92,36 @@ public class ProductController {
             summary = "Find products by title",
             description = "Retrieve products that match the given title"
     )
-    @GetMapping("/search")
+    @GetMapping("/searchByTitle")
     public ResponseEntity<List<Product>> findProductsByTitle(@RequestParam String title) {
         List<Product> products = productService.findProductsByTitle(title);
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+    @Operation(
+            summary = "Find products by category",
+            description = "Retrieve products that belong to the given category"
+    )
+    @GetMapping("/byCategory/{category}")
+    public ResponseEntity<List<Product>> findProductsByCategory(@PathVariable String category) {
+        List<Product> products = productService.findProductsByCategory(category);
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+    @Operation(
+            summary = "Find products by price range",
+            description = "Retrieve products that have a price between the given range"
+    )
+    @GetMapping("/byPrice/{minPrice}/{maxPrice}")
+    public ResponseEntity<List<Product>> findProductsByPriceBetween(@PathVariable Double minPrice, @PathVariable Double maxPrice) {
+        List<Product> products = productService.findProductsByPriceBetween(minPrice, maxPrice);
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+    @Operation(
+            summary = "Find products by name and price range",
+            description = "Retrieve products that match the given name and have a price between the given range"
+    )
+    @GetMapping("/byNameAndPrice/{name}/{minPrice}/{maxPrice}")
+    public ResponseEntity<List<Product>> findProductsByTitleAndPriceBetween(@PathVariable String title, @PathVariable Double minPrice, @PathVariable Double maxPrice) {
+        List<Product> products = productService.findProductsByTitleAndPriceBetween(title, minPrice, maxPrice);
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 }
