@@ -119,7 +119,7 @@ public class ProductController {
             summary = "Find products by name and price range",
             description = "Retrieve products that match the given name and have a price between the given range"
     )
-    @GetMapping("/byNameAndPrice/{name}/{minPrice}/{maxPrice}")
+    @GetMapping("/byTitleAndPrice/{title}/{minPrice}/{maxPrice}")
     public ResponseEntity<List<Product>> findProductsByTitleAndPriceBetween(@PathVariable String title, @PathVariable Double minPrice, @PathVariable Double maxPrice) {
         List<Product> products = productService.findProductsByTitleAndPriceBetween(title, minPrice, maxPrice);
         return new ResponseEntity<>(products, HttpStatus.OK);
