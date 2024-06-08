@@ -21,7 +21,6 @@ public class AuthService {
     private TokenService tokenService;
     private Map<String, String> refreshStorage;
     private BCryptPasswordEncoder encoder;
-  //  private UserRepository userRepository;
 
     public AuthService(UserService userService, TokenService tokenService, BCryptPasswordEncoder encoder) {
         this.userService = userService;
@@ -29,11 +28,6 @@ public class AuthService {
         this.encoder = encoder;
         this.refreshStorage = new HashMap<>();
     }
-//    public AuthService(UserService userService, TokenService tokenService, UserRepository userRepository) {
-//        this.userService = userService;
-//        this.tokenService = tokenService;
-//        this.userRepository = userRepository;
-//    }
 
 
     public TokenResponseDto login(@Nonnull User inboundUser) throws AuthException {

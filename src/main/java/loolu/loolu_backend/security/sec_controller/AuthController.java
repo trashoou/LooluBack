@@ -75,19 +75,4 @@ public class AuthController {
         cookie.setMaxAge(0);
         response.addCookie(cookie);
     }
-//    @Operation(
-//            summary = "Delete User",
-//            description = "Delete user by ID"
-//    )
-//    @DeleteMapping("/user/{id}")
-//    public ResponseEntity<String> deleteUser(
-//            @Parameter(description = "ID of the user to be deleted") @PathVariable("id") Long id
-//    ) {
-//        try {
-//            service.deleteUser(id);
-//            return ResponseEntity.ok("User deleted successfully");
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete user");
-//        }
-//    }
 }

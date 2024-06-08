@@ -101,9 +101,9 @@ public class ProductController {
             summary = "Find products by category",
             description = "Retrieve products that belong to the given category"
     )
-    @GetMapping("/byCategory/{category}")
-    public ResponseEntity<List<Product>> findProductsByCategory(@PathVariable String category) {
-        List<Product> products = productService.findProductsByCategory(category);
+    @GetMapping("/byCategory/{categoryId}")
+    public ResponseEntity<List<Product>> findProductsByCategory(@PathVariable Long categoryId) {
+        List<Product> products = productService.findProductsByCategory(categoryId);
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
     @Operation(

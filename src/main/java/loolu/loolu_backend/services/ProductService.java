@@ -10,7 +10,7 @@ public interface ProductService {
     Product saveProduct(Product product);
     void deleteProduct(Long id);
     List<Product> findProductsByTitle(String title);
-    List<Product> findProductsByCategory(String category);
+    List<Product> findProductsByCategory(Long categoryId);
     List<Product> findProductsByPriceBetween(Double minPrice, Double maxPrice);
     List<Product> findProductsByTitleAndPriceBetween(String title, Double minPrice, Double maxPrice);
 }

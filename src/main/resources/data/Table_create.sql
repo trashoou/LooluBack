@@ -61,3 +61,24 @@ ALTER TABLE users
 -- Добавление колонки `category` в таблицу `products`
 ALTER TABLE products
     ADD COLUMN category VARCHAR(255);
+
+-- Удаление колонки `category` из таблицы `products`
+ALTER TABLE products
+DROP COLUMN category;
+
+-- Создание таблицы "categories"
+
+CREATE TABLE categories (
+                            id BIGINT PRIMARY KEY,
+                            name VARCHAR(255),
+                            image VARCHAR(255)
+);
+
+-- Добавление колонки "category_d" в таблицу "products"
+
+ALTER TABLE products
+    ADD COLUMN category_id BIGINT,
+
+    ADD CONSTRAINT fk_category
+        FOREIGN KEY (categoryId)
+        REFERENCES categories(id);

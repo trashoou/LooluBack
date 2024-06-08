@@ -31,9 +31,9 @@ public class Product {
     @Column(name = "picture", nullable = false)
     private String picture;
 
-    @Column(name = "category", nullable = false)
-    private String category;
-
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
 
 //    @OneToMany(mappedBy = "product")
 //    private Set<CartProduct> cartProducts;
