@@ -45,8 +45,6 @@ public class SecurityConfig {
                 .authorizeHttpRequests(x -> x
                         .requestMatchers(HttpMethod.GET, "/swagger-ui/**", "/v3/api-docs/**").permitAll()
 
-                        //.requestMatchers(HttpMethod.GET, "/api/products").hasRole("ADMIN")
-
                         .requestMatchers(HttpMethod.GET, "/api/products", "/api/products/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/products").permitAll()
                         .requestMatchers(HttpMethod.PUT, "/api/products/**").permitAll()
@@ -58,9 +56,17 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/api/categories/**").permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/api/categories/**").permitAll()
 
+                        .requestMatchers(HttpMethod.GET, "/api/users").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/users/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/users").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/api/users/**").permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "/api/users/**").permitAll()
+
                         .requestMatchers(HttpMethod.GET, "/api/cart").permitAll()
 
                         .requestMatchers(HttpMethod.POST, "/auth/login", "/auth/refresh").permitAll()
+
+                        //.requestMatchers(HttpMethod.GET, "/api/products").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .addFilterAfter(filter, UsernamePasswordAuthenticationFilter.class)
                 .build();

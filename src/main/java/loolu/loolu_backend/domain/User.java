@@ -3,6 +3,7 @@ package loolu.loolu_backend.domain;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import loolu.loolu_backend.models.Cart;
@@ -16,9 +17,11 @@ import java.util.Set;
 
 @Schema(description = "User entity")
 @Entity(name = "DomainUser")
-@Table(name = "user")
+@Table(name = "users")
 @AllArgsConstructor
 @NoArgsConstructor
+@Setter
+@Getter
 public class User implements UserDetails {
 
     @Id
@@ -47,13 +50,13 @@ public class User implements UserDetails {
     @Column(name = "username", unique = true, nullable = false)
     private String username;
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_role",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private Set<Role> roles;
+//    @ManyToMany
+//    @JoinTable(
+//            name = "user_role",
+//            joinColumns = @JoinColumn(name = "user_id"),
+//            inverseJoinColumns = @JoinColumn(name = "role_id")
+//    )
+//    private Set<Role> roles;
 
 
     @Schema(
@@ -62,7 +65,8 @@ public class User implements UserDetails {
     )
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
+        //return roles;
+        return null;
     }
 
     @Override
@@ -120,13 +124,13 @@ public class User implements UserDetails {
                 Objects.equals(lastName, user.lastName) &&
                 Objects.equals(email, user.email) &&
                 Objects.equals(password, user.password) &&
-                Objects.equals(username, user.username) &&
-                Objects.equals(roles, user.roles);
+                Objects.equals(username, user.username); //&&;
+               // Objects.equals(roles, user.roles);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, email, password, username, roles);
+        return Objects.hash(id, firstName, lastName, email, password, username); //roles);
     }
 
     @Override
@@ -138,7 +142,7 @@ public class User implements UserDetails {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", username='" + username + '\'' +
-                ", roles=" + roles +
+                //", roles=" + roles +
                 '}';
     }
 //    @OneToMany(mappedBy = "user")
