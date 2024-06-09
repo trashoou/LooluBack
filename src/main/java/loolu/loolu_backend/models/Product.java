@@ -19,18 +19,22 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(nullable = false)
+    @Column(name = "price", nullable = false)
     private Double price;
 
-    @Column(nullable = false)
+    @Column(name = "description", nullable = false)
     private String description;
 
-    @Column(nullable = false)
+    @Column(name = "picture", nullable = false)
     private String picture;
-//
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
+
 //    @OneToMany(mappedBy = "product")
 //    private Set<CartProduct> cartProducts;
 }

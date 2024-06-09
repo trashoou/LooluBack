@@ -25,9 +25,6 @@ public class AuthController {
         this.service = service;
     }
 
-    // Метод доработан.
-    // Теперь в случае успешного логина токен доступа отправляется не только
-    // в теле ответа, но ещё и записывается в куки.
     @Operation(
             summary = "Login",
             description = "Logging into the system"
@@ -64,8 +61,6 @@ public class AuthController {
         return ResponseEntity.ok(accessToken);
     }
 
-    // При логауте куке с токеном доступа выставляется время жизни, равное 0,
-    // благодаря чему данная кука сразу же перестаёт действовать.
     @Operation(
             summary = "Logout",
             description = "Logging out from the system"

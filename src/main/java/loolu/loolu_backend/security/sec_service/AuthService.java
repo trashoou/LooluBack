@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import jakarta.annotation.Nonnull;
 import jakarta.security.auth.message.AuthException;
 import loolu.loolu_backend.domain.User;
+import loolu.loolu_backend.repositories.UserRepository;
 import loolu.loolu_backend.security.sec_dto.AuthInfo;
 import loolu.loolu_backend.security.sec_dto.TokenResponseDto;
 import loolu.loolu_backend.services.impl.UserService;
@@ -27,6 +28,7 @@ public class AuthService {
         this.encoder = encoder;
         this.refreshStorage = new HashMap<>();
     }
+
 
     public TokenResponseDto login(@Nonnull User inboundUser) throws AuthException {
         String username = inboundUser.getUsername();
@@ -60,4 +62,5 @@ public class AuthService {
     public AuthInfo getAuthInfo() {
         return (AuthInfo) SecurityContextHolder.getContext().getAuthentication();
     }
+
 }
