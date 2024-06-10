@@ -34,6 +34,17 @@ public class Product {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", price=" + price +
+                ", description='" + description + '\'' +
+                ", picture='" + picture + '\'' +
+                ", category=" + category +
+                '}';
+    }
 
 //    @OneToMany(mappedBy = "product")
 //    private Set<CartProduct> cartProducts;
