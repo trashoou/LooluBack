@@ -6,7 +6,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.security.auth.message.AuthException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
-import loolu.loolu_backend.domain.User;
+import loolu.loolu_backend.dto.LoginRequestDto;
 import loolu.loolu_backend.security.sec_dto.RefreshRequestDto;
 import loolu.loolu_backend.security.sec_dto.TokenResponseDto;
 import loolu.loolu_backend.security.sec_service.AuthService;
@@ -31,11 +31,11 @@ public class AuthController {
     )
     @PostMapping("/login")
     public ResponseEntity<TokenResponseDto> login(
-            @RequestBody @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Object of an user that logging in") User user,
+            @RequestBody @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Object of a user logging in") LoginRequestDto loginRequest,
             @Parameter(description = "Object of a response that will be transferred to a client") HttpServletResponse response
     ) {
         try {
-            TokenResponseDto tokenDto = service.login(user);
+            TokenResponseDto tokenDto = service.login(loginRequest);
 
             Cookie cookie = new Cookie("Access-Token", tokenDto.getAccessToken());
             cookie.setPath("/");
