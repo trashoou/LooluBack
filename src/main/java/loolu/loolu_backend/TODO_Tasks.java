@@ -3,9 +3,9 @@ package loolu.loolu_backend;
 public class TODO_Tasks {
     //TODO
 
-    //DB for ROLEn - ???
+    //DB for ROLE - ???
 
-    // check and update connection - Slava one-one, one-many, many-one, many-many
+    //check and update connection - Slava one-one, one-many, many-one, many-many
 
     //upload files photo, size check by - Radu, Sergey
 
@@ -15,6 +15,6 @@ public class TODO_Tasks {
     // liquibase base  - Alexandru
     // https://www.baeldung.com/liquibase-refactor-schema-of-java-app
 
-    //хеширование пароля при регистации 
+    //хеширование пароля при регистации
 
 }

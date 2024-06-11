@@ -5,16 +5,15 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
-
 import loolu.loolu_backend.domain.User;
 import loolu.loolu_backend.dto.LoginRequestDto;
 import loolu.loolu_backend.security.sec_dto.RefreshRequestDto;
 import loolu.loolu_backend.security.sec_dto.TokenResponseDto;
 import loolu.loolu_backend.security.sec_service.AuthService;
-
 import loolu.loolu_backend.services.impl.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Authorization controller", description = "Controller for security operations, login/logout, getting new tokens etc")
@@ -24,10 +23,12 @@ public class AuthController {
 
     private final AuthService authService;
     private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
 
-    public AuthController(AuthService authService, UserService userService) {
+    public AuthController(AuthService authService, UserService userService, PasswordEncoder passwordEncoder) {
         this.authService = authService;
         this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Operation(
@@ -42,15 +43,23 @@ public class AuthController {
         try {
             User user = userService.findByEmail(loginRequest.getEmail());
             if (user == null) {
+                removeCookie(response);
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User not found");
             }
 
             if (!user.isEnabled()) {
+                removeCookie(response);
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Email not confirmed");
+            }
+
+            if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
+                removeCookie(response);
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Incorrect password");
             }
 
             TokenResponseDto tokenDto = authService.login(loginRequest);
             if (tokenDto == null) {
+                removeCookie(response);
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to generate token");
             }
 
@@ -61,7 +70,8 @@ public class AuthController {
 
             return ResponseEntity.ok(tokenDto);
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            removeCookie(response);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -94,6 +104,10 @@ public class AuthController {
     public void logout(
             @Parameter(description = "Object of a response that will be transferred to a client") HttpServletResponse response
     ) {
+        removeCookie(response);
+    }
+
+    private void removeCookie(HttpServletResponse response) {
         Cookie cookie = new Cookie("Access-Token", null);
         cookie.setPath("/");
         cookie.setHttpOnly(true);

@@ -81,7 +81,7 @@ public class SecurityConfig {
                 .info(new Info().title("Loolu demo app")
                         .description("Loolu application for JSON web tokens")
                         .version("1.0.0").contact(new Contact().name("Sandor Ivanyo")
-                                .email( "iskander.sancosjak@gmail.com").url("https://github.com/SancosJak"))
+                                .email("iskander.sancosjak@gmail.com").url("https://github.com/SancosJak"))
                         .license(new License().name("@SashaI")
                                 .url("https://github.com/SancosJak")));
     }

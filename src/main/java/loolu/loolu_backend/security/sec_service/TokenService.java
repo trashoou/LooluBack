@@ -101,10 +101,14 @@ public class TokenService {
         List<LinkedHashMap<String, String>> rolesList = (List<LinkedHashMap<String, String>>) claims.get("roles");
         Set<Role> roles = new HashSet<>();
 
-        for (LinkedHashMap<String, String> roleEntry : rolesList) {
-            String roleName = roleEntry.get("authority");
-            Role role = roleRepository.findByName(roleName);
-            roles.add(role);
+        if (rolesList != null) {
+            for (LinkedHashMap<String, String> roleEntry : rolesList) {
+                String roleName = roleEntry.get("authority");
+                Role role = roleRepository.findByName(roleName);
+                roles.add(role);
+            }
+        } else {
+            return new AuthInfo(username, Collections.emptySet());
         }
 
         return new AuthInfo(username, roles);
