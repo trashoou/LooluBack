@@ -16,5 +16,6 @@ public class TODO_Tasks {
     // https://www.baeldung.com/liquibase-refactor-schema-of-java-app
 
     //хеширование пароля при регистации
+    //cart swagger
 
 }
