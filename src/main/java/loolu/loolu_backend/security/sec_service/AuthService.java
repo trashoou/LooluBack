@@ -4,7 +4,7 @@ import io.jsonwebtoken.Claims;
 import jakarta.annotation.Nonnull;
 import jakarta.security.auth.message.AuthException;
 import loolu.loolu_backend.domain.User;
-import loolu.loolu_backend.repositories.UserRepository;
+import loolu.loolu_backend.dto.LoginRequestDto;
 import loolu.loolu_backend.security.sec_dto.AuthInfo;
 import loolu.loolu_backend.security.sec_dto.TokenResponseDto;
 import loolu.loolu_backend.services.impl.UserService;
@@ -14,13 +14,14 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
+
 @Service
 public class AuthService {
 
-    private UserService userService;
-    private TokenService tokenService;
-    private Map<String, String> refreshStorage;
-    private BCryptPasswordEncoder encoder;
+    private final UserService userService;
+    private final TokenService tokenService;
+    private final Map<String, String> refreshStorage;
+    private final BCryptPasswordEncoder encoder;
 
     public AuthService(UserService userService, TokenService tokenService, BCryptPasswordEncoder encoder) {
         this.userService = userService;
@@ -29,29 +30,28 @@ public class AuthService {
         this.refreshStorage = new HashMap<>();
     }
 
+    public TokenResponseDto login(@Nonnull LoginRequestDto loginRequest) throws AuthException {
+        String email = loginRequest.getEmail();
+        User foundUser = userService.findByEmail(email);
 
-    public TokenResponseDto login(@Nonnull User inboundUser) throws AuthException {
-        String username = inboundUser.getUsername();
-        User foundUser = (User) userService.loadUserByUsername(username);
-
-        if (encoder.matches(inboundUser.getPassword(), foundUser.getPassword())) {
+        if (foundUser != null && encoder.matches(loginRequest.getPassword(), foundUser.getPassword())) {
             String accessToken = tokenService.generateAccessToken(foundUser);
             String refreshToken = tokenService.generateRefreshToken(foundUser);
-            refreshStorage.put(username, refreshToken);
+            refreshStorage.put(email, refreshToken);
             return new TokenResponseDto(accessToken, refreshToken);
         } else {
-            throw new AuthException("Password is incorrect");
+            throw new AuthException("Invalid email or password");
         }
     }
 
     public TokenResponseDto getAccessToken(@Nonnull String refreshToken) {
         if (tokenService.validateRefreshToken(refreshToken)) {
             Claims refreshClaims = tokenService.getRefreshClaims(refreshToken);
-            String username = refreshClaims.getSubject();
-            String savedRefreshToken = refreshStorage.get(username);
+            String email = refreshClaims.getSubject();
+            String savedRefreshToken = refreshStorage.get(email);
 
             if (savedRefreshToken != null && savedRefreshToken.equals(refreshToken)) {
-                User user = (User) userService.loadUserByUsername(username);
+                User user = userService.findByEmail(email);
                 String accessToken = tokenService.generateAccessToken(user);
                 return new TokenResponseDto(accessToken, null);
             }
@@ -62,5 +62,4 @@ public class AuthService {
     public AuthInfo getAuthInfo() {
         return (AuthInfo) SecurityContextHolder.getContext().getAuthentication();
     }
-
 }
