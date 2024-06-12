@@ -7,6 +7,7 @@ import loolu.loolu_backend.domain.User;
 import loolu.loolu_backend.dto.LoginRequestDto;
 import loolu.loolu_backend.security.sec_dto.AuthInfo;
 import loolu.loolu_backend.security.sec_dto.TokenResponseDto;
+import loolu.loolu_backend.security.sec_dto.UserProfileDto;
 import loolu.loolu_backend.services.impl.UserService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -59,7 +60,25 @@ public class AuthService {
         return new TokenResponseDto(null, null);
     }
 
+    public UserProfileDto getUserProfile(String token) {
+        if (tokenService.validateAccessToken(token)) {
+            Claims claims = tokenService.getAccessClaims(token);
+            String email = claims.getSubject();
+            User user = userService.findByEmail(email);
+
+            if (user != null) {
+                return new UserProfileDto(
+                        String.valueOf(user.getId()),
+                        user.getUsername()
+                );
+            }
+        }
+        return null; // или выбросить исключение, если токен недействителен или пользователь не найден
+    }
+
     public AuthInfo getAuthInfo() {
         return (AuthInfo) SecurityContextHolder.getContext().getAuthentication();
     }
 }
+
+

@@ -20,9 +20,9 @@ import java.util.*;
 @Service
 public class TokenService {
 
-    private SecretKey accessKey;
-    private SecretKey refreshKey;
-    private RoleRepository roleRepository;
+    private final SecretKey accessKey;
+    private final SecretKey refreshKey;
+    private final RoleRepository roleRepository;
 
     public TokenService(
             @Value("${access.key}") String accessKey,
@@ -45,6 +45,7 @@ public class TokenService {
                 .signWith(accessKey)
                 .claim("roles", user.getAuthorities())
                 .claim("name", user.getUsername())
+                .claim("email",user.getEmail())
                 .compact();
     }
 
@@ -97,7 +98,7 @@ public class TokenService {
     }
 
     public AuthInfo generateAuthInfo(Claims claims) {
-        String username = claims.getSubject();
+        String username = (String) claims.get("email");
         List<LinkedHashMap<String, String>> rolesList = (List<LinkedHashMap<String, String>>) claims.get("roles");
         Set<Role> roles = new HashSet<>();
 

@@ -6,56 +6,29 @@ import java.util.Objects;
 
 @Schema(description = "Dto that transfer to user after successfully authentication and contains access and refresh tokens")
 public class TokenResponseDto {
-
-    @Schema(description = "Access token")
     private String accessToken;
-
-    @Schema(description = "Refresh token")
     private String refreshToken;
-
-    @Schema(description = "Message about error reasons (if some error occurs)")
-    private String message;
 
     public TokenResponseDto(String accessToken, String refreshToken) {
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
     }
 
-    public TokenResponseDto(String message) {
-        this.message = message;
-    }
+    // Геттеры и сеттеры
 
     public String getAccessToken() {
         return accessToken;
+    }
+
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
     }
 
     public String getRefreshToken() {
         return refreshToken;
     }
 
-    public String getMessage() {
-        return message;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        TokenResponseDto that = (TokenResponseDto) o;
-        return Objects.equals(accessToken, that.accessToken) && Objects.equals(refreshToken, that.refreshToken) && Objects.equals(message, that.message);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(accessToken, refreshToken, message);
-    }
-
-    @Override
-    public String toString() {
-        return "TokenResponseDto{" +
-                "accessToken='" + accessToken + '\'' +
-                ", refreshToken='" + refreshToken + '\'' +
-                ", message='" + message + '\'' +
-                '}';
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
     }
 }
