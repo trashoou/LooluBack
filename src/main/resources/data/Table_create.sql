@@ -14,6 +14,10 @@ CREATE TABLE users (
                        password VARCHAR(255) NOT NULL
 );
 
+-- Добавление колонки `username` в таблицу `users`
+ALTER TABLE users
+    ADD COLUMN username VARCHAR(255) NOT NULL;
+
 CREATE TABLE users_orders (
                               id SERIAL PRIMARY KEY,
                               user_id BIGINT NOT NULL,
@@ -54,17 +58,6 @@ ALTER TABLE users_orders
     ADD CONSTRAINT users_orders_order_id_foreign
         FOREIGN KEY (order_id) REFERENCES orders(id);
 
--- Добавление колонки `username` в таблицу `users`
-ALTER TABLE users
-    ADD COLUMN username VARCHAR(255) NOT NULL;
-
--- Добавление колонки `category` в таблицу `products`
-ALTER TABLE products
-    ADD COLUMN category VARCHAR(255);
-
--- Удаление колонки `category` из таблицы `products`
-ALTER TABLE products
-DROP COLUMN category;
 
 -- Создание таблицы "categories"
 

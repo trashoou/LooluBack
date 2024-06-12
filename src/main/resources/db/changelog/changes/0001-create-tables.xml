@@ -3,26 +3,122 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-    <changeSet id="0001-create-tables" author="loolu">
-        <createTable tableName="product">
+<changeSet id="0001-create-tables" author="loolu">
+
+        <createTable tableName="carts_products">
             <column name="id" type="bigint" autoIncrement="true">
-                <constraints primaryKey="true" nullable="false" />
+                <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="title" type="varchar(255)">
-                <constraints nullable="false" />
+            <column name="cart_id" type="bigint">
+                <constraints nullable="false"/>
             </column>
-            <column name="price" type="decimal(10,2)">
-                <constraints nullable="false" />
+            <column name="product_id" type="bigint">
+                <constraints nullable="false"/>
             </column>
-            <column name="description" type="varchar(1024)">
-                <constraints nullable="true" />
-            </column>
-            <column name="picture" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            <column name="category" type="bigint">
-                <constraints nullable="false" />
+            <column name="quantity" type="bigint">
+                <constraints nullable="false"/>
             </column>
         </createTable>
+
+        <createTable tableName="users">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="first_name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="username" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="users_orders">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="order_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="products">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="price" type="decimal(8,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="picture" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="category_id" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="carts">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="orders">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="categories">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="image" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="carts_products" baseColumnNames="cart_id"
+                                 constraintName="fk_carts_products_cart_id" referencedTableName="carts"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="carts_products" baseColumnNames="product_id"
+                                 constraintName="fk_carts_products_product_id" referencedTableName="products"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="users_orders" baseColumnNames="user_id"
+                                 constraintName="fk_users_orders_user_id" referencedTableName="users"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="users_orders" baseColumnNames="order_id"
+                                 constraintName="fk_users_orders_order_id" referencedTableName="orders"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="carts" baseColumnNames="user_id"
+                                 constraintName="fk_carts_user_id" referencedTableName="users"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="products" baseColumnNames="category_id"
+                                 constraintName="fk_products_category_id" referencedTableName="categories"
+                                 referencedColumnNames="id"/>
+
     </changeSet>
 </databaseChangeLog>

@@ -12,10 +12,6 @@ public class TODO_Tasks {
     // @Column(name = "picture", nullable = false) class Product
     // private String picture;  make pictureS array max 4 photo, min 2 - update db  - Sasha
 
-    // liquibase base  - Alexandru
-    // https://www.baeldung.com/liquibase-refactor-schema-of-java-app
-
-    //хеширование пароля при регистации
-    //cart swagger
+    // user avatar поле  or userDto при update - Slava
 
 }
