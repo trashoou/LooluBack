@@ -10,6 +10,7 @@ import loolu.loolu_backend.domain.User;
 import loolu.loolu_backend.services.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,6 +22,11 @@ public class UserController {
 
     @Autowired
     private UserServiceImpl userService;
+    private final PasswordEncoder passwordEncoder;
+
+    public UserController(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Operation(summary = "Get all users")
     @ApiResponses(value = {
@@ -72,6 +78,11 @@ public class UserController {
                     content = @Content) })
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable Integer id, @RequestBody User userDetails) {
+        if (userDetails.getPassword() != null && !userDetails.getPassword().isEmpty()) {
+            String hashedPassword = passwordEncoder.encode(userDetails.getPassword());
+            userDetails.setPassword(hashedPassword);
+        }
+
         User updatedUser = userService.updateUser(id, userDetails);
         if (updatedUser == null) {
             return ResponseEntity.notFound().build();

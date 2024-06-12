@@ -51,6 +51,8 @@ public class User implements UserDetails {
     @Column(name = "username", unique = true, nullable = false)
     private String username;
 
+    private String avatar;
+
 //    @ManyToMany
 //    @JoinTable(
 //            name = "user_role",
