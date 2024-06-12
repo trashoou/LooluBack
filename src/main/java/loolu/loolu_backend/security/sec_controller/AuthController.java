@@ -3,27 +3,41 @@ package loolu.loolu_backend.security.sec_controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.security.auth.message.AuthException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import loolu.loolu_backend.domain.User;
+import loolu.loolu_backend.dto.LoginRequestDto;
+import loolu.loolu_backend.dto.UserDto;
+import loolu.loolu_backend.security.sec_dto.AuthInfo;
 import loolu.loolu_backend.security.sec_dto.RefreshRequestDto;
 import loolu.loolu_backend.security.sec_dto.TokenResponseDto;
 import loolu.loolu_backend.security.sec_service.AuthService;
+import loolu.loolu_backend.services.impl.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.logging.Logger;
 
 @Tag(name = "Authorization controller", description = "Controller for security operations, login/logout, getting new tokens etc")
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 public class AuthController {
 
-    private AuthService service;
+    private final AuthService authService;
+    private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
 
-    public AuthController(AuthService service) {
-        this.service = service;
+    public AuthController(AuthService authService, UserService userService, PasswordEncoder passwordEncoder) {
+        this.authService = authService;
+        this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
     }
+
+
 
     @Operation(
             summary = "Login",
@@ -31,34 +45,88 @@ public class AuthController {
     )
     @PostMapping("/login")
     public ResponseEntity<TokenResponseDto> login(
-            @RequestBody @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Object of an user that logging in") User user,
+            @RequestBody @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Object of a user logging in") LoginRequestDto loginRequest,
             @Parameter(description = "Object of a response that will be transferred to a client") HttpServletResponse response
     ) {
         try {
-            TokenResponseDto tokenDto = service.login(user);
+            User user = userService.findByEmail(loginRequest.getEmail());
+            if (user == null) {
+                removeCookie(response);
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new TokenResponseDto(null, null)); // Возвращаем пустой объект TokenResponseDto
+            }
 
-            Cookie cookie = new Cookie("Access-Token", tokenDto.getAccessToken());
-            cookie.setPath("/");
-            cookie.setHttpOnly(true);
-            response.addCookie(cookie);
+            if (!user.isEnabled()) {
+                removeCookie(response);
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new TokenResponseDto(null, null)); // Возвращаем пустой объект TokenResponseDto
+            }
 
-            return ResponseEntity.ok(tokenDto);
-        } catch (AuthException e) {
-            TokenResponseDto tokenDto = new TokenResponseDto(e.getMessage());
-            return new ResponseEntity<>(tokenDto, HttpStatus.BAD_REQUEST);
+            if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
+                removeCookie(response);
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new TokenResponseDto(null, null)); // Возвращаем пустой объект TokenResponseDto
+            }
+
+            TokenResponseDto tokenDto = authService.login(loginRequest);
+            if (tokenDto == null) {
+                removeCookie(response);
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new TokenResponseDto(null, null)); // Возвращаем пустой объект TokenResponseDto
+            }
+
+            Cookie cookieAccess = new Cookie("Access-Token", tokenDto.getAccessToken());
+            cookieAccess.setPath("/");
+            cookieAccess.setHttpOnly(true);
+            response.addCookie(cookieAccess);
+
+            Cookie cookieRefresh = new Cookie("Refresh-Token", tokenDto.getRefreshToken());
+            cookieRefresh.setPath("/");
+            cookieRefresh.setHttpOnly(true);
+            response.addCookie(cookieRefresh);
+
+            return ResponseEntity.ok(tokenDto); // Возвращаем объект токена вместе с 200 OK
+        } catch (Exception e) {
+            removeCookie(response);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new TokenResponseDto(null, null)); // Возвращаем пустой объект TokenResponseDto
         }
     }
+
+    @GetMapping("/profile")
+    public ResponseEntity<User> getProfile() {
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String userContent = (String) authentication.getPrincipal();
+//            return ResponseEntity.ok(userContent);
+            User user = userService.findByEmail(userContent);
+            return ResponseEntity.ok(user);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
 
     @Operation(
             summary = "Get new access token",
             description = "Receiving a new access token through providing an existing refresh token"
     )
-    @PostMapping("/access")
-    public ResponseEntity<TokenResponseDto> getNewAccessToken(
-            @RequestBody @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Object of an inbound request that contains a refresh token") RefreshRequestDto request
+    @GetMapping("/refresh")
+    public ResponseEntity<Object> getNewAccessToken(
+            @CookieValue("Refresh-Token") String refreshToken,
+            @Parameter(description = "Object of a response that will be transferred to a client") HttpServletResponse response
     ) {
-        TokenResponseDto accessToken = service.getAccessToken(request.getRefreshToken());
-        return ResponseEntity.ok(accessToken);
+        try {
+
+            TokenResponseDto tokenDto = authService.getAccessToken(refreshToken);
+            Cookie cookie = new Cookie("Access-Token", tokenDto.getAccessToken());
+            cookie.setPath("/");
+            cookie.setHttpOnly(true);
+            response.addCookie(cookie);
+
+            Cookie cookieRefresh = new Cookie("Refresh-Token", tokenDto.getRefreshToken());
+            cookieRefresh.setPath("/");
+            cookieRefresh.setHttpOnly(true);
+            response.addCookie(cookieRefresh);
+            return ResponseEntity.ok(tokenDto);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @Operation(
@@ -69,6 +137,10 @@ public class AuthController {
     public void logout(
             @Parameter(description = "Object of a response that will be transferred to a client") HttpServletResponse response
     ) {
+        removeCookie(response);
+    }
+
+    private void removeCookie(HttpServletResponse response) {
         Cookie cookie = new Cookie("Access-Token", null);
         cookie.setPath("/");
         cookie.setHttpOnly(true);

@@ -10,11 +10,11 @@ import java.util.Set;
 public class AuthInfo implements Authentication {
 
     private boolean authenticated;
-    private String username;
+    private String email;
     private Set<Role> roles;
 
-    public AuthInfo(String username, Set<Role> roles) {
-        this.username = username;
+    public AuthInfo(String email, Set<Role> roles) {
+        this.email = email;
         this.roles = roles;
     }
 
@@ -34,8 +34,8 @@ public class AuthInfo implements Authentication {
     }
 
     @Override
-    public Object getPrincipal() {
-        return username;
+    public String getPrincipal() {
+        return email;
     }
 
     @Override
@@ -50,7 +50,7 @@ public class AuthInfo implements Authentication {
 
     @Override
     public String getName() {
-        return username;
+        return email;
     }
 
     @Override
@@ -58,19 +58,19 @@ public class AuthInfo implements Authentication {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AuthInfo authInfo = (AuthInfo) o;
-        return authenticated == authInfo.authenticated && Objects.equals(username, authInfo.username) && Objects.equals(roles, authInfo.roles);
+        return authenticated == authInfo.authenticated && Objects.equals(email, authInfo.email) && Objects.equals(roles, authInfo.roles);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(authenticated, username, roles);
+        return Objects.hash(authenticated, email, roles);
     }
 
     @Override
     public String toString() {
         return "AuthInfo{" +
                 "authenticated=" + authenticated +
-                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
                 ", roles=" + roles +
                 '}';
     }

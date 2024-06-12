@@ -63,13 +63,13 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "/api/users/**").permitAll()
 
                         .requestMatchers(HttpMethod.GET, "/api/cart").permitAll()
-                       // .requestMatchers(HttpMethod.GET, "/api/cart/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/cart/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/cart").permitAll()
                         .requestMatchers(HttpMethod.PUT, "/api/cart/**").permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/api/cart/**").permitAll()
-                        .requestMatchers(HttpMethod.DELETE, "/api/cart/clear").permitAll()
 
-                        .requestMatchers(HttpMethod.POST, "/auth/login", "/auth/refresh").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/auth/profile", "/api/auth/refresh").permitAll()
 
                         //.requestMatchers(HttpMethod.GET, "/api/products").hasRole("ADMIN")
                         .anyRequest().authenticated())
@@ -86,7 +86,7 @@ public class SecurityConfig {
                 .info(new Info().title("Loolu demo app")
                         .description("Loolu application for JSON web tokens")
                         .version("1.0.0").contact(new Contact().name("Sandor Ivanyo")
-                                .email( "iskander.sancosjak@gmail.com").url("https://github.com/SancosJak"))
+                                .email("iskander.sancosjak@gmail.com").url("https://github.com/SancosJak"))
                         .license(new License().name("@SashaI")
                                 .url("https://github.com/SancosJak")));
     }
