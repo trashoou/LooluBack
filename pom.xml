@@ -17,7 +17,11 @@
         <java.version>17</java.version>
     </properties>
     <dependencies>
-
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+            <version>4.27.0</version>
+        </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
@@ -137,6 +141,21 @@
                     </excludes>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+                <version>4.27.0</version>
+                <configuration>
+                    <changeLogFile>src/main/resources/db/changelog/initial-changelog.xml</changeLogFile>
+                    <url>jdbc:postgresql://localhost:5432/loolu_db</url>
+                    <username>postgres</username>
+                    <password>qwerty007</password>
+                    <driver>org.postgresql.Driver</driver>
+                </configuration>
+            </plugin>
+
+
         </plugins>
     </build>
 

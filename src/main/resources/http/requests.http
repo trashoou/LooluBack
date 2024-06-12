@@ -1,11 +1,18 @@
 ### user registration
-POST http://localhost:8080/api/users/register
+POST http://localhost:8080/auth/login
 Content-Type: application/json
 
 {
-  "email": "user@example.com",
-  "password": "StrongPassword123!"
+  "email": "anatoli@mail.com",
+  "password": "Qwerty!007"
 }
 
+### add Product to cart
+POST http://localhost:8080/api/cart
 
-
+{
+  "id": 0,
+  "cartId": 0,
+  "productId": 5,
+  "quantity": 1
+}

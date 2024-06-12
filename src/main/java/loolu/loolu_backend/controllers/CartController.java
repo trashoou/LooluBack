@@ -6,12 +6,15 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import loolu.loolu_backend.dto.CartItemDto;
 import loolu.loolu_backend.dto.UpdateCartItemDto;
+import loolu.loolu_backend.models.Cart;
 import loolu.loolu_backend.services.CartService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static org.springframework.web.servlet.function.ServerResponse.status;
 
 @Tag(name = "Cart Controller", description = "Controller for managing cart items")
 @RequiredArgsConstructor
