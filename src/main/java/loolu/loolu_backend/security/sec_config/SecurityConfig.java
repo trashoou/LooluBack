@@ -25,7 +25,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    private TokenFilter filter;
+    private final TokenFilter filter;
 
     public SecurityConfig(TokenFilter filter) {
         this.filter = filter;
@@ -67,6 +67,9 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/cart").permitAll()
                         .requestMatchers(HttpMethod.PUT, "/api/cart/**").permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/api/cart/**").permitAll()
+
+                        .requestMatchers(HttpMethod.GET, "/api/upload/photo").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/upload/photo/**").permitAll()
 
                         .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/auth/profile", "/api/auth/refresh").permitAll()
