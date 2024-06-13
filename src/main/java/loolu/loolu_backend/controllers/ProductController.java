@@ -29,9 +29,16 @@ public class ProductController {
             description = "Retrieve all products available in the database"
     )
     @GetMapping
-    public ResponseEntity<List<Product>> getAllProducts() {
-        List<Product> products = productService.getAllProducts();
-        return new ResponseEntity<>(products, HttpStatus.OK);
+    public ResponseEntity<List<Product>> getFilteredProducts(
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) Double price,
+            @RequestParam(required = false) Double price_min,
+            @RequestParam(required = false) Double price_max,
+            @RequestParam(required = false) Long categoryId) {
+
+        List<Product> filteredProducts = productService.filterProducts(title, price, price_min, price_max, categoryId);
+
+        return new ResponseEntity<>(filteredProducts, HttpStatus.OK);
     }
 
     @Operation(
@@ -88,40 +95,5 @@ public class ProductController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-    @Operation(
-            summary = "Find products by title",
-            description = "Retrieve products that match the given title"
-    )
-    @GetMapping("/searchByTitle")
-    public ResponseEntity<List<Product>> findProductsByTitle(@RequestParam String title) {
-        List<Product> products = productService.findProductsByTitle(title);
-        return new ResponseEntity<>(products, HttpStatus.OK);
-    }
-    @Operation(
-            summary = "Find products by category",
-            description = "Retrieve products that belong to the given category"
-    )
-    @GetMapping("/byCategory/{categoryId}")
-    public ResponseEntity<List<Product>> findProductsByCategory(@PathVariable Long categoryId) {
-        List<Product> products = productService.findProductsByCategory(categoryId);
-        return new ResponseEntity<>(products, HttpStatus.OK);
-    }
-    @Operation(
-            summary = "Find products by price range",
-            description = "Retrieve products that have a price between the given range"
-    )
-    @GetMapping("/byPrice/{minPrice}/{maxPrice}")
-    public ResponseEntity<List<Product>> findProductsByPriceBetween(@PathVariable Double minPrice, @PathVariable Double maxPrice) {
-        List<Product> products = productService.findProductsByPriceBetween(minPrice, maxPrice);
-        return new ResponseEntity<>(products, HttpStatus.OK);
-    }
-    @Operation(
-            summary = "Find products by name and price range",
-            description = "Retrieve products that match the given name and have a price between the given range"
-    )
-    @GetMapping("/byTitleAndPrice/{title}/{minPrice}/{maxPrice}")
-    public ResponseEntity<List<Product>> findProductsByTitleAndPriceBetween(@PathVariable String title, @PathVariable Double minPrice, @PathVariable Double maxPrice) {
-        List<Product> products = productService.findProductsByTitleAndPriceBetween(title, minPrice, maxPrice);
-        return new ResponseEntity<>(products, HttpStatus.OK);
-    }
+
 }
