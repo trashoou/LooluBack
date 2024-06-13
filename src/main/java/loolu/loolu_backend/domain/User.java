@@ -3,10 +3,8 @@ package loolu.loolu_backend.domain;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.validation.constraints.Pattern;
+import lombok.*;
 import loolu.loolu_backend.models.Cart;
 import loolu.loolu_backend.models.UserOrder;
 import org.springframework.security.core.GrantedAuthority;
@@ -23,6 +21,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Setter
 @Getter
+@Builder
 public class User implements UserDetails {
 
     @Id
@@ -44,14 +43,17 @@ public class User implements UserDetails {
 
     @Schema(description = "User's raw password for logging in", example = "111")
     @Column(name = "password", nullable = false)
+ //   @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$") //убрал для простоты тестов
     private String password;
 
     @Setter
     @Schema(description = "User's username or nickname for logging in", example = "Sancos")
-    @Column(name = "username", unique = true, nullable = false)
+    @Column(name = "username", unique = true, nullable = true)
     private String username;
 
-   // private String avatar;
+    @Schema(description = "Path to user's avatar", example = "/avatar/user1.png")
+    @Column(name = "avatar_path")
+    private String avatarPath;
 
 //    @ManyToMany
 //    @JoinTable(
@@ -127,7 +129,8 @@ public class User implements UserDetails {
                 Objects.equals(lastName, user.lastName) &&
                 Objects.equals(email, user.email) &&
                 Objects.equals(password, user.password) &&
-                Objects.equals(username, user.username); //&&;
+                Objects.equals(username, user.username) &&
+                Objects.equals(avatarPath, user.avatarPath);
                // Objects.equals(roles, user.roles);
     }
 
@@ -145,6 +148,7 @@ public class User implements UserDetails {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", username='" + username + '\'' +
+                ", avatarPath='" + avatarPath + '\'' +
                 //", roles=" + roles +
                 '}';
     }

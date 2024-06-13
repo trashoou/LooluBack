@@ -20,10 +20,8 @@ public class LiquibaseConfig {
         liquibase.setChangeLog("classpath:db/changelog/master.xml");
         liquibase.setContexts(env.getProperty("liquibase.contexts"));
         liquibase.setDefaultSchema(env.getProperty("liquibase.default-schema"));
-        liquibase.setDropFirst(Boolean.parseBoolean(env.getProperty("liquibase.drop-first")));
+        liquibase.setDropFirst(true);
         liquibase.setShouldRun(Boolean.parseBoolean(env.getProperty("liquibase.enabled", "true")));
         return liquibase;
     }
 }
-
-

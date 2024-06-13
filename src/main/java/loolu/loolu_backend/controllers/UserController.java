@@ -79,15 +79,26 @@ public class UserController {
                     content = @Content) })
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable Integer id, @RequestBody User userDetails) {
-        if (userDetails.getPassword() != null && !userDetails.getPassword().isEmpty()) {
-            String hashedPassword = passwordEncoder.encode(userDetails.getPassword());
-            userDetails.setPassword(hashedPassword);
-        }
-
-        User updatedUser = userService.updateUser(id, userDetails);
-        if (updatedUser == null) {
+        User existingUser = userService.getUserById(id);
+        if (existingUser == null) {
             return ResponseEntity.notFound().build();
         }
+
+        existingUser.setUsername(userDetails.getUsername());
+        existingUser.setEmail(userDetails.getEmail());
+        existingUser.setFirstName(userDetails.getFirstName());
+        existingUser.setLastName(userDetails.getLastName());
+
+        if (userDetails.getPassword() != null && !userDetails.getPassword().isEmpty()) {
+            String hashedPassword = passwordEncoder.encode(userDetails.getPassword());
+            existingUser.setPassword(hashedPassword);
+        }
+
+        if (userDetails.getAvatarPath() != null) {
+            existingUser.setAvatarPath(userDetails.getAvatarPath());
+        }
+
+        User updatedUser = userService.updateUser(id, existingUser);
         return ResponseEntity.ok(updatedUser);
     }
 

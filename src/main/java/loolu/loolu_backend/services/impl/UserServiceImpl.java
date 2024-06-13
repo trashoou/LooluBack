@@ -10,11 +10,14 @@ import java.util.List;
 
 @Service
 public class UserServiceImpl {
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private BCryptPasswordEncoder encoder;
+    private final BCryptPasswordEncoder encoder;
+
+    public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder encoder) {
+        this.userRepository = userRepository;
+        this.encoder = encoder;
+    }
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
