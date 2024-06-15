@@ -24,7 +24,6 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    private UserService userService2;
     private UserServiceImpl userService;
     private final PasswordEncoder passwordEncoder;
 
@@ -69,11 +68,7 @@ public class UserController {
                     content = @Content) })
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user) {
-        if (userService2.existsByEmail(user.getEmail())) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-
-        User createdUser = userService2.saveUser(user);
+        User createdUser = userService.createUser(user);
         return ResponseEntity.status(201).body(createdUser);
     }
 

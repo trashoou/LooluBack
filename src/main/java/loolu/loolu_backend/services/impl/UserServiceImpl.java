@@ -12,9 +12,9 @@ import java.util.List;
 @Service
 public class UserServiceImpl {
     private final UserRepository userRepository;
-
     private final BCryptPasswordEncoder encoder;
 
+    @Autowired
     public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder encoder) {
         this.userRepository = userRepository;
         this.encoder = encoder;
@@ -29,6 +29,13 @@ public class UserServiceImpl {
     }
 
     public User createUser(User user) {
+        if (userRepository.existsByUsername(user.getUsername())) {
+            throw new RuntimeException("Username already exists");
+        }
+        if (userRepository.existsByEmail(user.getEmail())) {
+            throw new RuntimeException("Email already exists");
+        }
+
         user.setPassword(encoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
@@ -40,7 +47,11 @@ public class UserServiceImpl {
             user.setLastName(userDetails.getLastName());
             user.setEmail(userDetails.getEmail());
             user.setUsername(userDetails.getUsername());
-            user.setPassword(userDetails.getPassword());
+            
+            if (userDetails.getPassword() != null && !userDetails.getPassword().isEmpty()) {
+                user.setPassword(encoder.encode(userDetails.getPassword()));
+            }
+
             return userRepository.save(user);
         }
         return null;
