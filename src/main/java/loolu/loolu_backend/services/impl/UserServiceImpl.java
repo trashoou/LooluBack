@@ -8,6 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl {
@@ -47,7 +48,7 @@ public class UserServiceImpl {
             user.setLastName(userDetails.getLastName());
             user.setEmail(userDetails.getEmail());
             user.setUsername(userDetails.getUsername());
-            
+
             if (userDetails.getPassword() != null && !userDetails.getPassword().isEmpty()) {
                 user.setPassword(encoder.encode(userDetails.getPassword()));
             }
@@ -58,6 +59,11 @@ public class UserServiceImpl {
     }
 
     public void deleteUser(Integer id) {
-        userRepository.deleteById(id);
+        Optional<User> userOptional = userRepository.findById(id);
+        if (userOptional.isPresent()) {
+            userRepository.deleteById(id);
+        } else {
+            throw new RuntimeException("User not found with id: " + id);
+        }
     }
 }
