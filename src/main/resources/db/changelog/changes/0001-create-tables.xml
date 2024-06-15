@@ -78,6 +78,18 @@
             </column>
         </createTable>
 
+    <createTable tableName="pictures">
+        <column name="id" type="bigint" autoIncrement="true">
+            <constraints primaryKey="true" nullable="false"/>
+        </column>
+        <column name="url" type="varchar(255)">
+            <constraints nullable="false"/>
+        </column>
+        <column name="product_id" type="bigint">
+            <constraints nullable="false"/>
+        </column>
+    </createTable>
+
         <createTable tableName="carts">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -123,6 +135,9 @@
         <addForeignKeyConstraint baseTableName="products" baseColumnNames="category_id"
                                  constraintName="fk_products_category_id" referencedTableName="categories"
                                  referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="pictures" baseColumnNames="product_id"
+                             constraintName="fk_pictures_product_id" referencedTableName="products"
+                             referencedColumnNames="id"/>
 
     </changeSet>
 </databaseChangeLog>

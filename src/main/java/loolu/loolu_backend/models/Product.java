@@ -28,8 +28,9 @@ public class Product {
     @Column(name = "description", nullable = false)
     private String description;
 
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     @Column(name = "picture", nullable = false)
-    private String picture;
+    private Set<Picture> picture;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id", nullable = false)
@@ -41,7 +42,7 @@ public class Product {
                 ", title='" + title + '\'' +
                 ", price=" + price +
                 ", description='" + description + '\'' +
-                ", picture='" + picture + '\'' +
+                ", pictures='" + picture + '\'' +
                 ", category=" + category +
                 '}';
     }

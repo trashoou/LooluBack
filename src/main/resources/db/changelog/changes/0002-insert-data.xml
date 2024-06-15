@@ -140,6 +140,119 @@
             <column name="category_id" value="6"/>
         </insert>
 
+        <!-- Inserting Pictures -->
+        <!-- Product: Socks -->
+        <insert tableName="pictures">
+            <column name="url" value="https://m.media-amazon.com/images/I/81pqiCKKnxL._AC_SX569_.jpg"/>
+            <column name="product_id" value="1"/>
+        </insert>
+        <insert tableName="pictures">
+            <column name="url" value="https://m.media-amazon.com/images/I/71kS2xth9HL._AC_SY879_.jpg"/>
+            <column name="product_id" value="1"/>
+        </insert>
+        <insert tableName="pictures">
+            <column name="url" value="https://m.media-amazon.com/images/I/71kS2xth9HL._AC_SY879_.jpg"/>
+            <column name="product_id" value="1"/>
+        </insert>
+
+        <!-- Product: Gamepad -->
+        <insert tableName="pictures">
+            <column name="url" value="https://m.media-amazon.com/images/I/31XIqfc70vL._SY300_SX300_QL70_ML2_.jpg"/>
+            <column name="product_id" value="2"/>
+        </insert>
+        <insert tableName="pictures">
+            <column name="url" value="https://m.media-amazon.com/images/I/31XIqfc70vL._SY300_SX300_QL70_ML2_.jpg"/>
+            <column name="product_id" value="2"/>
+        </insert>
+        <insert tableName="pictures">
+            <column name="url" value="https://m.media-amazon.com/images/I/31XIqfc70vL._SY300_SX300_QL70_ML2_.jpg"/>
+            <column name="product_id" value="2"/>
+        </insert>
+
+        <!-- Product: Wireless Mouse -->
+        <insert tableName="pictures">
+            <column name="url" value="https://m.media-amazon.com/images/I/51KmxQjXBlL._AC_UF1000,1000_QL80_.jpg"/>
+            <column name="product_id" value="3"/>
+        </insert>
+        <insert tableName="pictures">
+            <column name="url" value="https://m.media-amazon.com/images/I/51KmxQjXBlL._AC_UF1000,1000_QL80_.jpg"/>
+            <column name="product_id" value="3"/>
+        </insert>
+        <insert tableName="pictures">
+            <column name="url" value="https://m.media-amazon.com/images/I/51KmxQjXBlL._AC_UF1000,1000_QL80_.jpg"/>
+            <column name="product_id" value="3"/>
+        </insert>
+
+        <!-- Product: Bluetooth Speaker -->
+        <insert tableName="pictures">
+            <column name="url" value="https://www.artis.in/cdn/shop/products/1_96dd2244-53f4-449d-bf8e-4ac1bad9f490.jpg?v=1653639739"/>
+            <column name="product_id" value="4"/>
+        </insert>
+        <insert tableName="pictures">
+            <column name="url" value="https://www.artis.in/cdn/shop/products/1_96dd2244-53f4-449d-bf8e-4ac1bad9f490.jpg?v=1653639739"/>
+            <column name="product_id" value="4"/>
+        </insert>
+        <insert tableName="pictures">
+            <column name="url" value="https://www.artis.in/cdn/shop/products/1_96dd2244-53f4-449d-bf8e-4ac1bad9f490.jpg?v=1653639739"/>
+            <column name="product_id" value="4"/>
+        </insert>
+
+        <!-- Product: Mechanical Keyboard -->
+        <insert tableName="pictures">
+            <column name="url" value="https://m.media-amazon.com/images/I/71ZRus2YNcL._AC_UF894,1000_QL80_.jpg"/>
+            <column name="product_id" value="5"/>
+        </insert>
+        <insert tableName="pictures">
+            <column name="url" value="https://m.media-amazon.com/images/I/71ZRus2YNcL._AC_UF894,1000_QL80_.jpg"/>
+            <column name="product_id" value="5"/>
+        </insert>
+        <insert tableName="pictures">
+            <column name="url" value="https://m.media-amazon.com/images/I/71ZRus2YNcL._AC_UF894,1000_QL80_.jpg"/>
+            <column name="product_id" value="5"/>
+        </insert>
+
+        <!-- Product: USB-C Hub -->
+        <insert tableName="pictures">
+            <column name="url" value="https://media.startech.com/cms/products/gallery_large/5g4ab-usb-c-hub._main.jpg"/>
+            <column name="product_id" value="6"/>
+        </insert>
+        <insert tableName="pictures">
+            <column name="url" value="https://media.startech.com/cms/products/gallery_large/5g4ab-usb-c-hub._main.jpg"/>
+            <column name="product_id" value="6"/>
+        </insert>
+        <insert tableName="pictures">
+            <column name="url" value="https://media.startech.com/cms/products/gallery_large/5g4ab-usb-c-hub._main.jpg"/>
+            <column name="product_id" value="6"/>
+        </insert>
+
+        <!-- Product: Smart Thermostat -->
+        <insert tableName="pictures">
+            <column name="url" value="https://assets.mmsrg.com/isr/166325/c1/-/ASSET_MMS_103722491?x=1800y=1800format=jpgquality=80sp=yesstrip=yesex=1800ey=1800align=centerresizesourceunsharp=1.5x1+0.7+0.02"/>
+            <column name="product_id" value="7"/>
+        </insert>
+        <insert tableName="pictures">
+            <column name="url" value="https://assets.mmsrg.com/isr/166325/c1/-/ASSET_MMS_103722491?x=1800y=1800format=jpgquality=80sp=yesstrip=yesex=1800ey=1800align=centerresizesourceunsharp=1.5x1+0.7+0.02"/>
+            <column name="product_id" value="7"/>
+        </insert>
+        <insert tableName="pictures">
+            <column name="url" value="https://assets.mmsrg.com/isr/166325/c1/-/ASSET_MMS_103722491?x=1800y=1800format=jpgquality=80sp=yesstrip=yesex=1800ey=1800align=centerresizesourceunsharp=1.5x1+0.7+0.02"/>
+            <column name="product_id" value="7"/>
+        </insert>
+
+        <!-- Product: Gaming Headset -->
+        <insert tableName="pictures">
+            <column name="url" value="https://m.media-amazon.com/images/I/31XIqfc70vL._SY300_SX300_QL70_ML2_.jpg"/>
+            <column name="product_id" value="8"/>
+        </insert>
+        <insert tableName="pictures">
+            <column name="url" value="https://m.media-amazon.com/images/I/31XIqfc70vL._SY300_SX300_QL70_ML2_.jpg"/>
+            <column name="product_id" value="8"/>
+        </insert>
+        <insert tableName="pictures">
+            <column name="url" value="https://m.media-amazon.com/images/I/31XIqfc70vL._SY300_SX300_QL70_ML2_.jpg"/>
+            <column name="product_id" value="8"/>
+        </insert>
+
         <!-- Inserting Users -->
         <insert tableName="users">
             <column name="first_name" value="John"/>
