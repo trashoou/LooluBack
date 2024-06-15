@@ -37,6 +37,15 @@ public class ProductController {
             @RequestParam(required = false) Long categoryId) {
 
         List<Product> filteredProducts = productService.filterProducts(title, price, price_min, price_max, categoryId);
+        //List<Product> filteredProducts;
+
+        if (price_min != null && price_max != null) {
+            filteredProducts = productService.filterProducts(title, null, price_min, price_max, categoryId);
+        } else if (price != null) {
+            filteredProducts = productService.filterProducts(title, price, null, null, categoryId);
+        } else {
+            filteredProducts = productService.filterProducts(title, null, null, null, categoryId);
+        }
 
         return new ResponseEntity<>(filteredProducts, HttpStatus.OK);
     }
