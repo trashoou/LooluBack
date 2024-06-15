@@ -43,7 +43,7 @@ public class User implements UserDetails {
 
     @Schema(description = "User's raw password for logging in", example = "111")
     @Column(name = "password", nullable = false)
- //   @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$") //убрал для простоты тестов
+    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$")
     private String password;
 
     @Setter
