@@ -3,6 +3,7 @@ package loolu.loolu_backend.services.impl;
 import loolu.loolu_backend.domain.User;
 import loolu.loolu_backend.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
