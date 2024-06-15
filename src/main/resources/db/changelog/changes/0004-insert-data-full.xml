@@ -1,0 +1,536 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="0002-insert-data-full" author="loolu" runOnChange="true">
+
+        <!-- Inserting Categories -->
+        <insert tableName="categories">
+            <column name="id" value="1"/>
+            <column name="name" value="Games"/>
+            <column name="image" value="https://th.bing.com/th/id/R.68bdc14b12eb891b8fedbbd862cf15b4?rik=6D5gDBOy6sLKbgpid=ImgRawr=0"/>
+        </insert>
+        <insert tableName="categories">
+            <column name="id" value="2"/>
+            <column name="name" value="Electronics"/>
+            <column name="image" value="https://m.media-amazon.com/images/I/31XIqfc70vL._SY300_SX300_QL70_ML2_.jpg"/>
+        </insert>
+        <insert tableName="categories">
+            <column name="id" value="3"/>
+            <column name="name" value="Fitness"/>
+            <column name="image" value="https://www.sbsmobile.com/por/234394-thickbox_default/vital-fit-de.jpg"/>
+        </insert>
+        <insert tableName="categories">
+            <column name="id" value="4"/>
+            <column name="name" value="Computers"/>
+            <column name="image" value="https://m.media-amazon.com/images/I/714sa4fUFNL._AC_UF894,1000_QL80_.jpg"/>
+        </insert>
+        <insert tableName="categories">
+            <column name="id" value="5"/>
+            <column name="name" value="Gadgets"/>
+            <column name="image" value="https://m.media-amazon.com/images/I/71ZRus2YNcL._AC_UF894,1000_QL80_.jpg"/>
+        </insert>
+        <insert tableName="categories">
+            <column name="id" value="6"/>
+            <column name="name" value="Gaming Consoles"/>
+            <column name="image" value="https://assets.mmsrg.com/isr/166325/c1/-/ASSET_MMS_141517940?x=1800y=1800format=jpgquality=80sp=yesstrip=yesex=1800ey=1800align=centerresizesourceunsharp=1.5x1+0.7+0.02"/>
+        </insert>
+        <insert tableName="categories">
+            <column name="id" value="7"/>
+            <column name="name" value="Wearable Tech"/>
+            <column name="image" value="https://i.otto.de/i/otto/f0b12f2a-3638-43b2-9ceb-e686e95410d9?w=1078h=1078"/>
+        </insert>
+        <insert tableName="categories">
+            <column name="id" value="8"/>
+            <column name="name" value="Clothing"/>
+            <column name="image" value="https://www.comfortschuh.de/$WS/top/websale8_shop-top/produkte/medien/bilder/gross/965202.JPG"/>
+        </insert>
+        <insert tableName="categories">
+            <column name="id" value="9"/>
+            <column name="name" value="Audio"/>
+            <column name="image" value="https://media.cnn.com/api/v1/images/stellar/prod/airpods-max.jpg?c=16x9q=h_720,w_1280,c_fill"/>
+        </insert>
+        <insert tableName="categories">
+            <column name="id" value="10"/>
+            <column name="name" value="Computer Accessories"/>
+            <column name="image" value="https://m.media-amazon.com/images/I/51KmxQjXBlL._AC_UF1000,1000_QL80_.jpg"/>
+        </insert>
+        <insert tableName="categories">
+            <column name="id" value="11"/>
+            <column name="name" value="TVs"/>
+            <column name="image" value="https://assets.mmsrg.com/isr/166325/c1/-/ASSET_MMS_103722491?x=1800y=1800format=jpgquality=80sp=yesstrip=yesex=1800ey=1800align=centerresizesourceunsharp=1.5x1+0.7+0.02"/>
+        </insert>
+        <insert tableName="categories">
+            <column name="id" value="12"/>
+            <column name="name" value="Smartwatches"/>
+            <column name="image" value="https://m.media-amazon.com/images/I/61ksrJ2LsgL._AC_UF894,1000_QL80_.jpg"/>
+        </insert>
+        <insert tableName="categories">
+            <column name="id" value="13"/>
+            <column name="name" value="Computer Peripherals"/>
+            <column name="image" value="https://media.startech.com/cms/products/gallery_large/5g4ab-usb-c-hub._main.jpg"/>
+        </insert>
+        <insert tableName="categories">
+            <column name="id" value="14"/>
+            <column name="name" value="Speakers"/>
+            <column name="image" value="https://www.artis.in/cdn/shop/products/1_96dd2244-53f4-449d-bf8e-4ac1bad9f490.jpg?v=1653639739"/>
+        </insert>
+        <insert tableName="categories">
+            <column name="id" value="15"/>
+            <column name="name" value="Home Appliances"/>
+            <column name="image" value="https://assets.mmsrg.com/isr/166325/c1/-/ASSET_MMS_103722491?x=1800y=1800format=jpgquality=80sp=yesstrip=yesex=1800ey=1800align=centerresizesourceunsharp=1.5x1+0.7+0.02"/>
+        </insert>
+
+        <!-- Inserting Products for Category 1 (Games) -->
+        <insert tableName="products">
+            <column name="title" value="Board Game"/>
+            <column name="price" value="29.99"/>
+            <column name="description" value="Fun board game for family and friends"/>
+            <column name="picture" value="https://mybayutcdn.bayut.com/mybayut/wp-content/uploads/checkers-and-ludo-1.jpg"/>
+            <column name="category_id" value="1"/>
+        </insert>
+        <insert tableName="products">
+            <column name="title" value="Video Game"/>
+            <column name="price" value="59.99"/>
+            <column name="description" value="Popular video game for console"/>
+            <column name="picture" value="https://signal-crimea.ru/uploads/product/8100/8137/playstation-ps5-ps4-sony-min_2021-01-15_09-28-17.jpg"/>
+            <column name="category_id" value="1"/>
+        </insert>
+        <insert tableName="products">
+            <column name="title" value="Puzzle"/>
+            <column name="price" value="14.99"/>
+            <column name="description" value="1000 piece puzzle"/>
+            <column name="picture" value="https://i.ebayimg.com/00/s/MTEzMlgxNTAw/z/ftEAAOSwSdFfyrI2/$_57.JPG?set_id=8800005007"/>
+            <column name="category_id" value="1"/>
+        </insert>
+        <insert tableName="products">
+            <column name="title" value="Card Game"/>
+            <column name="price" value="9.99"/>
+            <column name="description" value="Exciting card game"/>
+            <column name="picture" value="https://i.pinimg.com/originals/88/b2/0f/88b20f433a2267717aa5fe30e11c312f.jpg"/>
+            <column name="category_id" value="1"/>
+        </insert>
+
+        <!-- Inserting Products for Category 2 (Electronics) -->
+        <insert tableName="products">
+            <column name="title" value="Smartphone"/>
+            <column name="price" value="699.99"/>
+            <column name="description" value="Latest model smartphone"/>
+            <column name="picture" value="https://www.zastavki.com/pictures/originals/2019_Bendable_smartphone_Royole_FlexPai_on_a_white_background_132763_.jpg"/>
+            <column name="category_id" value="2"/>
+        </insert>
+        <insert tableName="products">
+            <column name="title" value="Laptop"/>
+            <column name="price" value="999.99"/>
+            <column name="description" value="High-performance laptop"/>
+            <column name="picture" value="https://abc.ru/upload/resize/presets/f1cc33b536f5/gallery/2p/ez/1571833652.35422pez4sk1huh4tza_w-8zpq_ccnrhkhszrnbz.jpg"/>
+            <column name="category_id" value="2"/>
+        </insert>
+        <insert tableName="products">
+            <column name="title" value="Tablet"/>
+            <column name="price" value="499.99"/>
+            <column name="description" value="Versatile tablet for work and play"/>
+            <column name="picture" value="https://mse-online.ru/wp-content/uploads/2020/07/kpr-1a.jpg"/>
+            <column name="category_id" value="2"/>
+        </insert>
+        <insert tableName="products">
+            <column name="title" value="Smart TV"/>
+            <column name="price" value="799.99"/>
+            <column name="description" value="4K Smart TV with HDR"/>
+            <column name="picture" value="https://www.icover.ru/upload/iblock/e64/e64a8a396ff5c556a1902dc3c72a14b1.jpg"/>
+            <column name="category_id" value="2"/>
+        </insert>
+
+        <!-- Inserting Products for Category 3 (Fitness) -->
+        <insert tableName="products">
+            <column name="title" value="Yoga Mat"/>
+            <column name="price" value="19.99"/>
+            <column name="description" value="Eco-friendly yoga mat"/>
+            <column name="picture" value="https://dvayoga.ru/d/%D0%BA%D0%BE%D0%B2%D1%80%D0%B8%D0%BA__%D0%BA%D0%B0%D0%BA_%D0%B2%D1%8B%D0%B1%D1%80%D0%B0%D1%82%D1%8C.jpg"/>
+            <column name="category_id" value="3"/>
+        </insert>
+        <insert tableName="products">
+            <column name="title" value="Dumbbells"/>
+            <column name="price" value="49.99"/>
+            <column name="description" value="Set of adjustable dumbbells"/>
+            <column name="picture" value="https://i.pinimg.com/originals/ae/af/77/aeaf77f74b684fb4257966103bd6a0ad.jpg"/>
+            <column name="category_id" value="3"/>
+        </insert>
+        <insert tableName="products">
+            <column name="title" value="Treadmill"/>
+            <column name="price" value="599.99"/>
+            <column name="description" value="Folding treadmill with LCD display"/>
+            <column name="picture" value="https://avatars.dzeninfra.ru/get-zen_doc/1895133/pub_5fb785e30a790b7b98f0269d_5fb7864462945b1f7e16a0bc/scale_1200"/>
+            <column name="category_id" value="3"/>
+        </insert>
+        <insert tableName="products">
+            <column name="title" value="Fitness Tracker"/>
+            <column name="price" value="149.99"/>
+            <column name="description" value="Smart fitness tracker with heart rate monitor"/>
+            <column name="picture" value="https://nicebike.ru/image/cache/catalog/sportivnye_chasy/xiaomi/sportivnyy_braslet_s_pulsometrom_xiaomi_mi_band_5_color_1_1500x1000.jpg"/>
+            <column name="category_id" value="3"/>
+        </insert>
+
+        <!-- Inserting Products for Category 4 (Computers) -->
+        <insert tableName="products">
+            <column name="title" value="Desktop PC"/>
+            <column name="price" value="799.99"/>
+            <column name="description" value="Gaming desktop PC with powerful specs"/>
+            <column name="picture" value="https://example.com/desktoppc.jpg"/>
+            <column name="category_id" value="4"/>
+        </insert>
+        <insert tableName="products">
+            <column name="title" value="Monitor"/>
+            <column name="price" value="199.99"/>
+            <column name="description" value="27-inch 4K monitor"/>
+            <column name="picture" value="https://example.com/monitor.jpg"/>
+            <column name="category_id" value="4"/>
+        </insert>
+        <insert tableName="products">
+            <column name="title" value="Graphics Card"/>
+            <column name="price" value="499.99"/>
+            <column name="description" value="Latest model graphics card for gaming"/>
+            <column name="picture" value="https://example.com/graphicscard.jpg"/>
+            <column name="category_id" value="4"/>
+        </insert>
+        <insert tableName="products">
+            <column name="title" value="Mechanical Keyboard"/>
+            <column name="price" value="89.99"/>
+            <column name="description" value="Mechanical keyboard with RGB lighting"/>
+            <column name="picture" value="https://example.com/mechanicalkeyboard.jpg"/>
+            <column name="category_id" value="4"/>
+        </insert>
+
+        <!-- Inserting Products for Category 5 (Gadgets) -->
+        <insert tableName="products">
+            <column name="title" value="Smart Watch"/>
+            <column name="price" value="199.99"/>
+            <column name="description" value="Smart watch with fitness tracking"/>
+            <column name="picture" value="https://example.com/smartwatch.jpg"/>
+            <column name="category_id" value="5"/>
+        </insert>
+        <insert tableName="products">
+            <column name="title" value="VR Headset"/>
+            <column name="price" value="299.99"/>
+            <column name="description" value="Virtual reality headset for immersive experiences"/>
+            <column name="picture" value="https://example.com/vrheadset.jpg"/>
+            <column name="category_id" value="5"/>
+        </insert>
+        <insert tableName="products">
+            <column name="title" value="Drone"/>
+            <column name="price" value="399.99"/>
+            <column name="description" value="High-performance drone with camera"/>
+            <column name="picture" value="https://example.com/drone.jpg"/>
+            <column name="category_id" value="5"/>
+        </insert>
+        <insert tableName="products">
+            <column name="title" value="Smart Glasses"/>
+            <column name="price" value="249.99"/>
+            <column name="description" value="Smart glasses with AR capabilities"/>
+            <column name="picture" value="https://example.com/smartglasses.jpg"/>
+            <column name="category_id" value="5"/>
+        </insert>
+
+        <!-- Inserting Products for Category 6 (Gaming Consoles) -->
+        <insert tableName="products">
+            <column name="title" value="PlayStation 5"/>
+            <column name="price" value="499.99"/>
+            <column name="description" value="Latest generation gaming console"/>
+            <column name="picture" value="https://example.com/ps5.jpg"/>
+            <column name="category_id" value="6"/>
+        </insert>
+        <insert tableName="products">
+            <column name="title" value="Xbox Series X"/>
+            <column name="price" value="499.99"/>
+            <column name="description" value="Next-gen gaming console"/>
+            <column name="picture" value="https://example.com/xboxseriesx.jpg"/>
+            <column name="category_id" value="6"/>
+        </insert>
+        <insert tableName="products">
+            <column name="title" value="Nintendo Switch"/>
+            <column name="price" value="299.99"/>
+            <column name="description" value="Portable and home gaming console"/>
+            <column name="picture" value="https://example.com/switch.jpg"/>
+            <column name="category_id" value="6"/>
+        </insert>
+        <insert tableName="products">
+            <column name="title" value="Gaming Controller"/>
+            <column name="price" value="59.99"/>
+            <column name="description" value="Wireless gaming controller"/>
+            <column name="picture" value="https://example.com/controller.jpg"/>
+            <column name="category_id" value="6"/>
+        </insert>
+
+        <!-- Inserting Products for Category 7 (Wearable Tech) -->
+        <insert tableName="products">
+            <column name="title" value="Fitness Band"/>
+            <column name="price" value="49.99"/>
+            <column name="description" value="Fitness band with heart rate monitor"/>
+            <column name="picture" value="https://example.com/fitnessband.jpg"/>
+            <column name="category_id" value="7"/>
+        </insert>
+        <insert tableName="products">
+            <column name="title" value="Smart Glasses"/>
+            <column name="price" value="249.99"/>
+            <column name="description" value="Smart glasses with AR capabilities"/>
+            <column name="picture" value="https://example.com/smartglasses.jpg"/>
+            <column name="category_id" value="7"/>
+        </insert>
+        <insert tableName="products">
+            <column name="title" value="Wearable Camera"/>
+            <column name="price" value="199.99"/>
+            <column name="description" value="Wearable camera for capturing moments on the go"/>
+            <column name="picture" value="https://example.com/wearablecamera.jpg"/>
+            <column name="category_id" value="7"/>
+        </insert>
+        <insert tableName="products">
+            <column name="title" value="Smart Jewelry"/>
+            <column name="price" value="149.99"/>
+            <column name="description" value="Smart jewelry with health tracking features"/>
+            <column name="picture" value="https://example.com/smartjewelry.jpg"/>
+            <column name="category_id" value="7"/>
+        </insert>
+
+        <!-- Inserting Products for Category 8 (Clothing) -->
+        <insert tableName="products">
+            <column name="title" value="T-Shirt"/>
+            <column name="price" value="19.99"/>
+            <column name="description" value="Comfortable cotton t-shirt"/>
+            <column name="picture" value="https://example.com/tshirt.jpg"/>
+            <column name="category_id" value="8"/>
+        </insert>
+        <insert tableName="products">
+            <column name="title" value="Jeans"/>
+            <column name="price" value="49.99"/>
+            <column name="description" value="Stylish denim jeans"/>
+            <column name="picture" value="https://example.com/jeans.jpg"/>
+            <column name="category_id" value="8"/>
+        </insert>
+        <insert tableName="products">
+            <column name="title" value="Jacket"/>
+            <column name="price" value="99.99"/>
+            <column name="description" value="Warm winter jacket"/>
+            <column name="picture" value="https://example.com/jacket.jpg"/>
+            <column name="category_id" value="8"/>
+        </insert>
+        <insert tableName="products">
+            <column name="title" value="Sneakers"/>
+            <column name="price" value="69.99"/>
+            <column name="description" value="Comfortable running sneakers"/>
+            <column name="picture" value="https://example.com/sneakers.jpg"/>
+            <column name="category_id" value="8"/>
+        </insert>
+
+        <!-- Inserting Products for Category 9 (Audio) -->
+        <insert tableName="products">
+            <column name="title" value="Headphones"/>
+            <column name="price" value="149.99"/>
+            <column name="description" value="Noise-cancelling headphones"/>
+            <column name="picture" value="https://example.com/headphones.jpg"/>
+            <column name="category_id" value="9"/>
+        </insert>
+        <insert tableName="products">
+            <column name="title" value="Bluetooth Speaker"/>
+            <column name="price" value="99.99"/>
+            <column name="description" value="Portable Bluetooth speaker"/>
+            <column name="picture" value="https://example.com/bluetoothspeaker.jpg"/>
+            <column name="category_id" value="9"/>
+        </insert>
+        <insert tableName="products">
+            <column name="title" value="Soundbar"/>
+            <column name="price" value="199.99"/>
+            <column name="description" value="Soundbar with subwoofer"/>
+            <column name="picture" value="https://example.com/soundbar.jpg"/>
+            <column name="category_id" value="9"/>
+        </insert>
+        <insert tableName="products">
+            <column name="title" value="Earbuds"/>
+            <column name="price" value="79.99"/>
+            <column name="description" value="Wireless earbuds"/>
+            <column name="picture" value="https://example.com/earbuds.jpg"/>
+            <column name="category_id" value="9"/>
+        </insert>
+
+        <!-- Inserting Products for Category 10 (Computer Accessories) -->
+        <insert tableName="products">
+            <column name="title" value="Mouse"/>
+            <column name="price" value="49.99"/>
+            <column name="description" value="Wireless ergonomic mouse"/>
+            <column name="picture" value="https://example.com/mouse.jpg"/>
+            <column name="category_id" value="10"/>
+        </insert>
+        <insert tableName="products">
+            <column name="title" value="Keyboard"/>
+            <column name="price" value="69.99"/>
+            <column name="description" value="Mechanical keyboard with RGB lighting"/>
+            <column name="picture" value="https://example.com/keyboard.jpg"/>
+            <column name="category_id" value="10"/>
+        </insert>
+        <insert tableName="products">
+            <column name="title" value="Webcam"/>
+            <column name="price" value="99.99"/>
+            <column name="description" value="HD webcam with microphone"/>
+            <column name="picture" value="https://example.com/webcam.jpg"/>
+            <column name="category_id" value="10"/>
+        </insert>
+        <insert tableName="products">
+            <column name="title" value="External Hard Drive"/>
+            <column name="price" value="129.99"/>
+            <column name="description" value="1TB external hard drive"/>
+            <column name="picture" value="https://example.com/externalharddrive.jpg"/>
+            <column name="category_id" value="10"/>
+        </insert>
+
+        <!-- Inserting Products for Category 11 (TVs) -->
+        <insert tableName="products">
+            <column name="title" value="4K TV"/>
+            <column name="price" value="699.99"/>
+            <column name="description" value="Ultra HD 4K TV with HDR"/>
+            <column name="picture" value="https://example.com/4ktv.jpg"/>
+            <column name="category_id" value="11"/>
+        </insert>
+        <insert tableName="products">
+            <column name="title" value="OLED TV"/>
+            <column name="price" value="1499.99"/>
+            <column name="description" value="55-inch OLED TV"/>
+            <column name="picture" value="https://example.com/oledtv.jpg"/>
+            <column name="category_id" value="11"/>
+        </insert>
+        <insert tableName="products">
+            <column name="title" value="Smart TV"/>
+            <column name="price" value="799.99"/>
+            <column name="description" value="Smart TV with built-in streaming apps"/>
+            <column name="picture" value="https://example.com/smarttv.jpg"/>
+            <column name="category_id" value="11"/>
+        </insert>
+        <insert tableName="products">
+            <column name="title" value="LED TV"/>
+            <column name="price" value="499.99"/>
+            <column name="description" value="50-inch LED TV"/>
+            <column name="picture" value="https://example.com/ledtv.jpg"/>
+            <column name="category_id" value="11"/>
+        </insert>
+
+        <!-- Inserting Products for Category 12 (Smartwatches) -->
+        <insert tableName="products">
+            <column name="title" value="Apple Watch"/>
+            <column name="price" value="399.99"/>
+            <column name="description" value="Apple Watch Series 6"/>
+            <column name="picture" value="https://example.com/applewatch.jpg"/>
+            <column name="category_id" value="12"/>
+        </insert>
+        <insert tableName="products">
+            <column name="title" value="Samsung Galaxy Watch"/>
+            <column name="price" value="349.99"/>
+            <column name="description" value="Samsung Galaxy Watch 4"/>
+            <column name="picture" value="https://example.com/galaxywatch.jpg"/>
+            <column name="category_id" value="12"/>
+        </insert>
+        <insert tableName="products">
+            <column name="title" value="Fitbit"/>
+            <column name="price" value="149.99"/>
+            <column name="description" value="Fitbit Charge 4"/>
+            <column name="picture" value="https://example.com/fitbit.jpg"/>
+            <column name="category_id" value="12"/>
+        </insert>
+        <insert tableName="products">
+            <column name="title" value="Garmin Watch"/>
+            <column name="price" value="299.99"/>
+            <column name="description" value="Garmin Forerunner 245"/>
+            <column name="picture" value="https://example.com/garminwatch.jpg"/>
+            <column name="category_id" value="12"/>
+        </insert>
+
+        <!-- Inserting Products for Category 13 (Computer Peripherals) -->
+        <insert tableName="products">
+            <column name="title" value="External SSD"/>
+            <column name="price" value="199.99"/>
+            <column name="description" value="500GB external SSD"/>
+            <column name="picture" value="https://example.com/externalssd.jpg"/>
+            <column name="category_id" value="13"/>
+        </insert>
+        <insert tableName="products">
+            <column name="title" value="USB Hub"/>
+            <column name="price" value="29.99"/>
+            <column name="description" value="7-port USB hub"/>
+            <column name="picture" value="https://example.com/usbhub.jpg"/>
+            <column name="category_id" value="13"/>
+        </insert>
+        <insert tableName="products">
+            <column name="title" value="Printer"/>
+            <column name="price" value="149.99"/>
+            <column name="description" value="Wireless all-in-one printer"/>
+            <column name="picture" value="https://example.com/printer.jpg"/>
+            <column name="category_id" value="13"/>
+        </insert>
+        <insert tableName="products">
+            <column name="title" value="Webcam"/>
+            <column name="price" value="99.99"/>
+            <column name="description" value="1080p HD webcam"/>
+            <column name="picture" value="https://example.com/webcam.jpg"/>
+            <column name="category_id" value="13"/>
+        </insert>
+
+        <!-- Inserting Products for Category 14 (Speakers) -->
+        <insert tableName="products">
+            <column name="title" value="Home Speaker"/>
+            <column name="price" value="299.99"/>
+            <column name="description" value="High-fidelity home speaker"/>
+            <column name="picture" value="https://example.com/homespeaker.jpg"/>
+            <column name="category_id" value="14"/>
+        </insert>
+        <insert tableName="products">
+            <column name="title" value="Bluetooth Speaker"/>
+            <column name="price" value="99.99"/>
+            <column name="description" value="Portable Bluetooth speaker"/>
+            <column name="picture" value="https://example.com/bluetoothspeaker.jpg"/>
+            <column name="category_id" value="14"/>
+        </insert>
+        <insert tableName="products">
+            <column name="title" value="Soundbar"/>
+            <column name="price" value="199.99"/>
+            <column name="description" value="Soundbar with subwoofer"/>
+            <column name="picture" value="https://example.com/soundbar.jpg"/>
+            <column name="category_id" value="14"/>
+        </insert>
+        <insert tableName="products">
+            <column name="title" value="Bookshelf Speakers"/>
+            <column name="price" value="399.99"/>
+            <column name="description" value="Pair of high-quality bookshelf speakers"/>
+            <column name="picture" value="https://example.com/bookshelfspeakers.jpg"/>
+            <column name="category_id" value="14"/>
+        </insert>
+
+        <!-- Inserting Products for Category 15 (Home Appliances) -->
+        <insert tableName="products">
+            <column name="title" value="Refrigerator"/>
+            <column name="price" value="999.99"/>
+            <column name="description" value="Energy-efficient refrigerator"/>
+            <column name="picture" value="https://example.com/refrigerator.jpg"/>
+            <column name="category_id" value="15"/>
+        </insert>
+        <insert tableName="products">
+            <column name="title" value="Washing Machine"/>
+            <column name="price" value="799.99"/>
+            <column name="description" value="High-efficiency washing machine"/>
+            <column name="picture" value="https://example.com/washingmachine.jpg"/>
+            <column name="category_id" value="15"/>
+        </insert>
+        <insert tableName="products">
+            <column name="title" value="Microwave"/>
+            <column name="price" value="199.99"/>
+            <column name="description" value="Countertop microwave oven"/>
+            <column name="picture" value="https://example.com/microwave.jpg"/>
+            <column name="category_id" value="15"/>
+        </insert>
+        <insert tableName="products">
+            <column name="title" value="Vacuum Cleaner"/>
+            <column name="price" value="299.99"/>
+            <column name="description" value="Bagless vacuum cleaner"/>
+            <column name="picture" value="https://example.com/vacuumcleaner.jpg"/>
+            <column name="category_id" value="15"/>
+        </insert>
+
+    </changeSet>
+</databaseChangeLog>
