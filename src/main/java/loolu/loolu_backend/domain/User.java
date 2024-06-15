@@ -2,6 +2,7 @@ package loolu.loolu_backend.domain;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
@@ -30,24 +31,29 @@ public class User implements UserDetails {
     private Integer id;
 
     @Schema(description = "User's first name", example = "Sasha")
+    @NotBlank(message = "First name is mandatory")
     @Column(name = "first_name", nullable = false)
     private String firstName;
 
     @Schema(description = "User's last name", example = "Ivanyo")
+    @NotBlank(message = "Last name is mandatory")
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
     @Schema(description = "User's email address", example = "sasha@example.com")
+    @NotBlank(message = "Email is mandatory")
     @Column(name = "email", unique = true, nullable = false)
     private String email;
 
-    @Schema(description = "User's raw password for logging in", example = "111")
+    @Schema(description = "User's raw password for logging in", example = "111") //Password1!
+    @NotBlank(message = "Password is mandatory")
     @Column(name = "password", nullable = false)
     @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$")
     private String password;
 
     @Setter
     @Schema(description = "User's username or nickname for logging in", example = "Sancos")
+    @NotBlank(message = "Username is mandatory")
     @Column(name = "username", unique = true, nullable = true)
     private String username;
 

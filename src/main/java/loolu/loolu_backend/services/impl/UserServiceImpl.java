@@ -1,5 +1,6 @@
 package loolu.loolu_backend.services.impl;
 
+import io.micrometer.common.util.StringUtils;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import loolu.loolu_backend.domain.User;
@@ -33,17 +34,26 @@ public class UserServiceImpl {
 
     @Transactional
     public User createUser(@Valid User user) {
-        String passwordPattern = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$";
-        if (!user.getPassword().matches(passwordPattern)) {
-            throw new IllegalArgumentException("Password must have at least 8 characters, one letter, one digit, and one special character.");
+
+        if (StringUtils.isEmpty(user.getUsername()) ||
+                StringUtils.isEmpty(user.getPassword()) ||
+                StringUtils.isEmpty(user.getEmail()) ||
+                StringUtils.isEmpty(user.getFirstName()) ||
+                StringUtils.isEmpty(user.getLastName())) {
+            throw new IllegalArgumentException("All fields are required");
         }
-        
+
         if (userRepository.existsByUsername(user.getUsername())) {
             throw new RuntimeException("Username already exists");
         }
 
         if (userRepository.existsByEmail(user.getEmail())) {
             throw new RuntimeException("Email already exists");
+        }
+
+        String passwordPattern = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$";
+        if (!user.getPassword().matches(passwordPattern)) {
+            throw new IllegalArgumentException("Password must have at least 8 characters, one letter, one digit, and one special character.");
         }
 
         user.setPassword(encoder.encode(user.getPassword()));
