@@ -8,8 +8,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import loolu.loolu_backend.domain.User;
+import loolu.loolu_backend.services.impl.UserService;
 import loolu.loolu_backend.services.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +24,7 @@ import java.util.List;
 public class UserController {
 
     @Autowired
+    private UserService userService2;
     private UserServiceImpl userService;
     private final PasswordEncoder passwordEncoder;
 
@@ -66,7 +69,11 @@ public class UserController {
                     content = @Content) })
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user) {
-        User createdUser = userService.createUser(user);
+        if (userService2.existsByEmail(user.getEmail())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+
+        User createdUser = userService2.saveUser(user);
         return ResponseEntity.status(201).body(createdUser);
     }
 
