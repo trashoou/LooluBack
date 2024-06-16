@@ -58,7 +58,9 @@ public class FileUploadController {
             Path path = Paths.get(UPLOAD_DIR + "/" + file.getOriginalFilename());
             Files.write(path, file.getBytes());
 
-            return ResponseEntity.status(HttpStatus.OK).body("File uploaded successfully: " + file.getOriginalFilename());
+            // Возвращаем URL загруженного файла, который будет использоваться на фронтенде
+            String fileUrl = "/api/upload/photo/" + file.getOriginalFilename();
+            return ResponseEntity.status(HttpStatus.OK).body(fileUrl);
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred while uploading the file: " + e.getMessage());
         }
@@ -97,5 +99,14 @@ public class FileUploadController {
         } catch (MalformedURLException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
+    }
+    @PostMapping("/file")
+    public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
+        // Logic to handle file upload
+        if (file.isEmpty()) {
+            return ResponseEntity.badRequest().body("Please select a file to upload");
+        }
+        // Process the file
+        return ResponseEntity.ok("File uploaded successfully: " + file.getOriginalFilename());
     }
 }
