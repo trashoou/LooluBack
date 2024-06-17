@@ -2,7 +2,9 @@ package loolu.loolu_backend.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import loolu.loolu_backend.models.Picture;
 import loolu.loolu_backend.models.Product;
+import loolu.loolu_backend.repositories.PictureRepository;
 import loolu.loolu_backend.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @Tag(name = "Product Controller", description = "Controller for managing products")
 @RestController
@@ -18,10 +21,12 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
+    private final PictureRepository pictureRepository;
 
     @Autowired
-    public ProductController(ProductService productService) {
+    public ProductController(ProductService productService, PictureRepository pictureRepository) {
         this.productService = productService;
+        this.pictureRepository = pictureRepository;
     }
 
     @Operation(
@@ -56,12 +61,23 @@ public class ProductController {
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable Long id) {
         Product product = productService.getProductById(id);
-        if (product != null) {
-            return new ResponseEntity<>(product, HttpStatus.OK);
-        } else {
+
+        if (product == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+
+        Set<Picture> pictures = pictureRepository.findByProduct(product);
+
+        // Пройти по найденным изображениям и сбросить ссылку на продукт
+        for (Picture picture : pictures) {
+            picture.setProduct(null);
+        }
+
+        product.setPicture(pictures);
+
+        return new ResponseEntity<>(product, HttpStatus.OK);
     }
+
 
     @Operation(
             summary = "Add a new product",
