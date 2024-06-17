@@ -65,8 +65,10 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/cart").permitAll()
                         .requestMatchers(HttpMethod.PUT, "/api/cart/**").permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/api/cart/**").permitAll()
+
                         .requestMatchers(HttpMethod.GET, "/api/upload/photo").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/upload/photo/**").permitAll()
+
                         .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/auth/profile", "/api.auth/refresh", "/api.auth/logout").permitAll()
                         .anyRequest().authenticated())
