@@ -1,6 +1,7 @@
 package loolu.loolu_backend.services.impl;
 
 import loolu.loolu_backend.models.Product;
+import loolu.loolu_backend.repositories.PicturesRepository;
 import loolu.loolu_backend.repositories.ProductRepository;
 import loolu.loolu_backend.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +15,12 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
+    private final PicturesRepository picturesRepository;
 
     @Autowired
-    public ProductServiceImpl(ProductRepository productRepository) {
+    public ProductServiceImpl(ProductRepository productRepository, PicturesRepository picturesRepository) {
         this.productRepository = productRepository;
+        this.picturesRepository = picturesRepository;
     }
 
     @Override
@@ -27,6 +30,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product getProductById(Long id) {
+        Object obj = picturesRepository.findById(1L);
         Optional<Product> optionalProduct = productRepository.findById(id);
         return optionalProduct.orElse(null);
     }
