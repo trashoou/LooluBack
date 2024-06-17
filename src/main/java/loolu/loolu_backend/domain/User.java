@@ -61,13 +61,13 @@ public class User implements UserDetails {
     @Column(name = "avatar_path")
     private String avatarPath;
 
-//    @ManyToMany
-//    @JoinTable(
-//            name = "user_role",
-//            joinColumns = @JoinColumn(name = "user_id"),
-//            inverseJoinColumns = @JoinColumn(name = "role_id")
-//    )
-//    private Set<Role> roles;
+    @ManyToMany
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles;
 
 
     @Schema(
@@ -76,8 +76,7 @@ public class User implements UserDetails {
     )
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        //return roles;
-        return null;
+        return roles;
     }
 
     @Override

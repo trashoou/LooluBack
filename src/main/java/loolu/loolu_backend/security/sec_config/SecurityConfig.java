@@ -14,11 +14,13 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
 
 @Configuration
 @EnableWebSecurity
@@ -44,37 +46,29 @@ public class SecurityConfig {
                 .sessionManagement(x -> x.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(x -> x
                         .requestMatchers(HttpMethod.GET, "/swagger-ui/**", "/v3/api-docs/**").permitAll()
-
-                        .requestMatchers(HttpMethod.GET, "/api/products", "/api/products/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/products", "/api/products/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/api/products").permitAll()
                         .requestMatchers(HttpMethod.PUT, "/api/products/**").permitAll()
-                        .requestMatchers(HttpMethod.DELETE, "/api/products/**").permitAll()
-
+                        .requestMatchers(HttpMethod.DELETE, "/api.products/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/categories").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/categories/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/categories").permitAll()
                         .requestMatchers(HttpMethod.PUT, "/api/categories/**").permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/api/categories/**").permitAll()
-
                         .requestMatchers(HttpMethod.GET, "/api/users").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/users/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/users").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api.users").permitAll()
                         .requestMatchers(HttpMethod.PUT, "/api/users/**").permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/api/users/**").permitAll()
-
                         .requestMatchers(HttpMethod.GET, "/api/cart").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/cart/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/cart").permitAll()
                         .requestMatchers(HttpMethod.PUT, "/api/cart/**").permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/api/cart/**").permitAll()
-
                         .requestMatchers(HttpMethod.GET, "/api/upload/photo").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/upload/photo/**").permitAll()
-
                         .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/auth/profile", "/api/auth/refresh", "/api/auth/logout").permitAll()
-
-                        //.requestMatchers(HttpMethod.GET, "/api/products").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/auth/profile", "/api.auth/refresh", "/api.auth/logout").permitAll()
                         .anyRequest().authenticated())
                 .addFilterAfter(filter, UsernamePasswordAuthenticationFilter.class)
                 .build();
@@ -82,10 +76,8 @@ public class SecurityConfig {
 
     @Bean
     public OpenAPI openAPI() {
-        return new OpenAPI().addSecurityItem(new SecurityRequirement().
-                        addList("Bearer Authentication"))
-                .components(new Components().addSecuritySchemes
-                        ("Bearer Authentication", createAPIKeyScheme()))
+        return new OpenAPI().addSecurityItem(new SecurityRequirement().addList("Bearer Authentication"))
+                .components(new Components().addSecuritySchemes("Bearer Authentication", createAPIKeyScheme()))
                 .info(new Info().title("Loolu demo app")
                         .description("Loolu application for JSON web tokens")
                         .version("1.0.0").contact(new Contact().name("Sandor Ivanyo")
@@ -100,4 +92,5 @@ public class SecurityConfig {
                 .scheme("bearer");
     }
 }
+
 

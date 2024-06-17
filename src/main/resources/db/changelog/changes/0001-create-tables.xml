@@ -70,9 +70,6 @@
             <column name="description" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="picture" type="varchar(255)">
-                <constraints nullable="false"/>
-            </column>
             <column name="category_id" type="bigint">
                 <constraints nullable="true"/>
             </column>
@@ -116,7 +113,30 @@
                 <constraints nullable="true"/>
             </column>
         </createTable>
+        <createTable tableName="roles">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(50)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </createTable>
 
+        <createTable tableName="users_roles">
+            <column name="user_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="users_roles" baseColumnNames="user_id"
+                                 constraintName="fk_users_roles_user_id" referencedTableName="users"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="users_roles" baseColumnNames="role_id"
+                                 constraintName="fk_users_roles_role_id" referencedTableName="roles"
+                                 referencedColumnNames="id"/>
         <addForeignKeyConstraint baseTableName="carts_products" baseColumnNames="cart_id"
                                  constraintName="fk_carts_products_cart_id" referencedTableName="carts"
                                  referencedColumnNames="id"/>
