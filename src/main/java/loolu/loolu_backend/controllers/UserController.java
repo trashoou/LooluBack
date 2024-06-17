@@ -7,9 +7,12 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import loolu.loolu_backend.domain.Role;
 import loolu.loolu_backend.domain.User;
+import loolu.loolu_backend.repositories.RoleRepository;
 import loolu.loolu_backend.services.impl.UserService;
 import loolu.loolu_backend.services.impl.UserServiceImpl;
+import org.antlr.v4.runtime.misc.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,9 +30,11 @@ public class UserController {
     @Autowired
     private UserServiceImpl userService;
     private final PasswordEncoder passwordEncoder;
+    private final RoleRepository roleRepository;
 
-    public UserController(PasswordEncoder passwordEncoder) {
+    public UserController(PasswordEncoder passwordEncoder, RoleRepository roleRepository) {
         this.passwordEncoder = passwordEncoder;
+        this.roleRepository = roleRepository;
     }
 
     @Operation(summary = "Get all users")
@@ -69,6 +74,10 @@ public class UserController {
                     content = @Content) })
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user) {
+        Role userRole = new Role();
+        userRole.setName("ROLE_USER");
+        roleRepository.save(userRole);
+        user.getRoles().add(userRole);
         User createdUser = userService.createUser(user);
         return ResponseEntity.status(201).body(createdUser);
     }
