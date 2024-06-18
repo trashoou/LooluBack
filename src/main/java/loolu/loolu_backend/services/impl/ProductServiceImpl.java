@@ -1,6 +1,8 @@
 package loolu.loolu_backend.services.impl;
 
+import loolu.loolu_backend.models.Category;
 import loolu.loolu_backend.models.Product;
+import loolu.loolu_backend.repositories.CategoryRepository;
 import loolu.loolu_backend.repositories.PicturesRepository;
 import loolu.loolu_backend.repositories.ProductRepository;
 import loolu.loolu_backend.services.ProductService;
@@ -16,11 +18,13 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final PicturesRepository picturesRepository;
+    private final CategoryRepository categoryRepository;
 
     @Autowired
-    public ProductServiceImpl(ProductRepository productRepository, PicturesRepository picturesRepository) {
+    public ProductServiceImpl(ProductRepository productRepository, PicturesRepository picturesRepository, CategoryRepository categoryRepository) {
         this.productRepository = productRepository;
         this.picturesRepository = picturesRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     @Override
@@ -33,6 +37,10 @@ public class ProductServiceImpl implements ProductService {
         Object obj = picturesRepository.findById(1L);
         Optional<Product> optionalProduct = productRepository.findById(id);
         return optionalProduct.orElse(null);
+    }
+    @Override
+    public Category getCategoryById(Long categoryId) {
+        return categoryRepository.findById(categoryId).orElse(null);
     }
 
     @Override

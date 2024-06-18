@@ -157,7 +157,7 @@
                                  referencedColumnNames="id"/>
         <addForeignKeyConstraint baseTableName="pictures" baseColumnNames="product_id"
                              constraintName="fk_pictures_product_id" referencedTableName="products"
-                             referencedColumnNames="id"/>
+                             referencedColumnNames="id" onDelete="CASCADE"/>
 
     </changeSet>
 </databaseChangeLog>
