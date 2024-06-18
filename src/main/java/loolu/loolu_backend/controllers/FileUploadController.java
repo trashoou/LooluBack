@@ -23,7 +23,7 @@ import java.nio.file.Paths;
 @Tag(name = "File Upload Controller", description = "Endpoints for uploading files")
 public class FileUploadController {
     private static final long MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
-    private static final String UPLOAD_DIR = "/path/to/upload/dir"; // Путь к каталогу загрузки файлов на сервер
+    private static final String UPLOAD_DIR = "C:\\Users\\Khramov\\IdeaProjects\\LooLu_BackEnd\\files"; // Путь к каталогу загрузки файлов на сервер
     @Operation(
             summary = "Upload a photo",
             description = "Upload a photo file to the server"

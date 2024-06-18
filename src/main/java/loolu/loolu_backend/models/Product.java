@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import loolu.loolu_backend.repositories.PictureRepository;
 
+import java.util.Objects;
 import java.util.Set;
 
 @Data
@@ -30,12 +31,30 @@ public class Product {
     private String description;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Column(name = "picture", nullable = false)
     private Set<Picture> picture;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
+
+    // Переопределяем hashCode и equals, исключая поле picture для избежания циклической зависимости
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, price, description, category);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return Objects.equals(id, product.id) &&
+                Objects.equals(title, product.title) &&
+                Objects.equals(price, product.price) &&
+                Objects.equals(description, product.description) &&
+                Objects.equals(category, product.category);
+    }
+
     @Override
     public String toString() {
         return "Product{" +
@@ -43,11 +62,8 @@ public class Product {
                 ", title='" + title + '\'' +
                 ", price=" + price +
                 ", description='" + description + '\'' +
-                ", pictures='" + picture + '\'' +
+                ", picture=" + picture +
                 ", category=" + category +
                 '}';
     }
-
-//    @OneToMany(mappedBy = "product")
-//    private Set<CartProduct> cartProducts;
 }
