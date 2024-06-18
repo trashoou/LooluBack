@@ -39,7 +39,7 @@ public class ProductController {
             description = "Retrieve all products available in the database"
     )
     @GetMapping
-    public ResponseEntity<List<Product>> getFilteredProducts(
+    public ResponseEntity<List<ProductDTO>> getFilteredProducts(
             @RequestParam(required = false) String title,
             @RequestParam(required = false) Double price,
             @RequestParam(required = false) Double price_min,
@@ -48,15 +48,29 @@ public class ProductController {
 
         List<Product> filteredProducts = productService.filterProducts(title, price, price_min, price_max, categoryId);
 
-        if (price_min != null && price_max != null) {
-            filteredProducts = productService.filterProducts(title, null, price_min, price_max, categoryId);
-        } else if (price != null) {
-            filteredProducts = productService.filterProducts(title, price, null, null, categoryId);
-        } else {
-            filteredProducts = productService.filterProducts(title, null, null, null, categoryId);
+        List<ProductDTO> productDTOs = new ArrayList<>();
+        for (Product product : filteredProducts) {
+            ProductDTO productDTO = new ProductDTO(
+                    product.getId(),
+                    product.getTitle(),
+                    product.getPrice(),
+                    product.getDescription(),
+                    product.getCategory().getId(),
+                    product.getCategory().getName(),
+                    new ArrayList<>()
+            );
+
+            Set<Picture> pictures = pictureRepository.findByProduct(product);
+            for (Picture picture : pictures) {
+                picture.setProduct(null);
+                productDTO.getImageUrls().add(picture.getUrl());
+            }
+
+            product.setPicture(pictures);
+            productDTOs.add(productDTO);
         }
 
-        return new ResponseEntity<>(filteredProducts, HttpStatus.OK);
+        return new ResponseEntity<>(productDTOs, HttpStatus.OK);
     }
 
     @Operation(
@@ -72,7 +86,7 @@ public class ProductController {
         }
 
         ProductDTO productDTO = new ProductDTO(product.getId(),
-                product.getTitle(), product.getPrice(), product.getDescription(), product.getCategory().getId(), new ArrayList<>());
+                product.getTitle(), product.getPrice(), product.getDescription(), product.getCategory().getId(), product.getCategory().getName(), new ArrayList<>());
 
         Set<Picture> pictures = pictureRepository.findByProduct(product);
 
