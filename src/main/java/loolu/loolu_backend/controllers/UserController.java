@@ -11,6 +11,7 @@ import loolu.loolu_backend.domain.Role;
 import loolu.loolu_backend.domain.User;
 import loolu.loolu_backend.dto.UserDto;
 import loolu.loolu_backend.repositories.RoleRepository;
+import loolu.loolu_backend.repositories.UserRepository;
 import loolu.loolu_backend.services.impl.UserService;
 import loolu.loolu_backend.services.impl.UserServiceImpl;
 import org.antlr.v4.runtime.misc.LogManager;
@@ -22,6 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Tag(name = "User Controller", description = "Controller for managing users")
 @RestController
