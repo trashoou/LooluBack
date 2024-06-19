@@ -231,33 +231,24 @@
             <column name="name" value="ROLE_ADMIN"/>
         </insert>
 
-<!--        &lt;!&ndash; Вставка пользователей с ролями &ndash;&gt;-->
-<!--        <insert tableName="users">-->
-<!--            <column name="id" value="1"/>-->
-<!--            <column name="first_name" value="John"/>-->
-<!--            <column name="last_name" value="Doe"/>-->
-<!--            <column name="email" value="john.doe@example.com"/>-->
-<!--            <column name="password" value="$2a$12$Stwc/gZiPyiFTnVJ0PrHauBHDMLMQ4yY9eMXr59mU8bEg9i7Es/bm"/>-->
-<!--            <column name="username" value="johndoe"/>-->
-<!--        </insert>-->
-<!--        <insert tableName="users">-->
-<!--            <column name="id" value="2"/>-->
-<!--            <column name="first_name" value="Jane"/>-->
-<!--            <column name="last_name" value="Smith"/>-->
-<!--            <column name="email" value="jane.smith@example.com"/>-->
-<!--            <column name="password" value="$2a$12$tBN00BEeE5UD8zzxsQKhqucsBwybI6WxySdc4vUeVJrucyobH0GE2"/>-->
-<!--            <column name="username" value="janesmith"/>-->
-<!--        </insert>-->
+        <!-- Вставка пользователей с ролями -->
+        <insert tableName="users">
+            <column name="first_name" value="admin"/>
+            <column name="last_name" value="admin"/>
+            <column name="email" value="admin@example.com"/>
+            <column name="password" value="$2a$08$Sw2l9tnq3kkHkVKJzrM8W.YnCddYaFiLR8dIFITzVWH.a1mPpkK3q"/>
+            <column name="username" value="admin"/>
+            <column name="avatar_path" value="https://cs13.pikabu.ru/post_img/big/2023/02/13/8/1676296366191520185.png"/>
 
-<!--        &lt;!&ndash; Связь пользователей с ролями &ndash;&gt;-->
-<!--        <insert tableName="users_roles">-->
-<!--            <column name="user_id" value="1"/>-->
-<!--            <column name="role_id" value="2"/>-->
-<!--        </insert>-->
-<!--        <insert tableName="users_roles">-->
-<!--            <column name="user_id" value="2"/>-->
-<!--            <column name="role_id" value="2"/>-->
-<!--        </insert>-->
+        </insert>
+
+
+        <!-- Связь пользователей с ролями -->
+        <insert tableName="users_roles">
+            <column name="user_id" value="1"/>
+            <column name="role_id" value="2"/>
+        </insert>
+
 
     </changeSet>
 </databaseChangeLog>
