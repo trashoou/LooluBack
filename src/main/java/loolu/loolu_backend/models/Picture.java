@@ -41,4 +41,12 @@ public class Picture {
         return Objects.equals(id, picture.id) &&
                 Objects.equals(url, picture.url);
     }
+
+    @Override
+    public String toString() {
+        return "Picture{" +
+                "id=" + id +
+                ", url='" + url + '\'' +
+                '}';
+    }
 }

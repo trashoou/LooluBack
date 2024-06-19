@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import loolu.loolu_backend.repositories.PictureRepository;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -31,7 +32,7 @@ public class Product {
     private String description;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Picture> picture;
+    private Set<Picture> picture = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id", nullable = false)
@@ -62,7 +63,6 @@ public class Product {
                 ", title='" + title + '\'' +
                 ", price=" + price +
                 ", description='" + description + '\'' +
-                ", picture=" + picture +
                 ", category=" + category +
                 '}';
     }

@@ -136,16 +136,32 @@ public class ProductController {
             description = "Update an existing product by its ID"
     )
     @PutMapping("/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product product) {
+    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody ProductRequest productRequest) {
         Product existingProduct = productService.getProductById(id);
         if (existingProduct != null) {
-            product.setId(id);
-            Product updatedProduct = productService.saveProduct(product);
+            existingProduct.setTitle(productRequest.getTitle());
+            existingProduct.setPrice(productRequest.getPrice());
+            existingProduct.setDescription(productRequest.getDescription());
+            existingProduct.setCategory(productService.getCategoryById(productRequest.getCategoryId()));
+
+            // Очистить старые картинки и добавить новые
+            existingProduct.getPicture().clear();
+            for (String imageUrl : productRequest.getImages()) {
+                Picture picture = new Picture();
+                picture.setUrl(imageUrl);
+                picture.setProduct(existingProduct);
+                existingProduct.getPicture().add(picture);
+            }
+
+            Product updatedProduct = productService.saveProduct(existingProduct);
             return new ResponseEntity<>(updatedProduct, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+
+
 
     @Operation(
             summary = "Delete a product",
