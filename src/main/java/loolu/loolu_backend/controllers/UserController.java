@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import loolu.loolu_backend.domain.Role;
 import loolu.loolu_backend.domain.User;
+import loolu.loolu_backend.dto.UserDto;
 import loolu.loolu_backend.repositories.RoleRepository;
 import loolu.loolu_backend.services.impl.UserService;
 import loolu.loolu_backend.services.impl.UserServiceImpl;
@@ -74,9 +75,13 @@ public class UserController {
                     content = @Content) })
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user) {
-        Role userRole = new Role();
-        userRole.setName("ROLE_USER");
-        roleRepository.save(userRole);
+        Role userRole = roleRepository.findByName("ROLE_USER");
+        if (userRole == null) {
+            userRole = new Role();
+            userRole.setName("ROLE_USER");
+            roleRepository.save(userRole);
+        }
+
         user.getRoles().add(userRole);
         User createdUser = userService.createUser(user);
         return ResponseEntity.status(201).body(createdUser);
@@ -90,22 +95,29 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "User not found",
                     content = @Content) })
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Integer id, @RequestBody User userDetails) {
+    public ResponseEntity<User> updateUser(@PathVariable Integer id, @RequestBody UserDto userDetails) {
         User existingUser = userService.getUserById(id);
         if (existingUser == null) {
             return ResponseEntity.notFound().build();
         }
 
-        existingUser.setUsername(userDetails.getUsername());
-        existingUser.setEmail(userDetails.getEmail());
-        existingUser.setFirstName(userDetails.getFirstName());
-        existingUser.setLastName(userDetails.getLastName());
-
-        if (userDetails.getPassword() != null && !userDetails.getPassword().isEmpty()) {
+        // Обновление только переданных полей
+        if (userDetails.getFirstName() != null) {
+            existingUser.setFirstName(userDetails.getFirstName());
+        }
+        if (userDetails.getLastName() != null) {
+            existingUser.setLastName(userDetails.getLastName());
+        }
+        if (userDetails.getEmail() != null) {
+            existingUser.setEmail(userDetails.getEmail());
+        }
+        if (userDetails.getPassword() != null) {
             String hashedPassword = passwordEncoder.encode(userDetails.getPassword());
             existingUser.setPassword(hashedPassword);
         }
-
+        if (userDetails.getUsername() != null) {
+            existingUser.setUsername(userDetails.getUsername());
+        }
         if (userDetails.getAvatarPath() != null) {
             existingUser.setAvatarPath(userDetails.getAvatarPath());
         }

@@ -221,15 +221,15 @@
             <column name="product_id" value="8"/>
         </insert>
 
-<!--        &lt;!&ndash; Вставка ролей &ndash;&gt;-->
-<!--        <insert tableName="roles">-->
-<!--            <column name="id" value="1"/>-->
-<!--            <column name="name" value="ROLE_USER"/>-->
-<!--        </insert>-->
-<!--        <insert tableName="roles">-->
-<!--            <column name="id" value="2"/>-->
-<!--            <column name="name" value="ROLE_ADMIN"/>-->
-<!--        </insert>-->
+        <!-- Вставка ролей -->
+        <insert tableName="roles">
+            <column name="id" value="1"/>
+            <column name="name" value="ROLE_USER"/>
+        </insert>
+        <insert tableName="roles">
+            <column name="id" value="2"/>
+            <column name="name" value="ROLE_ADMIN"/>
+        </insert>
 
 <!--        &lt;!&ndash; Вставка пользователей с ролями &ndash;&gt;-->
 <!--        <insert tableName="users">-->
