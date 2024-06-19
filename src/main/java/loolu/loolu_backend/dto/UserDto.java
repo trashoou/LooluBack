@@ -5,8 +5,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
-import java.util.Objects;
-
 @Data
 @Builder
 @NoArgsConstructor
@@ -27,39 +25,8 @@ public class UserDto {
     @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$")
     private String password;
 
-    private String role;
+    private String username;
     private String avatarPath;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        UserDto userDto = (UserDto) o;
-        return Objects.equals(id, userDto.id) &&
-                Objects.equals(firstName, userDto.firstName) &&
-                Objects.equals(lastName, userDto.lastName) &&
-                Objects.equals(email, userDto.email);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = Objects.hashCode(id);
-        result = 31 * result + Objects.hashCode(firstName);
-        result = 31 * result + Objects.hashCode(lastName);
-        result = 31 * result + Objects.hashCode(email);
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "UserDto{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", role='" + role + '\'' +
-                ", avatarPath='" + avatarPath + '\'' +
-                '}';
-    }
+    // Геттеры, сеттеры, equals, hashCode и toString
 }
