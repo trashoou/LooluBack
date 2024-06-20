@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import loolu.loolu_backend.domain.User;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -23,6 +24,14 @@ public class Cart {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    @ManyToMany
+    @JoinTable(
+            name = "cart_product",
+            joinColumns = @JoinColumn(name = "cart_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id")
+    )
+    private Set<Product> products = new HashSet<>();
 
     @OneToMany(mappedBy = "cart")
     private Set<CartProduct> cartProducts;
