@@ -27,40 +27,70 @@ public class CartController {
     @Operation(summary = "Add item to cart")
     @PostMapping
     public ResponseEntity<CartItemDto> addItemToCart(@RequestBody @Valid CartItemDto cartItem) {
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(cartService.addItemToCart(cartItem));
+        try {
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body(cartService.addItemToCart(cartItem));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(null);
+        }
     }
 
     @Operation(summary = "Get all cart's items")
     @GetMapping
     public ResponseEntity<List<CartItemDto>> getCartItems() {
+        List<CartItemDto> cartItems = cartService.getCartItems();
+        if (cartItems.isEmpty()) {
+            return ResponseEntity
+                    .status(HttpStatus.NO_CONTENT)
+                    .body(cartItems);
+        }
         return ResponseEntity
-                .ok(cartService.getCartItems());
+                .ok(cartItems);
     }
 
     @Operation(summary = "Delete item from cart")
     @DeleteMapping("/{item-id}")
     public ResponseEntity<Void> deleteItemFromCart(@PathVariable("item-id") Long itemId) {
-        cartService.deleteItemFromCart(itemId);
-        return ResponseEntity
-                .noContent()
-                .build();
+        try {
+            cartService.deleteItemFromCart(itemId);
+            return ResponseEntity
+                    .noContent()
+                    .build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .build();
+        }
     }
 
     @Operation(summary = "Update cart item")
     @PutMapping("/{item-id}")
     public ResponseEntity<CartItemDto> updateCartItem(@PathVariable("item-id") Long itemId, @RequestBody @Valid UpdateCartItemDto updateCartItem) {
-        return ResponseEntity
-                .ok(cartService.updateCartItem(itemId, updateCartItem));
+        try {
+            return ResponseEntity
+                    .ok(cartService.updateCartItem(itemId, updateCartItem));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(null);
+        }
     }
 
     @Operation(summary = "Clear cart")
     @DeleteMapping("/clear")
     public ResponseEntity<Void> clearCart() {
-        cartService.clearCart();
-        return ResponseEntity
-                .noContent()
-                .build();
+        try {
+            cartService.clearCart();
+            return ResponseEntity
+                    .noContent()
+                    .build();
+        } catch (RuntimeException e) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .build();
+        }
     }
 }
