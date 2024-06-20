@@ -1,20 +1,19 @@
 package loolu.loolu_backend.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import loolu.loolu_backend.dto.CartItemDto;
 import loolu.loolu_backend.dto.UpdateCartItemDto;
-import loolu.loolu_backend.models.Cart;
 import loolu.loolu_backend.services.CartService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
-import static org.springframework.web.servlet.function.ServerResponse.status;
 
 @Tag(name = "Cart Controller", description = "Controller for managing cart items")
 @RequiredArgsConstructor
@@ -25,6 +24,10 @@ public class CartController {
     private final CartService cartService;
 
     @Operation(summary = "Add item to cart")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Item added to cart successfully"),
+            @ApiResponse(responseCode = "400", description = "Bad request")
+    })
     @PostMapping
     public ResponseEntity<CartItemDto> addItemToCart(@RequestBody @Valid CartItemDto cartItem) {
         try {
@@ -39,6 +42,10 @@ public class CartController {
     }
 
     @Operation(summary = "Get all cart's items")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "List of cart items returned successfully"),
+            @ApiResponse(responseCode = "204", description = "No items found in cart")
+    })
     @GetMapping
     public ResponseEntity<List<CartItemDto>> getCartItems() {
         List<CartItemDto> cartItems = cartService.getCartItems();
@@ -52,6 +59,10 @@ public class CartController {
     }
 
     @Operation(summary = "Delete item from cart")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Item deleted from cart successfully"),
+            @ApiResponse(responseCode = "400", description = "Bad request")
+    })
     @DeleteMapping("/{item-id}")
     public ResponseEntity<Void> deleteItemFromCart(@PathVariable("item-id") Long itemId) {
         try {
@@ -67,6 +78,10 @@ public class CartController {
     }
 
     @Operation(summary = "Update cart item")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Cart item updated successfully"),
+            @ApiResponse(responseCode = "400", description = "Bad request")
+    })
     @PutMapping("/{item-id}")
     public ResponseEntity<CartItemDto> updateCartItem(@PathVariable("item-id") Long itemId, @RequestBody @Valid UpdateCartItemDto updateCartItem) {
         try {
@@ -80,6 +95,10 @@ public class CartController {
     }
 
     @Operation(summary = "Clear cart")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Cart cleared successfully"),
+            @ApiResponse(responseCode = "400", description = "Bad request")
+    })
     @DeleteMapping("/clear")
     public ResponseEntity<Void> clearCart() {
         try {
