@@ -38,6 +38,9 @@ public class Product {
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
+    @ManyToMany(mappedBy = "products")
+    private Set<Cart> carts = new HashSet<>();
+
     // Переопределяем hashCode и equals, исключая поле picture для избежания циклической зависимости
     @Override
     public int hashCode() {

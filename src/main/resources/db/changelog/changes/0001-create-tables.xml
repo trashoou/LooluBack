@@ -103,7 +103,9 @@
         </createTable>
 
         <createTable tableName="categories">
+
             <column name="id" type="SERIAL" autoIncrement="true">
+
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="name" type="varchar(255)">

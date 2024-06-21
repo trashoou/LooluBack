@@ -31,12 +31,14 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> getAllProducts() {
         return productRepository.findAll();
     }
-
     @Override
     public Product getProductById(Long id) {
-        Object obj = picturesRepository.findById(1L);
         Optional<Product> optionalProduct = productRepository.findById(id);
-        return optionalProduct.orElse(null);
+        if (optionalProduct.isPresent()) {
+            return optionalProduct.get();
+        } else {
+            throw new IllegalArgumentException("Product with ID " + id + " not found");
+        }
     }
     @Override
     public Category getCategoryById(Long categoryId) {
@@ -45,11 +47,22 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product saveProduct(Product product) {
+        Category category = getCategoryById(product.getCategory().getId());
+        if (category == null) {
+            throw new IllegalArgumentException("Category with ID " + product.getCategory().getId() + " not found");
+        }
+
+        product.setCategory(category);
+
         return productRepository.save(product);
     }
 
     @Override
     public void deleteProduct(Long id) {
+        Product existingProduct = getProductById(id);
+        if (existingProduct == null) {
+            throw new IllegalArgumentException("Product with ID " + id + " not found");
+        }
         productRepository.deleteById(id);
     }
 

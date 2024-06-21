@@ -1,9 +1,11 @@
 package loolu.loolu_backend.services.impl;
 
+import jakarta.transaction.Transactional;
 import loolu.loolu_backend.models.Category;
 import loolu.loolu_backend.repositories.CategoryRepository;
 import loolu.loolu_backend.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,7 +23,11 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<Category> getAllCategories() {
-        return categoryRepository.findAll();
+        try {
+            return categoryRepository.findAll();
+        } catch (DataAccessException e) {
+            throw new RuntimeException("Failed to retrieve all categories", e);
+        }
     }
 
     @Override
@@ -32,16 +38,29 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category saveCategory(Category category) {
-        return categoryRepository.save(category);
+        try {
+            return categoryRepository.save(category);
+        } catch (DataAccessException e) {
+            throw new RuntimeException("Failed to save category: " + category.getName(), e);
+        }
     }
 
     @Override
+    @Transactional
     public void deleteCategory(Long id) {
-        categoryRepository.deleteById(id);
+        try {
+            categoryRepository.deleteById(id);
+        } catch (DataAccessException e) {
+            throw new RuntimeException("Failed to delete category with ID: " + id, e);
+        }
     }
 
     @Override
     public List<Category> findCategoriesByName(String name) {
-        return categoryRepository.findByNameContainingIgnoreCase(name);
+        try {
+            return categoryRepository.findByNameContainingIgnoreCase(name);
+        } catch (DataAccessException e) {
+            throw new RuntimeException("Failed to find categories by name: " + name, e);
+        }
     }
 }

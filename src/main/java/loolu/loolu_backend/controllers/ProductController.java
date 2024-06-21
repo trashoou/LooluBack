@@ -1,6 +1,9 @@
 package loolu.loolu_backend.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import loolu.loolu_backend.dto.ProductDTO;
 import loolu.loolu_backend.dto.ProductRequest;
@@ -11,7 +14,6 @@ import loolu.loolu_backend.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -40,14 +42,24 @@ public class ProductController {
     )
     @GetMapping
     public ResponseEntity<List<ProductDTO>> getFilteredProducts(
-            @RequestParam(required = false) String title,
-            @RequestParam(required = false) Double price,
-            @RequestParam(required = false) Double price_min,
-            @RequestParam(required = false) Double price_max,
-            @RequestParam(required = false) Long categoryId) {
+            @Parameter(description = "Filter products by title") @RequestParam(required = false) String title,
+            @Parameter(description = "Filter products by exact price") @RequestParam(required = false) Double price,
+            @Parameter(description = "Filter products by minimum price") @RequestParam(required = false) Double price_min,
+            @Parameter(description = "Filter products by maximum price") @RequestParam(required = false) Double price_max,
+            @Parameter(description = "Filter products by category ID") @RequestParam(required = false) Long categoryId) {
+
+
+        if (price != null && price <= 0) {
+            return ResponseEntity.badRequest().build();
+        }
+        if (price_min != null && price_max != null && (price_min <= 0 || price_max <= 0 || price_min > price_max)) {
+            return ResponseEntity.badRequest().build();
+        }
+        if (categoryId != null && categoryId <= 0) {
+            return ResponseEntity.badRequest().build();
+        }
 
         List<Product> filteredProducts = productService.filterProducts(title, price, price_min, price_max, categoryId);
-
         List<ProductDTO> productDTOs = new ArrayList<>();
         for (Product product : filteredProducts) {
             ProductDTO productDTO = new ProductDTO(
@@ -77,6 +89,10 @@ public class ProductController {
             summary = "Get a product by ID",
             description = "Retrieve a single product by its ID"
     )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found the product"),
+            @ApiResponse(responseCode = "404", description = "Product not found")
+    })
     @GetMapping("/{id}")
     public ResponseEntity<ProductDTO> getProductById(@PathVariable Long id) {
         Product product = productService.getProductById(id);
@@ -101,11 +117,14 @@ public class ProductController {
         return new ResponseEntity<>(productDTO, HttpStatus.OK);
     }
 
-
     @Operation(
             summary = "Add a new product",
             description = "Add a new product to the database"
     )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Product created successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid input")
+    })
     @PostMapping
     public ResponseEntity<Product> addProduct(@RequestBody ProductRequest productRequest) {
         // Создаем новый продукт на основе данных из запроса
@@ -135,6 +154,11 @@ public class ProductController {
             summary = "Update an existing product",
             description = "Update an existing product by its ID"
     )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Product updated successfully"),
+            @ApiResponse(responseCode = "404", description = "Product not found"),
+            @ApiResponse(responseCode = "400", description = "Invalid input")
+    })
     @PutMapping("/{id}")
     public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody ProductRequest productRequest) {
         Product existingProduct = productService.getProductById(id);
@@ -160,13 +184,14 @@ public class ProductController {
         }
     }
 
-
-
-
     @Operation(
             summary = "Delete a product",
             description = "Delete a product by its ID"
     )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Product deleted successfully"),
+            @ApiResponse(responseCode = "404", description = "Product not found")
+    })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
         Product existingProduct = productService.getProductById(id);
