@@ -27,6 +27,5 @@ public class UserDto {
 
     private String username;
     private String avatarPath;
-
-    // Геттеры, сеттеры, equals, hashCode и toString
+    
 }

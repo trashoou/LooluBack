@@ -74,11 +74,11 @@ public class User implements UserDetails {
     )
     private Set<Role> roles = new HashSet<>();
 
-    @OneToMany(mappedBy = "user")
-    private Set<Cart> carts;
-
-    @OneToMany(mappedBy = "user")
-    private Set<UserOrder> orders;
+//    @OneToMany(mappedBy = "user")
+//    private Set<Cart> carts;
+//
+//    @OneToMany(mappedBy = "user")
+//    private Set<UserOrder> orders;
 
     @Schema(
             description = "List of authorities granted to user",
