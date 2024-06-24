@@ -31,22 +31,9 @@
             <column name="image" value="https://assets.mmsrg.com/isr/166325/c1/-/ASSET_MMS_141517940?x=1800y=1800format=jpgquality=80sp=yesstrip=yesex=1800ey=1800align=centerresizesourceunsharp=1.5x1+0.7+0.02"/>
         </insert>
         <insert tableName="categories">
-            <column name="name" value="Wearable Tech"/>
+            <column name="name" value="Sale"/>
             <column name="image" value="https://i.otto.de/i/otto/f0b12f2a-3638-43b2-9ceb-e686e95410d9?w=1078h=1078"/>
         </insert>
-        <insert tableName="categories">
-            <column name="name" value="Clothing"/>
-            <column name="image" value="https://www.comfortschuh.de/$WS/top/websale8_shop-top/produkte/medien/bilder/gross/965202.JPG"/>
-        </insert>
-        <insert tableName="categories">
-            <column name="name" value="Audio"/>
-            <column name="image" value="https://media.cnn.com/api/v1/images/stellar/prod/airpods-max.jpg?c=16x9q=h_720,w_1280,c_fill"/>
-        </insert>
-        <insert tableName="categories">
-            <column name="name" value="Computer Accessories"/>
-            <column name="image" value="https://m.media-amazon.com/images/I/51KmxQjXBlL._AC_UF1000,1000_QL80_.jpg"/>
-        </insert>
-
 
         <!-- Inserting Products -->
         <insert tableName="products">
@@ -213,11 +200,9 @@
 
         <!-- Вставка ролей -->
         <insert tableName="roles">
-            <column name="id" value="1"/>
             <column name="name" value="ROLE_USER"/>
         </insert>
         <insert tableName="roles">
-            <column name="id" value="2"/>
             <column name="name" value="ROLE_ADMIN"/>
         </insert>
 

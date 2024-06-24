@@ -3,6 +3,7 @@ package loolu.loolu_backend.services.impl;
 import lombok.RequiredArgsConstructor;
 import loolu.loolu_backend.domain.User;
 import loolu.loolu_backend.dto.CartItemDto;
+import loolu.loolu_backend.dto.CartProductDto;
 import loolu.loolu_backend.dto.UpdateCartItemDto;
 import loolu.loolu_backend.models.Cart;
 import loolu.loolu_backend.models.CartProduct;
@@ -95,5 +96,13 @@ public class CartServiceImpl implements CartService {
 
         return new CartItemDto(cartProduct.getId(), cartProduct.getCart().getId(),
                 cartProduct.getProduct().getId(), cartProduct.getQuantity());
+    }
+
+    @Override
+    public List<CartProductDto> getCartProductsDtoByCartId(Long cartId) {
+        List<CartProduct> cartProducts = cartProductRepository.findByCartId(cartId);
+        return cartProducts.stream()
+                .map(cp -> new CartProductDto(cp.getId(), cp.getProduct().getId(), cp.getQuantity()))
+                .collect(Collectors.toList());
     }
 }

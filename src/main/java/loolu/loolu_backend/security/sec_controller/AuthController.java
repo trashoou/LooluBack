@@ -6,10 +6,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import loolu.loolu_backend.domain.User;
+import loolu.loolu_backend.dto.AuthorityDto;
 import loolu.loolu_backend.dto.LoginRequestDto;
-import loolu.loolu_backend.dto.UserDto;
-import loolu.loolu_backend.security.sec_dto.AuthInfo;
-import loolu.loolu_backend.security.sec_dto.RefreshRequestDto;
+import loolu.loolu_backend.dto.UserProfileDto;
+import loolu.loolu_backend.dto.UserRegistrationDTO;
 import loolu.loolu_backend.security.sec_dto.TokenResponseDto;
 import loolu.loolu_backend.security.sec_service.AuthService;
 import loolu.loolu_backend.services.impl.UserService;
@@ -20,7 +20,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.logging.Logger;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Tag(name = "Authorization controller", description = "Controller for security operations, login/logout, getting new tokens etc")
 @RestController
@@ -36,7 +37,6 @@ public class AuthController {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
     }
-
 
 
     @Operation(
@@ -81,7 +81,7 @@ public class AuthController {
             cookieRefresh.setHttpOnly(true);
             response.addCookie(cookieRefresh);
 
-            return ResponseEntity.ok(tokenDto); // Возвращаем объект токена вместе с 200 OK
+            return ResponseEntity.ok(tokenDto);
         } catch (Exception e) {
             removeCookie(response);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new TokenResponseDto(null, null)); // Возвращаем пустой объект TokenResponseDto
@@ -89,18 +89,36 @@ public class AuthController {
     }
 
     @GetMapping("/profile")
-    public ResponseEntity<User> getProfile() {
+    public ResponseEntity<UserProfileDto> getProfile() {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            String userContent = (String) authentication.getPrincipal();
-//            return ResponseEntity.ok(userContent);
-            User user = userService.findByEmail(userContent);
-            return ResponseEntity.ok(user);
+            String userEmail = (String) authentication.getPrincipal();
+            User user = userService.findByEmail(userEmail);
+
+            if (user == null) {
+                return ResponseEntity.notFound().build();
+            }
+
+            UserProfileDto userProfileDto = new UserProfileDto();
+            userProfileDto.setId(user.getId());
+            userProfileDto.setEmail(user.getEmail());
+            userProfileDto.setFirstName(user.getFirstName());
+            userProfileDto.setLastName(user.getLastName());
+            userProfileDto.setUsername(user.getUsername());
+            userProfileDto.setPassword(user.getPassword());
+            userProfileDto.setAvatarPath(user.getAvatarPath());
+            userProfileDto.setCartId(user.getCarts() != null ? user.getCarts().getId() : null);
+            Set<AuthorityDto> authorities = user.getRoles().stream()
+                    .map(role -> new AuthorityDto(role.getName()))
+                    .collect(Collectors.toSet());
+            userProfileDto.setAuthorities(authorities);
+
+            return ResponseEntity.ok(userProfileDto);
+
         } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-
 
     @Operation(
             summary = "Get new access token",

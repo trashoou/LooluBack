@@ -2,26 +2,36 @@ package loolu.loolu_backend.services.impl;
 
 import io.micrometer.common.util.StringUtils;
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
+import loolu.loolu_backend.domain.Role;
 import loolu.loolu_backend.domain.User;
+import loolu.loolu_backend.dto.UserRegistrationDTO;
+import loolu.loolu_backend.models.Cart;
+import loolu.loolu_backend.repositories.CartRepository;
+import loolu.loolu_backend.repositories.RoleRepository;
 import loolu.loolu_backend.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UserServiceImpl {
     private final UserRepository userRepository;
-    private final BCryptPasswordEncoder encoder;
+    private final PasswordEncoder passwordEncoder;
+    private final CartRepository cartRepository;
+    private final RoleRepository roleRepository;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder encoder) {
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder,
+                           CartRepository cartRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
-        this.encoder = encoder;
+        this.passwordEncoder = passwordEncoder;
+        this.cartRepository = cartRepository;
+        this.roleRepository = roleRepository;
     }
 
     public List<User> getAllUsers() {
@@ -33,33 +43,55 @@ public class UserServiceImpl {
     }
 
     @Transactional
-    public User createUser(@Valid User user) {
+    public User createUser(UserRegistrationDTO userRegistrationDTO) {
 
-        if (StringUtils.isEmpty(user.getUsername()) ||
-                StringUtils.isEmpty(user.getPassword()) ||
-                StringUtils.isEmpty(user.getEmail()) ||
-                StringUtils.isEmpty(user.getFirstName()) ||
-                StringUtils.isEmpty(user.getLastName())) {
+        if (StringUtils.isEmpty(userRegistrationDTO.getUsername()) ||
+                StringUtils.isEmpty(userRegistrationDTO.getPassword()) ||
+                StringUtils.isEmpty(userRegistrationDTO.getEmail()) ||
+                StringUtils.isEmpty(userRegistrationDTO.getFirstName()) ||
+                StringUtils.isEmpty(userRegistrationDTO.getLastName())) {
             throw new IllegalArgumentException("All fields are required");
         }
 
-        if (userRepository.existsByUsername(user.getUsername())) {
+        if (userRepository.existsByUsername(userRegistrationDTO.getUsername())) {
             throw new RuntimeException("Username already exists");
         }
 
-        if (userRepository.existsByEmail(user.getEmail())) {
+        if (userRepository.existsByEmail(userRegistrationDTO.getEmail())) {
             throw new RuntimeException("Email already exists");
         }
 
         String passwordPattern = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$";
-        if (!user.getPassword().matches(passwordPattern)) {
+        if (!userRegistrationDTO.getPassword().matches(passwordPattern)) {
             throw new IllegalArgumentException("Password must have at least 8 characters, one letter, one digit, and one special character.");
         }
 
-        user.setPassword(encoder.encode(user.getPassword()));
+        User newUser = User.builder()
+                .firstName(userRegistrationDTO.getFirstName())
+                .lastName(userRegistrationDTO.getLastName())
+                .email(userRegistrationDTO.getEmail())
+                .password(passwordEncoder.encode(userRegistrationDTO.getPassword()))
+                .username(userRegistrationDTO.getUsername())
+                .avatarPath(userRegistrationDTO.getAvatarPath())
+                .build();
 
-        return userRepository.save(user);
+        Role userRole = roleRepository.findByName("ROLE_USER");
+        if (userRole == null) {
+            userRole = new Role();
+            userRole.setName("ROLE_USER");
+            roleRepository.save(userRole);
+        }
+        newUser.setRoles(Set.of(userRole));
+        User savedUser = userRepository.save(newUser);
+
+        Cart newCart = new Cart();
+        newCart.setUser(savedUser);
+        cartRepository.save(newCart);
+
+        return savedUser;
     }
+
+    @Transactional
     public User updateUser(Integer id, User userDetails) {
         User user = userRepository.findById(id).orElse(null);
         if (user != null) {
@@ -67,10 +99,19 @@ public class UserServiceImpl {
             user.setLastName(userDetails.getLastName());
             user.setEmail(userDetails.getEmail());
             user.setUsername(userDetails.getUsername());
+            user.setAvatarPath(userDetails.getAvatarPath());
 
-            if (userDetails.getPassword() != null && !userDetails.getPassword().isEmpty()) {
-                user.setPassword(encoder.encode(userDetails.getPassword()));
+            // Обновление ролей пользователя
+            Set<Role> userRoles = new HashSet<>();
+            for (Role role : userDetails.getRoles()) {
+                Role existingRole = roleRepository.findByName(role.getName());
+                if (existingRole != null) {
+                    userRoles.add(existingRole);
+                } else {
+                    userRoles.add(role); // Если роль новая
+                }
             }
+            user.setRoles(userRoles);
 
             return userRepository.save(user);
         }

@@ -1,6 +1,8 @@
 package loolu.loolu_backend.models;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,14 +22,21 @@ import java.util.Set;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
+    @Schema(description = "Product's name", example = "Computer")
+    @NotBlank(message = "Product's name is mandatory")
     @Column(name = "title", nullable = false)
     private String title;
 
+    @Schema(description = "Product's price", example = "123,00")
+    @NotBlank(message = "Product's price is mandatory")
     @Column(name = "price", nullable = false)
     private Double price;
 
+    @Schema(description = "Product's description", example = "Product's description")
+    @NotBlank(message = "Product's description is mandatory")
     @Column(name = "description", nullable = false)
     private String description;
 

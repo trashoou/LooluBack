@@ -48,16 +48,15 @@ public class ProductController {
             @Parameter(description = "Filter products by maximum price") @RequestParam(required = false) Double price_max,
             @Parameter(description = "Filter products by category ID") @RequestParam(required = false) Long categoryId) {
 
-
-        if (price != null && price <= 0) {
-            return ResponseEntity.badRequest().build();
-        }
-        if (price_min != null && price_max != null && (price_min <= 0 || price_max <= 0 || price_min > price_max)) {
-            return ResponseEntity.badRequest().build();
-        }
-        if (categoryId != null && categoryId <= 0) {
-            return ResponseEntity.badRequest().build();
-        }
+//        if (price != null && price <= 0) {
+//            return ResponseEntity.badRequest().build();
+//        }
+//        if (price_min != null && price_max != null && (price_min <= 0 || price_max <= 0 || price_min > price_max)) {
+//            return ResponseEntity.badRequest().build();
+//        }
+//        if (categoryId != null && categoryId <= 0) {
+//            return ResponseEntity.badRequest().build();
+//        }
 
         List<Product> filteredProducts = productService.filterProducts(title, price, price_min, price_max, categoryId);
         List<ProductDTO> productDTOs = new ArrayList<>();

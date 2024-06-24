@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import loolu.loolu_backend.dto.CartItemDto;
+import loolu.loolu_backend.dto.CartProductDto;
 import loolu.loolu_backend.dto.UpdateCartItemDto;
 import loolu.loolu_backend.services.CartService;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,24 @@ import java.util.List;
 public class CartController {
 
     private final CartService cartService;
+
+    @Operation(summary = "Get cart products by cart id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "List of cart products returned successfully"),
+            @ApiResponse(responseCode = "204", description = "No cart products found for cart")
+    })
+    @GetMapping("/{cart-id}")
+    public ResponseEntity<List<CartProductDto>> getCartProductsByCartId(@PathVariable("cart-id") Long cartId) {
+        List<CartProductDto> cartProducts = cartService.getCartProductsDtoByCartId(cartId);
+        if (cartProducts.isEmpty()) {
+            return ResponseEntity
+                    .status(HttpStatus.NO_CONTENT)
+                    .body(cartProducts);
+        }
+        return ResponseEntity
+                .ok(cartProducts);
+    }
+
 
     @Operation(summary = "Add item to cart")
     @ApiResponses(value = {

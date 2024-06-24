@@ -162,4 +162,12 @@
                              referencedColumnNames="id" onDelete="CASCADE"/>
 
     </changeSet>
+    <changeSet id="0002-add-cart-id-to-users" author="loolu">
+        <addColumn tableName="users">
+            <column name="cart_id" type="bigint"/>
+        </addColumn>
+        <addForeignKeyConstraint baseTableName="users" baseColumnNames="cart_id"
+                                 constraintName="fk_users_cart_id" referencedTableName="carts"
+                                 referencedColumnNames="id"/>
+    </changeSet>
 </databaseChangeLog>
