@@ -2,6 +2,8 @@ package loolu.loolu_backend.controllers;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -21,6 +23,7 @@ import java.nio.file.Paths;
 @RequestMapping("/api/upload")
 @CrossOrigin(origins = "http://localhost:3000")
 @Tag(name = "File Upload Controller", description = "Endpoints for uploading files")
+
 public class FileUploadController {
     private static final long MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
     private static final String UPLOAD_DIR = "C:\\Users\\Khramov\\IdeaProjects\\LooLu_BackEnd\\files"; // Путь к каталогу загрузки файлов на сервер

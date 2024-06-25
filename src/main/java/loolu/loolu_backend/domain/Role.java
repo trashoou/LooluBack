@@ -1,8 +1,7 @@
 package loolu.loolu_backend.domain;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Objects;
@@ -20,6 +19,7 @@ public class Role implements GrantedAuthority {
 
     @Column(name = "name")
     private String name;
+
 
     @Override
     public String getAuthority() {
