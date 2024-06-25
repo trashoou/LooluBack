@@ -15,6 +15,7 @@ import loolu.loolu_backend.dto.UserRegistrationDTO;
 import loolu.loolu_backend.models.Cart;
 import loolu.loolu_backend.repositories.RoleRepository;
 import loolu.loolu_backend.repositories.UserRepository;
+import loolu.loolu_backend.services.impl.EmailService;
 import loolu.loolu_backend.services.impl.UserService;
 import loolu.loolu_backend.services.impl.UserServiceImpl;
 import org.antlr.v4.runtime.misc.LogManager;
@@ -35,6 +36,10 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
+
+    @Autowired
+    private EmailService emailService;
+
 
     @Autowired
     private UserServiceImpl userService;
@@ -91,6 +96,12 @@ public class UserController {
         }
 
         User createdUser = userService.createUser(userRegistrationDTO);
+
+//        String subject = "Welcome to our Loolu service!";
+//        String text = "Greetings, " + userRegistrationDTO.getFirstName() +
+//                "! Thank you for signing up for our Loolu service.";
+//        emailService.sendEmail(userRegistrationDTO.getEmail(), subject, text);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
     }
 
