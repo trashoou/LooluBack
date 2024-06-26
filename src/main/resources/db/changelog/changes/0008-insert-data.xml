@@ -475,6 +475,14 @@
             <column name="url" value="https://static.tildacdn.com/stor6335-3863-4561-b736-656135343937/37808592.png"/>
             <column name="product_id" value="1"/>
         </insert>
+        <insert tableName="pictures">
+            <column name="url" value="https://i.ebayimg.com/images/g/3nwAAOSwqNllxUPm/s-l1600.jpg"/>
+            <column name="product_id" value="1"/>
+        </insert>
+        <insert tableName="pictures">
+            <column name="url" value="https://i.ebayimg.com/images/g/2cQAAOSwVrBlmpBP/s-l1600.jpg"/>
+            <column name="product_id" value="1"/>
+        </insert>
         <!--  Red Dead Redemption 2  -->
         <insert tableName="pictures">
             <column name="url" value="https://avatars.mds.yandex.net/get-marketpic/1855404/pic6c7e5e2b3a630089336063453a21557d/orig"/>
@@ -857,6 +865,6 @@
         <insert tableName="carts">
             <column name="user_id" value="1"/>
         </insert>
-        
+
     </changeSet>
 </databaseChangeLog>
