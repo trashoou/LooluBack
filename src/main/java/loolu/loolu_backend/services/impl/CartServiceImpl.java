@@ -65,9 +65,13 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public CartItemDto deleteItemFromCart(Long itemId) {
+    public CartItemDto deleteItemFromCart(Long cartId, Long itemId) {
         CartProduct cartProduct = cartProductRepository.findById(itemId)
                 .orElseThrow(() -> new RuntimeException("Cart item not found"));
+
+        if (!cartProduct.getCart().getId().equals(cartId)) {
+            throw new IllegalArgumentException("Cart ID does not match the cart item");
+        }
 
         cartProductRepository.delete(cartProduct);
 
@@ -83,13 +87,18 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public CartItemDto updateCartItem(Long itemId, UpdateCartItemDto cartItem) {
+    public CartItemDto updateCartItem(Long cartId, Long itemId, UpdateCartItemDto cartItem) {
         if (cartItem.getQuantity() <= 0) {
             throw new IllegalArgumentException("Quantity must be greater than zero");
         }
 
         CartProduct cartProduct = cartProductRepository.findById(itemId)
                 .orElseThrow(() -> new RuntimeException("Cart item not found"));
+
+        // Проверка, что товар принадлежит указанной корзине
+        if (!cartProduct.getCart().getId().equals(cartId)) {
+            throw new IllegalArgumentException("The product does not belong to the specified cart");
+        }
 
         cartProduct.setQuantity(cartItem.getQuantity());
         cartProduct = cartProductRepository.save(cartProduct);
@@ -102,7 +111,8 @@ public class CartServiceImpl implements CartService {
     public List<CartProductDto> getCartProductsDtoByCartId(Long cartId) {
         List<CartProduct> cartProducts = cartProductRepository.findByCartId(cartId);
         return cartProducts.stream()
-                .map(cp -> new CartProductDto(cp.getId(), cp.getProduct().getId(), cp.getQuantity()))
+                .map(cp -> new CartProductDto(cp.getId(), cartId, cp.getProduct().getId(), cp.getQuantity()))
                 .collect(Collectors.toList());
     }
+
 }

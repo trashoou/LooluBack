@@ -10,5 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UpdateCartItemDto {
     @NotNull
+    private Long cartId;
+    @NotNull
     private Long quantity;
 }

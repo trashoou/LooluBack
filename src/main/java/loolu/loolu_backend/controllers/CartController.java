@@ -27,7 +27,7 @@ public class CartController {
     @Operation(summary = "Get cart products by cart id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of cart products returned successfully"),
-            @ApiResponse(responseCode = "204", description = "No cart products found for cart")
+            @ApiResponse(responseCode = "404", description = "No cart products found for cart")
     })
     @GetMapping("/{cart-id}")
     public ResponseEntity<List<CartProductDto>> getCartProductsByCartId(@PathVariable("cart-id") Long cartId) {
@@ -44,7 +44,7 @@ public class CartController {
 
     @Operation(summary = "Add item to cart")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Item added to cart successfully"),
+            @ApiResponse(responseCode = "200", description = "Item added to cart successfully"),
             @ApiResponse(responseCode = "400", description = "Bad request")
     })
     @PostMapping
@@ -63,7 +63,7 @@ public class CartController {
     @Operation(summary = "Get all cart's items")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of cart items returned successfully"),
-            @ApiResponse(responseCode = "204", description = "No items found in cart")
+            @ApiResponse(responseCode = "404", description = "No items found in cart")
     })
     @GetMapping
     public ResponseEntity<List<CartItemDto>> getCartItems() {
@@ -79,20 +79,18 @@ public class CartController {
 
     @Operation(summary = "Delete item from cart")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Item deleted from cart successfully"),
+            @ApiResponse(responseCode = "200", description = "Item deleted from cart successfully"),
             @ApiResponse(responseCode = "400", description = "Bad request")
     })
-    @DeleteMapping("/{item-id}")
-    public ResponseEntity<Void> deleteItemFromCart(@PathVariable("item-id") Long itemId) {
+    @DeleteMapping("/{cart-id}/{item-id}")
+    public ResponseEntity<CartItemDto> deleteItemFromCart(@PathVariable("cart-id") Long cartId, @PathVariable("item-id") Long itemId) {
         try {
-            cartService.deleteItemFromCart(itemId);
-            return ResponseEntity
-                    .noContent()
-                    .build();
+            CartItemDto deletedItem = cartService.deleteItemFromCart(cartId, itemId);
+            return ResponseEntity.ok(deletedItem);
         } catch (IllegalArgumentException e) {
-            return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 
@@ -101,21 +99,25 @@ public class CartController {
             @ApiResponse(responseCode = "200", description = "Cart item updated successfully"),
             @ApiResponse(responseCode = "400", description = "Bad request")
     })
-    @PutMapping("/{item-id}")
-    public ResponseEntity<CartItemDto> updateCartItem(@PathVariable("item-id") Long itemId, @RequestBody @Valid UpdateCartItemDto updateCartItem) {
+    @PutMapping("/{cart-id}/{item-id}")
+    public ResponseEntity<CartItemDto> updateCartItem(@PathVariable("cart-id") Long cartId, @PathVariable("item-id") Long itemId, @RequestBody @Valid UpdateCartItemDto updateCartItem) {
         try {
             return ResponseEntity
-                    .ok(cartService.updateCartItem(itemId, updateCartItem));
+                    .ok(cartService.updateCartItem(cartId, itemId, updateCartItem));
         } catch (IllegalArgumentException e) {
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
+                    .body(null);
+        } catch (RuntimeException e) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
                     .body(null);
         }
     }
 
     @Operation(summary = "Clear cart")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Cart cleared successfully"),
+            @ApiResponse(responseCode = "200", description = "Cart cleared successfully"),
             @ApiResponse(responseCode = "400", description = "Bad request")
     })
     @DeleteMapping("/clear")

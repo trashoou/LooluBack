@@ -224,6 +224,11 @@
             <column name="role_id" value="2"/>
         </insert>
 
+        <!-- Связь пользователей с корзинами -->
+        <insert tableName="carts">
+            <column name="user_id" value="1"/>
+        </insert>
+
 
     </changeSet>
 </databaseChangeLog>

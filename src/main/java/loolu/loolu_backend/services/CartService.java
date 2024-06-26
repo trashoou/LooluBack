@@ -12,11 +12,12 @@ public interface CartService {
 
     List<CartItemDto> getCartItems();
 
-    CartItemDto deleteItemFromCart(Long itemId);
+    CartItemDto deleteItemFromCart(Long cartId, Long itemId);
 
     CartItemDto clearCart();
 
-    CartItemDto updateCartItem(Long itemId, UpdateCartItemDto cartItem);
+    CartItemDto updateCartItem(Long cartId, Long itemId, UpdateCartItemDto cartItem);
 
     List<CartProductDto> getCartProductsDtoByCartId(Long cartId);
+
 }

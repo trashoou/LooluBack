@@ -54,7 +54,7 @@ public class CategoryController {
 
     @Operation(summary = "Create a new category", description = "Create a new category with the provided details")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Category created successfully"),
+            @ApiResponse(responseCode = "200", description = "Category created successfully"),
             @ApiResponse(responseCode = "400", description = "Bad request")
     })
     @PostMapping
@@ -87,7 +87,7 @@ public class CategoryController {
 
     @Operation(summary = "Delete a category", description = "Delete a category by its ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Category deleted successfully"),
+            @ApiResponse(responseCode = "200", description = "Category deleted successfully"),
             @ApiResponse(responseCode = "404", description = "Category not found")
     })
     @DeleteMapping("/{id}")

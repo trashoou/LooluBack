@@ -121,7 +121,7 @@ public class ProductController {
             description = "Add a new product to the database"
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Product created successfully"),
+            @ApiResponse(responseCode = "200", description = "Product created successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid input")
     })
     @PostMapping
@@ -188,7 +188,7 @@ public class ProductController {
             description = "Delete a product by its ID"
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Product deleted successfully"),
+            @ApiResponse(responseCode = "200", description = "Product deleted successfully"),
             @ApiResponse(responseCode = "404", description = "Product not found")
     })
     @DeleteMapping("/{id}")
