@@ -1,6 +1,27 @@
-<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
     <changeSet id="0008-insert-data" author="loolu" runOnChange="true">
-        <!--  Inserting Categories  -->
+
+        <!-- Add category_id column to pictures table -->
+        <addColumn tableName="pictures">
+            <column name="category_id" type="BIGINT">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+
+        <!-- Add foreign key constraint from pictures.category_id to categories.id -->
+        <addForeignKeyConstraint baseTableName="pictures"
+                                 baseColumnNames="category_id"
+                                 constraintName="fk_pictures_category_id"
+                                 referencedTableName="categories"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+
+
+        <!-- Inserting Categories -->
         <insert tableName="categories">
             <column name="name" value="Games"/>
             <column name="image" value="https://f.vividscreen.info/soft/37fdd5fd505bc08fe79bd75e502cb99a/Xbox-Games-1280x1024.jpg"/>
@@ -9,6 +30,7 @@
             <column name="name" value="Electronics"/>
             <column name="image" value="https://tostr.ru/wp-content/uploads/2023/07/o3v4nmobdhj9paq6hytuuexjbsyd9dzqyllskh8h-0x0-1-scaled.jpeg"/>
         </insert>
+
         <insert tableName="categories">
             <column name="name" value="Computers"/>
             <column name="image" value="https://m.media-amazon.com/images/I/714sa4fUFNL._AC_UF894,1000_QL80_.jpg"/>
@@ -21,6 +43,8 @@
             <column name="name" value="Gaming Consoles"/>
             <column name="image" value="https://assets.mmsrg.com/isr/166325/c1/-/ASSET_MMS_141517940?x=1800y=1800format=jpgquality=80sp=yesstrip=yesex=1800ey=1800align=centerresizesourceunsharp=1.5x1+0.7+0.02"/>
         </insert>
+
+
         <insert tableName="categories">
             <column name="name" value="Audio"/>
             <column name="image" value="https://media.cnn.com/api/v1/images/stellar/prod/airpods-max.jpg?c=16x9q=h_720,w_1280,c_fill"/>
@@ -33,80 +57,97 @@
             <column name="name" value="Sales"/>
             <column name="image" value="https://clipart-library.com/img1/845447.jpg"/>
         </insert>
-        <!--  Inserting Products in 'Games' category  -->
+
+        <!-- Inserting Products in 'Games' category -->
         <insert tableName="products">
             <column name="title" value="The Witcher 3: Wild Hunt"/>
-            <column name="price" value="99.99"/>
+            <column name="price" value="100.99"/>
             <column name="description" value="Action role-playing game with rich storyline and open world."/>
             <column name="category_id" value="1"/>
         </insert>
+
+
         <insert tableName="products">
             <column name="title" value="Red Dead Redemption 2"/>
-            <column name="price" value="97.99"/>
+            <column name="price" value="120.99"/>
             <column name="description" value="Western-themed action-adventure game with stunning visuals."/>
             <column name="category_id" value="1"/>
         </insert>
+
+
         <insert tableName="products">
             <column name="title" value="FIFA 22"/>
-            <column name="price" value="98.99"/>
+            <column name="price" value="50.00"/>
             <column name="description" value="Football simulation game with realistic gameplay."/>
             <column name="category_id" value="1"/>
         </insert>
+
         <insert tableName="products">
             <column name="title" value="Cyberpunk 2077"/>
             <column name="price" value="59.99"/>
             <column name="description" value="Open-world action-adventure story set in the future."/>
             <column name="category_id" value="1"/>
         </insert>
+
         <insert tableName="products">
             <column name="title" value="Assassin's Creed Valhalla"/>
             <column name="price" value="49.99"/>
             <column name="description" value="Action RPG with Viking theme and open-world exploration."/>
             <column name="category_id" value="1"/>
         </insert>
+
+
         <insert tableName="products">
             <column name="title" value="The Last of Us Part II"/>
             <column name="price" value="89.99"/>
             <column name="description" value="Action-adventure game set in a post-apocalyptic world."/>
             <column name="category_id" value="1"/>
         </insert>
+
         <insert tableName="products">
             <column name="title" value="Super Mario Odyssey"/>
-            <column name="price" value="49.99"/>
+            <column name="price" value="15.00"/>
             <column name="description" value="Platform game featuring Mario with new gameplay features."/>
             <column name="category_id" value="1"/>
         </insert>
+
         <insert tableName="products">
             <column name="title" value="Minecraft"/>
-            <column name="price" value="19.99"/>
+            <column name="price" value="10.00"/>
             <column name="description" value="Sandbox game with blocky graphics and creative building."/>
             <column name="category_id" value="1"/>
         </insert>
+
         <insert tableName="products">
             <column name="title" value="Call of Duty: Modern Warfare"/>
             <column name="price" value="59.99"/>
             <column name="description" value="First-person shooter with realistic combat scenarios."/>
             <column name="category_id" value="1"/>
         </insert>
+
         <insert tableName="products">
             <column name="title" value="Spider-Man: Miles Morales"/>
             <column name="price" value="49.99"/>
             <column name="description" value="Action-adventure game featuring Marvel's Spider-Man Miles Morales."/>
             <column name="category_id" value="1"/>
         </insert>
-        <!--  Inserting Products in 'Electronics' category  -->
+
+        <!-- Inserting Products in 'Electronics' category -->
+
         <insert tableName="products">
             <column name="title" value="Samsung Ultra Galaxy 23"/>
             <column name="price" value="699.99"/>
             <column name="description" value="Latest smartphone with high-resolution display and dual cameras."/>
             <column name="category_id" value="2"/>
         </insert>
+
         <insert tableName="products">
             <column name="title" value="Laptop Acer"/>
             <column name="price" value="3999.99"/>
             <column name="description" value="Powerful laptop with Intel i7 processor and dedicated graphics card."/>
             <column name="category_id" value="2"/>
         </insert>
+
         <insert tableName="products">
             <column name="title" value="Smart TV"/>
             <column name="price" value="1499.99"/>
@@ -155,8 +196,9 @@
             <column name="description" value="Fan"/>
             <column name="category_id" value="2"/>
         </insert>
-        <!--  Insert more products for 'Electronics' category  -->
-        <!--  Inserting Products in 'Computers' category  -->
+        <!-- Insert more products for 'Electronics' category -->
+
+        <!-- Inserting Products in 'Computers' category -->
         <insert tableName="products">
             <column name="title" value="Desktop Computer"/>
             <column name="price" value="999.99"/>
@@ -181,44 +223,51 @@
             <column name="description" value="Premium gaming laptop with Intel Core i7, NVIDIA RTX 3070, and 4K OLED display."/>
             <column name="category_id" value="3"/>
         </insert>
+
         <insert tableName="products">
             <column name="title" value="Apple Mac 27-inch"/>
             <column name="price" value="1799.99"/>
             <column name="description" value="All-in-one desktop with Retina 5K display, Intel Core i5, and Radeon Pro 5300."/>
             <column name="category_id" value="3"/>
         </insert>
+
         <insert tableName="products">
             <column name="title" value="HP Envy 13"/>
             <column name="price" value="999.99"/>
             <column name="description" value="Ultra-thin laptop with Intel Core i7, 8GB RAM, 256GB SSD, and Full HD touch display."/>
             <column name="category_id" value="3"/>
         </insert>
+
         <insert tableName="products">
             <column name="title" value="Dell G5 Gaming Desktop"/>
             <column name="price" value="1099.99"/>
             <column name="description" value="Compact gaming desktop with Intel Core i7, NVIDIA GTX 1660 Ti, and 512GB SSD."/>
             <column name="category_id" value="3"/>
         </insert>
+
         <insert tableName="products">
             <column name="title" value="Lenovo ThinkPad X1 Carbon"/>
             <column name="price" value="1899.99"/>
             <column name="description" value="Business laptop with Intel Core i7, 16GB RAM, 512GB SSD, and 14-inch 4K display."/>
             <column name="category_id" value="3"/>
         </insert>
+
         <insert tableName="products">
             <column name="title" value="Microsoft Surface Laptop 4"/>
             <column name="price" value="1299.99"/>
             <column name="description" value="Thin and light laptop with AMD Ryzen 5, 8GB RAM, 256GB SSD, and 13.5-inch PixelSense display."/>
             <column name="category_id" value="3"/>
         </insert>
+
         <insert tableName="products">
             <column name="title" value="Gigabyte Aorus 15G"/>
             <column name="price" value="1799.99"/>
             <column name="description" value="Gaming laptop with Intel Core i7, NVIDIA RTX 3070, and mechanical keyboard."/>
             <column name="category_id" value="3"/>
         </insert>
-        <!--  Insert more products for 'Computers' category  -->
-        <!--  Inserting Products in 'Gadgets' category  -->
+        <!-- Insert more products for 'Computers' category -->
+
+        <!-- Inserting Products in 'Gadgets' category -->
         <insert tableName="products">
             <column name="title" value="Drone"/>
             <column name="price" value="799.99"/>
@@ -237,110 +286,128 @@
             <column name="description" value="True wireless earbuds with noise cancellation."/>
             <column name="category_id" value="4"/>
         </insert>
+
         <insert tableName="products">
             <column name="title" value="Amazon Echo Dot (4th Gen)"/>
             <column name="price" value="49.99"/>
             <column name="description" value="Smart speaker with Alexa voice assistant and compact design."/>
             <column name="category_id" value="4"/>
         </insert>
+
         <insert tableName="products">
             <column name="title" value="Fitbit Charge 4"/>
             <column name="price" value="149.99"/>
             <column name="description" value="Fitness and activity tracker with built-in GPS and heart rate monitoring."/>
             <column name="category_id" value="4"/>
         </insert>
+
         <insert tableName="products">
             <column name="title" value="DJI Mavic Air 2"/>
             <column name="price" value="799.99"/>
             <column name="description" value="Foldable drone with 4K camera, 34-minute flight time, and advanced obstacle avoidance."/>
             <column name="category_id" value="4"/>
         </insert>
+
         <insert tableName="products">
             <column name="title" value="Kindle Paperwhite"/>
             <column name="price" value="129.99"/>
             <column name="description" value="Waterproof e-reader with high-resolution display and adjustable backlight."/>
             <column name="category_id" value="4"/>
         </insert>
+
         <insert tableName="products">
             <column name="title" value="Tile Mate"/>
             <column name="price" value="24.99"/>
             <column name="description" value="Bluetooth tracker for finding keys, bags, and other items."/>
             <column name="category_id" value="4"/>
         </insert>
+
         <insert tableName="products">
             <column name="title" value="Oculus Quest 2"/>
             <column name="price" value="299.99"/>
             <column name="description" value="All-in-one virtual reality headset with 64GB storage and high-resolution display."/>
             <column name="category_id" value="4"/>
         </insert>
+
         <insert tableName="products">
             <column name="title" value="Samsung Galaxy Watch 5"/>
             <column name="price" value="249.99"/>
             <column name="description" value="Smartwatch with fitness tracking, ECG monitoring, and customizable watch faces."/>
             <column name="category_id" value="4"/>
         </insert>
-        <!--  Products in 'Gaming Consoles' category  -->
+
+        <!-- Products in 'Gaming Consoles' category -->
         <insert tableName="products">
             <column name="title" value="PlayStation 5 Console"/>
             <column name="price" value="499.99"/>
             <column name="description" value="Next-gen gaming console with ultra-high-speed SSD, ray tracing, and 4K gaming support."/>
             <column name="category_id" value="5"/>
         </insert>
+
         <insert tableName="products">
             <column name="title" value="Xbox Series X Console"/>
             <column name="price" value="499.99"/>
             <column name="description" value="Powerful gaming console with 12 teraflops of processing power and 4K gaming at up to 120 fps."/>
             <column name="category_id" value="5"/>
         </insert>
+
         <insert tableName="products">
             <column name="title" value="Nintendo Switch OLED Model"/>
             <column name="price" value="349.99"/>
             <column name="description" value="Enhanced Nintendo Switch console with vibrant OLED display and improved audio."/>
             <column name="category_id" value="5"/>
         </insert>
+
         <insert tableName="products">
             <column name="title" value="PlayStation 4 Pro"/>
             <column name="price" value="399.99"/>
             <column name="description" value="High-performance PlayStation console with 4K gaming and HDR technology."/>
             <column name="category_id" value="5"/>
         </insert>
+
         <insert tableName="products">
             <column name="title" value="XBOX ONE X 1 TB GEARS 5 "/>
             <column name="price" value="299.99"/>
             <column name="description" value="Xbox console with 4K gaming and HDR support, ideal for immersive gaming experiences."/>
             <column name="category_id" value="5"/>
         </insert>
+
         <insert tableName="products">
             <column name="title" value="Nintendo Switch Lite"/>
             <column name="price" value="199.99"/>
             <column name="description" value="Compact Nintendo Switch system dedicated to handheld play."/>
             <column name="category_id" value="5"/>
         </insert>
+
         <insert tableName="products">
             <column name="title" value="PlayStation VR Bundle"/>
             <column name="price" value="299.99"/>
             <column name="description" value="Virtual reality gaming headset for PlayStation with VR Worlds game bundle."/>
             <column name="category_id" value="5"/>
         </insert>
+
         <insert tableName="products">
             <column name="title" value="Xbox Series S Console"/>
             <column name="price" value="299.99"/>
             <column name="description" value="Next-gen gaming console with digital-only edition, high frame rates, and quick load times."/>
             <column name="category_id" value="5"/>
         </insert>
+
         <insert tableName="products">
             <column name="title" value="Nintendo Switch Neon Joy-Con"/>
             <column name="price" value="299.99"/>
             <column name="description" value="Versatile Nintendo Switch console with neon red and blue Joy-Con controllers."/>
             <column name="category_id" value="5"/>
         </insert>
+
         <insert tableName="products">
             <column name="title" value="PlayStation Vita"/>
             <column name="price" value="199.99"/>
             <column name="description" value="Handheld PlayStation console with high-resolution display and dual analog sticks."/>
             <column name="category_id" value="5"/>
         </insert>
-        <!--  Products in 'Audio' category  -->
+
+        <!-- Products in 'Audio' category -->
         <insert tableName="products">
             <column name="title" value="Bose QuietComfort 35 II"/>
             <column name="price" value="299.99"/>
@@ -401,7 +468,10 @@
             <column name="description" value="Luxurious over-ear headphones with noise cancellation."/>
             <column name="category_id" value="6"/>
         </insert>
-        <!--  Inserting Products for Computer Accessories  -->
+
+
+
+        <!-- Inserting Products for Computer Accessories -->
         <insert tableName="products">
             <column name="title" value="Logitech MX Master 3"/>
             <column name="price" value="99.99"/>
@@ -462,382 +532,1021 @@
             <column name="description" value="Ergonomic metal laptop stand for desk organization."/>
             <column name="category_id" value="7"/>
         </insert>
-        <insert tableName="products">
-            <column name="title" value="Iphone 15 Pro Max"/>
-            <column name="price" value="1479.99"/>
-            <column name="description" value="The iPhone 15 Pro display has rounded corners that follow a beautiful curved design, and these corners are within a standard rectangle."/>
-            <column name="category_id" value="5"/>
-        </insert>
-        <!--  Inserting Pictures  -->
-        <!--  For Games Category  -->
+
+
+        <!-- Inserting Pictures -->
+
+        <!-- Inserting Pictures for products in 'Games' category -->
+        <!--        <insert tableName="pictures">-->
+        <!--            <column name="url" value="https://static.tildacdn.com/stor6335-3863-4561-b736-656135343937/37808592.png"/>-->
+        <!--            <column name="product_id" value="1"/>-->
+        <!--            <column name="category_id" value="1"/> &lt;!&ndash; Adding category_id for The Witcher 3: Wild Hunt &ndash;&gt;-->
+        <!--        </insert>-->
+
+
         <!--  The Witcher 3: Wild Hunt  -->
         <insert tableName="pictures">
             <column name="url" value="https://static.tildacdn.com/stor6335-3863-4561-b736-656135343937/37808592.png"/>
             <column name="product_id" value="1"/>
+            <column name="category_id" value="1"/>
         </insert>
         <insert tableName="pictures">
             <column name="url" value="https://i.ebayimg.com/images/g/3nwAAOSwqNllxUPm/s-l1600.jpg"/>
             <column name="product_id" value="1"/>
+            <column name="category_id" value="1"/>
         </insert>
         <insert tableName="pictures">
             <column name="url" value="https://i.ebayimg.com/images/g/2cQAAOSwVrBlmpBP/s-l1600.jpg"/>
             <column name="product_id" value="1"/>
+            <column name="category_id" value="1"/>
         </insert>
-        <!--  Red Dead Redemption 2  -->
+        <!-- Red Dead Redemption 2  -->
         <insert tableName="pictures">
             <column name="url" value="https://avatars.mds.yandex.net/get-marketpic/1855404/pic6c7e5e2b3a630089336063453a21557d/orig"/>
             <column name="product_id" value="2"/>
+            <column name="category_id" value="1"/>
         </insert>
-        <!--  FIFA 22  -->
+        <insert tableName="pictures">
+            <column name="url" value="https://pic.rutubelist.ru/video/97/fc/97fce4c4c1a4b8a4f3e622cf467e231b.jpg"/>
+            <column name="product_id" value="2"/>
+            <column name="category_id" value="1"/>
+        </insert>
+        <insert tableName="pictures">
+            <column name="url" value="https://www.digiseller.ru/preview/916981/p1_3450880_3290c8be.png"/>
+            <column name="product_id" value="2"/>
+            <column name="category_id" value="1"/>
+        </insert>
+
+        <!-- FIFA 22  -->
         <insert tableName="pictures">
             <column name="url" value="https://assets.mmsrg.com/isr/166325/c1/-/ASSET_MMS_91803343"/>
             <column name="product_id" value="3"/>
+            <column name="category_id" value="1"/> <!-- Adding category_id for FIFA 22 -->
         </insert>
-        <!--  Cyberpunk 2077  -->
+        <insert tableName="pictures">
+            <column name="url" value="https://p2.trrsf.com/image/fget/cf/1200/1600/middle/images.terra.com/2021/10/01/fifa-05.jpg"/>
+            <column name="product_id" value="3"/>
+            <column name="category_id" value="1"/>
+        </insert>
+        <insert tableName="pictures">
+            <column name="url" value="https://graph.digiseller.ru/img.ashx?id_d=3298961"/>
+            <column name="product_id" value="3"/>
+            <column name="category_id" value="1"/>
+        </insert>
+        <!--        Cyberpunk 2077-->
         <insert tableName="pictures">
             <column name="url" value="https://expressgame.com.ar/wp-content/uploads/2021/11/cyberpunk2077.png"/>
             <column name="product_id" value="4"/>
+            <column name="category_id" value="1"/> <!-- Adding category_id for Cyberpunk 2077 -->
         </insert>
-        <!--  Assassin's Creed Valhalla  -->
+        <insert tableName="pictures">
+            <column name="url" value="https://i.pinimg.com/originals/5b/53/1a/5b531a7ca5566ff8873d15796d419e7f.png"/>
+            <column name="product_id" value="4"/>
+            <column name="category_id" value="1"/>
+        </insert>
+        <insert tableName="pictures">
+            <column name="url" value="https://img2.wtftime.ru/store/2019/08/27/u5anPS0h.jpg"/>
+            <column name="product_id" value="4"/>
+            <column name="category_id" value="1"/>
+        </insert>
+        <!--        Assassin's Creed Valhalla-->
         <insert tableName="pictures">
             <column name="url" value="https://exotique.com.mt/wp-content/uploads/2020/12/Assassins-Creed-Valhalla-PS5.jpg"/>
             <column name="product_id" value="5"/>
+            <column name="category_id" value="1"/> <!-- Adding category_id for Assassin's Creed Valhalla -->
         </insert>
-        <!-- The Last of Us Part II  -->
+        <insert tableName="pictures">
+            <column name="url" value=""/>
+            <column name="product_id" value="5"/>
+            <column name="category_id" value="1"/>
+        </insert>
+        <insert tableName="pictures">
+            <column name="url" value=""/>
+            <column name="product_id" value="5"/>
+            <column name="category_id" value="1"/>
+        </insert>
+        <!--        The Last of Us Part II-->
         <insert tableName="pictures">
             <column name="url" value="https://rukminim1.flixcart.com/image/850/1000/kb2jmvk0/physical-game/h/w/j/standard-edition-the-last-of-us-part-ii-full-game-ps4-original-imafshumrqn3kzbh.jpeg?q=90"/>
             <column name="product_id" value="6"/>
+            <column name="category_id" value="1"/>
         </insert>
-        <!--  Super Mario Odyssey  -->
+        <insert tableName="pictures">
+            <column name="url" value=""/>
+            <column name="product_id" value="6"/>
+            <column name="category_id" value="1"/>
+        </insert>
+        <insert tableName="pictures">
+            <column name="url" value=""/>
+            <column name="product_id" value="6"/>
+            <column name="category_id" value="1"/>
+        </insert>
+        <!-- Adding category_id for Super Mario Odyssey -->
         <insert tableName="pictures">
             <column name="url" value="https://i.ebayimg.com/images/g/~HAAAOSwfCtfX5cY/s-l1600.jpg"/>
             <column name="product_id" value="7"/>
+            <column name="category_id" value="1"/>
         </insert>
-        <!--  Minecraft  -->
+
         <insert tableName="pictures">
             <column name="url" value="https://digiseller.com/preview/1198809/p1_3847412_b8c685b4.jpg"/>
             <column name="product_id" value="8"/>
+            <column name="category_id" value="1"/> <!-- Adding category_id for Minecraft -->
         </insert>
-        <!--  Call of Duty: Modern Warfare  -->
+
         <insert tableName="pictures">
             <column name="url" value="https://nextgame.net/upload/iblock/adb/ze7ffn35609daqo5wxh5nas0e3y2zr86.jpg"/>
             <column name="product_id" value="9"/>
+            <column name="category_id" value="1"/> <!-- Adding category_id for Call of Duty: Modern Warfare -->
         </insert>
-        <!--  Spider-Man: Miles Morales  -->
+
         <insert tableName="pictures">
             <column name="url" value="https://hires.com.ua/content/images/33/1177x1500l80mc0/igra-marvel-spider-man-miles-morales-ultimate-edition-ps5-russkaya-versiya-81854035814623.jpg"/>
             <column name="product_id" value="10"/>
+            <column name="category_id" value="1"/> <!-- Adding category_id for Spider-Man: Miles Morales -->
         </insert>
-        <!--  For Electronics Category  -->
-        <!--         Samsung Ultra Galaxy -->
+
+        <!-- For Electronics Category -->
+        <!-- Samsung Ultra Galaxy -->
         <insert tableName="pictures">
             <column name="url" value="https://i.ytimg.com/vi/BAymItSmHoc/maxresdefault.jpg"/>
             <column name="product_id" value="11"/>
+            <column name="category_id" value="2"/> <!-- Electronics category -->
         </insert>
-        <!--         Laptop -->
+
+        <!-- Laptop -->
         <insert tableName="pictures">
             <column name="url" value="https://83.img.avito.st/image/1/Ykr3k7a_zqOBPVyrv5ZVXn8wyKlJ8MExSzDMpU82zKNDdg"/>
             <column name="product_id" value="12"/>
+            <column name="category_id" value="2"/> <!-- Electronics category -->
         </insert>
-        <!--          Smart TV -->
+
+        <!-- Smart TV -->
         <insert tableName="pictures">
             <column name="url" value="https://cdn0.youla.io/files/images/780_780/60/77/607707326ee246096e0f04ee-1.jpg"/>
             <column name="product_id" value="13"/>
+            <column name="category_id" value="2"/> <!-- Electronics category -->
         </insert>
-        <!--         washing machine -->
+
+        <!-- Washing Machine -->
         <insert tableName="pictures">
             <column name="url" value="https://d.428.ua/img/1414275/3000/2000/stiralnaya_mashina_gorenje_wp703~2200~3036.jpg"/>
             <column name="product_id" value="14"/>
+            <column name="category_id" value="2"/> <!-- Home Appliances category -->
         </insert>
-        <!--         microwave oven -->
+
+        <!-- Microwave Oven -->
         <insert tableName="pictures">
             <column name="url" value="https://i1.stat01.com/2/3795/137943405/075a3e/supra-20ts42.png"/>
             <column name="product_id" value="15"/>
+            <column name="category_id" value="2"/> <!-- Home Appliances category -->
         </insert>
-        <!--         vacuum cleaner -->
+
+        <!-- Vacuum Cleaner -->
         <insert tableName="pictures">
             <column name="url" value="https://www.covybrat.cz/wp-content/uploads/2019/01/Philips-PowerPro-Duo-FC6168-01-300x300.jpg"/>
             <column name="product_id" value="16"/>
+            <column name="category_id" value="2"/> <!-- Home Appliances category -->
         </insert>
-        <!--         Refrigerator -->
+
+        <!-- Refrigerator -->
         <insert tableName="pictures">
             <column name="url" value="https://mile.by/images/cache/_thumb_900x900xin_upload_iblock_234_1447978_1.jpg"/>
             <column name="product_id" value="17"/>
+            <column name="category_id" value="2"/> <!-- Home Appliances category -->
         </insert>
-        <!--         xerox -->
+
+        <!-- Xerox -->
         <insert tableName="pictures">
             <column name="url" value="https://www.stptexas.com/sites/default/files/styles/advanced_blog/public/image-uploads/Website%20Banners-59-min-2-min.png?itok=h1CHfs8e"/>
             <column name="product_id" value="18"/>
+            <column name="category_id" value="2"/> <!-- Office Equipment category -->
         </insert>
-        <!--         computer speakers -->
+
+        <!-- Computer Speakers -->
         <insert tableName="pictures">
             <column name="url" value="https://cache3.youla.io/files/images/780_780/59/5d/595de78eaaab280efa2c8412.jpg"/>
             <column name="product_id" value="19"/>
+            <column name="category_id" value="2"/> <!-- Electronics category -->
         </insert>
-        <!--         fan -->
+
+        <!-- Fan -->
         <insert tableName="pictures">
             <column name="url" value="https://i.yavitrina.ru/nastolnyi-metallicheskii-usb-ventilyator-mini-fan-255296220"/>
             <column name="product_id" value="20"/>
+            <column name="category_id" value="2"/> <!-- Home Appliances category -->
         </insert>
-        <!--  Desktop Computer  -->
+
+        <!-- Desktop Computer -->
         <insert tableName="pictures">
             <column name="url" value="https://img01.kupiprodai.ru/122020/1607786836359.jpeg"/>
             <column name="product_id" value="21"/>
+            <column name="category_id" value="3"/> <!-- Electronics category -->
         </insert>
-        <!--  UltraWide Monitor  -->
+
+        <!-- UltraWide Monitor -->
         <insert tableName="pictures">
             <column name="url" value="https://psymedia.co.za/wp-content/uploads/Dell-U3818DW-1305x1536.jpg"/>
             <column name="product_id" value="22"/>
+            <column name="category_id" value="3"/> <!-- Electronics category -->
         </insert>
-        <!--  Product: Gaming Laptop  -->
+
+        <!-- Gaming Laptop -->
         <insert tableName="pictures">
             <column name="url" value="https://i0.wp.com/bhojpurijalwa.com/wp-content/uploads/2023/09/cropped-GAMING-LAPTOP.jpg"/>
             <column name="product_id" value="23"/>
+            <column name="category_id" value="3"/> <!-- Electronics category -->
         </insert>
-        <!--  Razer Blade 15 Advanced  -->
+
+        <!-- Razer Blade 15 Advanced -->
         <insert tableName="pictures">
             <column name="url" value="https://mcsolution.com.bd/wp-content/uploads/2022/06/razer-blade-17-2022-price.webp"/>
             <column name="product_id" value="24"/>
+            <column name="category_id" value="3"/> <!-- Electronics category -->
         </insert>
-        <!--  Apple Mac 27-inch   -->
+
+        <!-- Apple Mac 27-inch -->
         <insert tableName="pictures">
             <column name="url" value="https://www.itronic.fi/images/banners/GBEN_iMac_1.jpg"/>
             <column name="product_id" value="25"/>
+            <column name="category_id" value="3"/> <!-- Electronics category -->
         </insert>
 
-        <!--  HP Envy 13  -->
+        <!-- HP Envy 13 -->
         <insert tableName="pictures">
             <column name="url" value="https://image3.mouthshut.com/images/Restaurant/Photo/-67961_197047.jpg"/>
             <column name="product_id" value="26"/>
+            <column name="category_id" value="3"/> <!-- Electronics category -->
         </insert>
-        <!--  "Dell G5 Gaming Desktop  -->
+
+        <!-- Dell G5 Gaming Desktop -->
         <insert tableName="pictures">
             <column name="url" value="https://main-cdn.sbermegamarket.ru/hlr-system/-75/915/338/933/012/6/100028321112b0.jpg"/>
             <column name="product_id" value="27"/>
+            <column name="category_id" value="3"/> <!-- Electronics category -->
         </insert>
-        <!--  Lenovo ThinkPad X1 Carbon -->
+
+        <!-- Lenovo ThinkPad X1 Carbon -->
         <insert tableName="pictures">
             <column name="url" value="https://helpica.ru/wp-content/uploads/a/c/d/acd955f65f517442d384c60a34c69142.jpeg"/>
             <column name="product_id" value="28"/>
+            <column name="category_id" value="3"/> <!-- Office Equipment category -->
         </insert>
-        <!--  Microsoft Surface Laptop 4 -->
+
+        <!-- Microsoft Surface Laptop 4 -->
         <insert tableName="pictures">
             <column name="url" value="https://topmobile.by/image/cache/catalog/image/cache/catalog/planshety_microsoft_surface_pro_x_wi_fi_8gb_256gb/1_0_743-1000x1340.webp"/>
             <column name="product_id" value="29"/>
+            <column name="category_id" value="3"/> <!-- Electronics category -->
         </insert>
-        <!--  Gigabyte Aorus 15G  -->
+
+        <!-- Gigabyte Aorus 15G -->
         <insert tableName="pictures">
             <column name="url" value="https://microless.com/cdn/products/d7f318a269f28029741914c399c5c74a-hi.jpg"/>
             <column name="product_id" value="30"/>
+            <column name="category_id" value="3"/> <!-- Electronics category -->
         </insert>
-        <!--   'Gadgets' category  -->
-        <!-- Drone  -->
+
+        <!-- Drone -->
         <insert tableName="pictures">
             <column name="url" value="https://avatars.mds.yandex.net/get-mpic/11763878/2a0000018b14df672597b1edf8e9bb033bc7/orig"/>
             <column name="product_id" value="31"/>
+            <column name="category_id" value="4"/> <!-- Electronics category -->
         </insert>
+
         <!-- Virtual Reality Headset -->
         <insert tableName="pictures">
             <column name="url" value="https://basket-02.wbbasket.ru/vol264/part26451/26451788/images/big/2.webp"/>
             <column name="product_id" value="32"/>
+            <column name="category_id" value="4"/> <!-- Electronics category -->
         </insert>
-        <!--  Wireless Earbuds  -->
+
+        <!-- Wireless Earbuds -->
         <insert tableName="pictures">
             <column name="url" value="https://media.karousell.com/media/photos/products/2020/5/30/enacfire_e18_plus_wireless_ear_1590846360_a0ca3cdc_progressive.jpg"/>
             <column name="product_id" value="33"/>
+            <column name="category_id" value="4"/> <!-- Electronics category -->
         </insert>
-        <!--  Amazon Echo Dot (4th Gen)  -->
+
+        <!-- Amazon Echo Dot (4th Gen) -->
         <insert tableName="pictures">
             <column name="url" value="https://cdn.mos.cms.futurecdn.net/aVDopizqRaE7XuuwP7AyfD.jpg"/>
             <column name="product_id" value="34"/>
+            <column name="category_id" value="4"/> <!-- Electronics category -->
         </insert>
-        <!--  Fitbit Charge 4  -->
+
+        <!-- Fitbit Charge 4 -->
         <insert tableName="pictures">
             <column name="url" value="https://m.media-amazon.com/images/I/71QJF4hIPBL._AC_SL1500_.jpg"/>
             <column name="product_id" value="35"/>
+            <column name="category_id" value="4"/> <!-- Fitness category -->
         </insert>
-        <!--  Produc"DJI Mavic Air 2  -->
+
+        <!-- DJI Mavic Air 2 -->
         <insert tableName="pictures">
             <column name="url" value="https://90.img.avito.st/image/1/1.RV1Dh7a56bR1LiuxRYoGE5Ik7773pOF28iTrsP8u47Y.z5G_ZG3QKWC4wZtlddP0YIfSPzHiivNBUNUwMC40akA"/>
             <column name="product_id" value="36"/>
+            <column name="category_id" value="4"/> <!-- Drones category -->
         </insert>
-        <!--  "Kindle Paperwhite  -->
+
+        <!-- Kindle Paperwhite -->
         <insert tableName="pictures">
             <column name="url" value="https://avatars.mds.yandex.net/get-mpic/5210681/img_id3063265270530109618.jpeg/orig"/>
             <column name="product_id" value="37"/>
+            <column name="category_id" value="4"/> <!-- E-Readers category -->
         </insert>
-        <!-- Tile Mate  -->
+
+        <!-- Tile Mate -->
         <insert tableName="pictures">
             <column name="url" value="https://i.pinimg.com/originals/5f/12/d3/5f12d3ac883bb7e8b7c5f0eb587392bb.png"/>
             <column name="product_id" value="38"/>
+            <column name="category_id" value="4"/> <!-- Gadgets category -->
         </insert>
-        <!--  Oculus Quest 2  -->
+
+        <!-- Oculus Quest 2 -->
         <insert tableName="pictures">
             <column name="url" value="https://avatars.dzeninfra.ru/get-zen_doc/4909844/pub_64059f72976ffe173b009664_6405a68f9949f4747d6997eb/scale_1200"/>
             <column name="product_id" value="39"/>
+            <column name="category_id" value="4"/>
         </insert>
-        <!--  Samsung Galaxy Watch 5  -->
+
+        <!-- Electronics category -->
+        <!-- Samsung Galaxy Watch 5 -->
         <insert tableName="pictures">
             <column name="url" value="https://avatars.mds.yandex.net/get-mpic/4590616/img_id9183412016922980999.jpeg/orig"/>
             <column name="product_id" value="40"/>
+            <column name="category_id" value="4"/> <!-- Wearables category -->
         </insert>
-        <!--  PlayStation 5 Console  -->
+
+        <!-- PlayStation 5 Console -->
         <insert tableName="pictures">
             <column name="url" value="https://www.ixbt.com/img/n1/news/2020/5/5/EaQsMQZXgAMC-cN_large.jpg"/>
             <column name="product_id" value="41"/>
+            <column name="category_id" value="5"/> <!-- Gaming Consoles category -->
         </insert>
-        <!--  Xbox Series X Console  -->
+
+        <!-- Xbox Series X Console -->
         <insert tableName="pictures">
             <column name="url" value="https://cdn1.ozone.ru/s3/multimedia-y/6675656578.jpg"/>
             <column name="product_id" value="42"/>
+            <column name="category_id" value="5"/> <!-- Gaming Consoles category -->
         </insert>
-        <!--  Nintendo Switch OLED Model  -->
+
+        <!-- Nintendo Switch OLED Model -->
         <insert tableName="pictures">
             <column name="url" value="https://cdn1.ozone.ru/s3/multimedia-d/6739294477.jpg"/>
             <column name="product_id" value="43"/>
+            <column name="category_id" value="5"/> <!-- Gaming Consoles category -->
         </insert>
-        <!--  PlayStation 4 Pro -->
+
+        <!-- PlayStation 4 Pro -->
         <insert tableName="pictures">
             <column name="url" value="https://johnlewis.scene7.com/is/image/JohnLewis/237231759?$rsp-pdp-port-1440$"/>
             <column name="product_id" value="44"/>
+            <column name="category_id" value="5"/> <!-- Gaming Consoles category -->
         </insert>
-        <!--  XBOX ONE X 1 TB GEARS 5  -->
+
+        <!-- XBOX ONE X 1 TB GEARS 5 -->
         <insert tableName="pictures">
             <column name="url" value="https://gamescollection.com.ua/wp-content/uploads/yapb_cache/xbox_one_x_1.d9njdvoxnxcgkwc04kcsskgos.a5t19c1lt1c0cgc808kcg088o.th.jpeg"/>
             <column name="product_id" value="45"/>
+            <column name="category_id" value="5"/> <!-- Gaming Consoles category -->
         </insert>
-        <!--  Nintendo Switch Lite -->
+
+        <!-- Nintendo Switch Lite -->
         <insert tableName="pictures">
             <column name="url" value="https://images-na.ssl-images-amazon.com/images/I/41o-FDQ2lgL._SS1024_.jpg"/>
             <column name="product_id" value="46"/>
+            <column name="category_id" value="5"/> <!-- Gaming Consoles category -->
         </insert>
-        <!--  PlayStation VR Bundle -->
+
+        <!-- PlayStation VR Bundle -->
         <insert tableName="pictures">
             <column name="url" value="https://cdn.gameplanet.com/wp-content/uploads/2022/08/31064154/playstation-4-vr-worlds-bundle_3.jpg"/>
             <column name="product_id" value="47"/>
+            <column name="category_id" value="5"/> <!-- Gaming Consoles category -->
         </insert>
-        <!--  Xbox Series S Console  -->
+
+        <!-- Xbox Series S Console -->
         <insert tableName="pictures">
             <column name="url" value="https://www.shinestar.es/9123-thickbox_default/XSMMWNW.jpg"/>
             <column name="product_id" value="48"/>
+            <column name="category_id" value="5"/> <!-- Gaming Consoles category -->
         </insert>
-        <!--  Nintendo Switch Neon Joy-Con -->
+
+        <!-- Nintendo Switch Neon Joy-Con -->
         <insert tableName="pictures">
             <column name="url" value="https://www.gamebuy.ru/sites/default/files/imagecache/screenshot_1280/2_24.jpg"/>
             <column name="product_id" value="49"/>
+            <column name="category_id" value="5"/> <!-- Gaming Consoles category -->
         </insert>
-        <!-- PlayStation Vita  -->
+
+        <!-- PlayStation Vita -->
         <insert tableName="pictures">
             <column name="url" value="https://cdn.gameplanet.com/wp-content/uploads/2022/08/26221639/gatillos-laterales-playstation-vita-slim-pdp-2-1.jpg"/>
             <column name="product_id" value="50"/>
+            <column name="category_id" value="5"/> <!-- Gaming Consoles category -->
         </insert>
-        <!--  Bose QuietComfort 35 II  -->
+
+        <!-- Bose QuietComfort 35 II -->
         <insert tableName="pictures">
             <column name="url" value="https://static.giga.de/wp-content/uploads/2019/03/Bose-QuietComfort-35-ii-qc-set-giga20190313-d020-3.jpg"/>
             <column name="product_id" value="51"/>
+            <column name="category_id" value="6"/> <!-- Headphones category -->
         </insert>
-        <!--  Sony WH-1000XM4  -->
+
+        <!-- Sony WH-1000XM4 -->
         <insert tableName="pictures">
             <column name="url" value="https://www.slashgear.com/img/gallery/sony-noise-canceling-headphones-amazon-prime-day-2020-wh-1000xm4-wf-1000xm3/intro-import.jpg"/>
             <column name="product_id" value="52"/>
+            <column name="category_id" value="6"/> <!-- Headphones category -->
         </insert>
-        <!--  Jabra Elite 85h  -->
+
+        <!-- Jabra Elite 85h -->
         <insert tableName="pictures">
             <column name="url" value="https://i.pinimg.com/736x/fe/cf/5f/fecf5fa41ecf11c7e9f7815631e8ada7.jpg"/>
             <column name="product_id" value="53"/>
+            <column name="category_id" value="6"/> <!-- Headphones category -->
         </insert>
-        <!--  Sennheiser Momentum 3 Wireless  -->
+
+        <!-- Sennheiser Momentum 3 Wireless -->
         <insert tableName="pictures">
             <column name="url" value="https://doctorhead.ru/upload/resize_cache/iblock/7b6/ynr9s1w3dw8ywbkqdbookbhccqzspejs/676_560_1/sennheiser_momentum_3_21.jpg"/>
             <column name="product_id" value="54"/>
+            <column name="category_id" value="6"/> <!-- Headphones category -->
         </insert>
-        <!--  Apple AirPods Pro  -->
+
+        <!-- Apple AirPods Pro -->
         <insert tableName="pictures">
             <column name="url" value="https://itunite.ru/upload/iblock/32a/32a49ff646c2d7d6e87d13cc77a3c51e.jpg"/>
             <column name="product_id" value="55"/>
+            <column name="category_id" value="6"/> <!-- Headphones category -->
         </insert>
-        <!--  Bose SoundSport Free  -->
+
+        <!-- Bose SoundSport Free -->
         <insert tableName="pictures">
             <column name="url" value="https://www.icover.ru/upload/iblock/4e7/4e7349f3a76eee264eb579990d397429.jpg"/>
             <column name="product_id" value="56"/>
+            <column name="category_id" value="6"/> <!-- Headphones category -->
         </insert>
-        <!--  Sony WF-1000XM3  -->
+
+        <!-- Sony WF-1000XM3 -->
         <insert tableName="pictures">
             <column name="url" value="https://i.pinimg.com/originals/3f/b2/6d/3fb26d9729acc2a6ac0b3ec8f3cfd1fa.jpg"/>
             <column name="product_id" value="57"/>
+            <column name="category_id" value="6"/> <!-- Headphones category -->
         </insert>
-        <!--  Jabra Elite 75t  -->
+
+        <!-- Jabra Elite 75t -->
         <insert tableName="pictures">
             <column name="url" value="https://cdn1.ozone.ru/s3/multimedia-y/6062744722.jpg"/>
             <column name="product_id" value="58"/>
+            <column name="category_id" value="6"/> <!-- Headphones category -->
         </insert>
-        <!--  Sennheiser PXC 550-II  -->
+
+        <!-- Sennheiser PXC 550-II -->
         <insert tableName="pictures">
             <column name="url" value="https://i2.wp.com/itc.ua/wp-content/uploads/2020/07/dsc_0085.jpg"/>
             <column name="product_id" value="59"/>
+            <column name="category_id" value="6"/> <!-- Headphones category -->
         </insert>
-        <!--  Bang & Olufsen Beoplay H9  -->
+
+        <!-- Bang & Olufsen Beoplay H9 -->
         <insert tableName="pictures">
             <column name="url" value="https://audio-technica-shop.ru/image/cache/catalog/0708/besprovodnye-naushniki-bang-and-olufsen-beoplay-h9i-natural-100024277492-1000x1000.jpg"/>
             <column name="product_id" value="60"/>
+            <column name="category_id" value="6"/> <!-- Headphones category -->
         </insert>
-        <!--  Inserting Products for Computer Accessories  -->
-        <!--  Logitech MX Master 3"  -->
+
+        <!-- Inserting Products for Computer Accessories -->
+
+        <!-- Logitech MX Master 3 -->
         <insert tableName="pictures">
             <column name="url" value="https://images.merstatic.com/imgcache/resized/images/offer/2022/10/23/513270_635467f0c821a.jpeg"/>
             <column name="product_id" value="61"/>
+            <column name="category_id" value="7"/>
         </insert>
-        <!--  Corsair K95 RGB Platinu  -->
+
+        <!-- Corsair K95 RGB Platinum -->
         <insert tableName="pictures">
             <column name="url" value="https://thepcenthusiast.com/wp-content/uploads/2020/01/Corsair-K95-RGB-Platinum-XT-Review.jpg"/>
             <column name="product_id" value="62"/>
+            <column name="category_id" value="7"/>
         </insert>
-        <!--  Razer Goliathus Speed  -->
+
+        <!-- Razer Goliathus Speed -->
         <insert tableName="pictures">
             <column name="url" value="https://fragstore.ru/images/detailed/63/d5ead4ca067711e8aa8d000c29ce8270_d5ead4cc067711e8aa8d000c29ce8270.png"/>
             <column name="product_id" value="63"/>
+            <column name="category_id" value="7"/>
         </insert>
-        <!--  Anker PowerCore 10000  -->
+
+        <!-- Anker PowerCore 10000 -->
         <insert tableName="pictures">
-            <column name="url" value="Anker PowerCore 10000"/>
+            <column name="url" value="https://example.com/path/to/anker_powercore_10000_image.jpg"/>
             <column name="product_id" value="64"/>
+            <column name="category_id" value="7"/>
         </insert>
-        <!-- SanDisk Extreme Pro  -->
+
+        <!-- SanDisk Extreme Pro -->
         <insert tableName="pictures">
             <column name="url" value="https://ogo1.ru/upload/iblock/052/o4w9xkz9b8vxcz0vjygu1l6pdjm19o1y.jpeg"/>
             <column name="product_id" value="65"/>
+            <column name="category_id" value="7"/>
         </insert>
-        <!--  Belkin USB-C Hub  -->
+
+        <!-- Belkin USB-C Hub -->
         <insert tableName="pictures">
             <column name="url" value="https://cdn1.ozone.ru/s3/multimedia-f/6838661427.jpg"/>
             <column name="product_id" value="66"/>
+            <column name="category_id" value="7"/>
         </insert>
-        <!--  sandisk extreme portable ssd -->
+
+        <!-- Sandisk Extreme Portable SSD -->
         <insert tableName="pictures">
             <column name="url" value="https://avshop.ru/images/upload/3df/3df56eb3f066053434e90f67b967978f.webp"/>
             <column name="product_id" value="67"/>
+            <column name="category_id" value="7"/>
         </insert>
-        <!--  Logitech G Pro X Gaming Headset  -->
+
+        <!-- Logitech G Pro X Gaming Headset -->
         <insert tableName="pictures">
             <column name="url" value="https://ae01.alicdn.com/kf/S0a07dc7c9e1f4927a2b308ecb8070d75J/Logitech-G-PRO-X-Wireless-Gaming-Headphone-GPX-7-1-Surround-For-All-Gamer-Headset-With.jpg_Q90.jpg_.webp"/>
             <column name="product_id" value="68"/>
+            <column name="category_id" value="7"/>
         </insert>
-        <!--  Microsoft Sculpt Ergonomic Keyboard  -->
+
+        <!-- Microsoft Sculpt Ergonomic Keyboard -->
         <insert tableName="pictures">
             <column name="url" value="https://i.ebayimg.com/images/g/Q-gAAOSw96ZhB1HW/s-l1600.jpg"/>
             <column name="product_id" value="69"/>
+            <column name="category_id" value="7"/>
         </insert>
-        <!--  AmazonBasics Laptop Stand  -->
+
+        <!-- AmazonBasics Laptop Stand -->
         <insert tableName="pictures">
             <column name="url" value="https://img.buzzfeed.com/buzzfeed-static/static/2020-01/13/6/asset/d85d7813f32c/sub-buzz-2284-1578895774-4.jpg"/>
             <column name="product_id" value="70"/>
+            <column name="category_id" value="7"/>
         </insert>
         <!-- Product: Iphone 15 Pro Max -->
+        <insert tableName="products">
+            <column name="title" value="Iphone 15 Pro Max"/>
+            <column name="price" value="1479.99"/>
+            <column name="description" value="The iPhone 15 Pro display has rounded corners that follow a beautiful curved design, and these corners are within a standard rectangle."/>
+            <column name="category_id" value="2"/>
+        </insert>
+
         <insert tableName="pictures">
             <column name="url" value="https://cdn.mos.cms.futurecdn.net/b7HJX9i4gGiecMMxbAdFBU-1200-80.jpg"/>
             <column name="product_id" value="71"/>
         </insert>
-        <!--  Вставка ролей  -->
+
+
+
+        <!-- Fallout 4 -->
+        <insert tableName="products">
+            <column name="title" value=" Fallout 4 "/>
+            <column name="price" value="39.49"/>
+            <column name="description" value=" Fallout 4  ."/>
+            <column name="category_id" value="1"/>
+        </insert>
+
+        <insert tableName="pictures">
+            <column name="url" value="https://icegames.store/f22c1da8-03ff-4dc5-a10b-71d1ea907fc9.jpg"/>
+            <column name="product_id" value="72"/>
+            <column name="category_id" value="1"/>
+        </insert>
+
+        <!--Horizon Zero Dawn-->
+        <insert tableName="products">
+            <column name="title" value="Horizon Zero Dawn "/>
+            <column name="price" value="39.49"/>
+            <column name="description" value="Horizon Zero Dawn ."/>
+            <column name="category_id" value="1"/>
+        </insert>
+
+        <insert tableName="pictures">
+            <column name="url" value="https://i.pinimg.com/originals/21/78/9f/21789fa4cd6b75b2e7f964ad607cc360.jpg"/>
+            <column name="product_id" value="73"/>
+            <column name="category_id" value="1"/>
+        </insert>
+
+        <!--PlayerUnknown's Battlegrounds -->
+        <insert tableName="products">
+            <column name="title" value="PlayerUnknown's Battlegrounds "/>
+            <column name="price" value="72.49"/>
+            <column name="description" value="PlayerUnknown's Battlegrounds."/>
+            <column name="category_id" value="1"/>
+        </insert>
+
+        <insert tableName="pictures">
+            <column name="url" value="https://cdn.skidka-msk.ru/images/prodacts/sourse/65921/65921437_pubg-corporation-playerunknowns-battleground-pc-tsifrovaya-versiya.jpg"/>
+            <column name="product_id" value="74"/>
+            <column name="category_id" value="1"/>
+        </insert>
+
+        <!--JustCause3-->
+        <insert tableName="products">
+            <column name="title" value="JustCause3 "/>
+            <column name="price" value="22.49"/>
+            <column name="description" value="JustCause3."/>
+            <column name="category_id" value="1"/>
+        </insert>
+
+        <insert tableName="pictures">
+            <column name="url" value="https://www.1c-interes.ru/images/2018/08/27160421_JustCause3_PC.jpg"/>
+            <column name="product_id" value="75"/>
+            <column name="category_id" value="1"/>
+        </insert>
+
+        <!--Tomb Raider-->
+        <insert tableName="products">
+            <column name="title" value="Tomb Raider "/>
+            <column name="price" value="29.99"/>
+            <column name="description" value="Tomb Raider."/>
+            <column name="category_id" value="1"/>
+        </insert>
+
+        <insert tableName="pictures">
+            <column name="url" value="https://i.playground.ru/e/U1-0ycjdNI2QyAwllbuBcw.jpeg"/>
+            <column name="product_id" value="76"/>
+            <column name="category_id" value="1"/>
+        </insert>
+
+        <!-- Shadow of the Tomb Raider-->
+        <insert tableName="products">
+            <column name="title" value=" Shadow of the Tomb Raider "/>
+            <column name="price" value="29.99"/>
+            <column name="description" value=" Shadow of the Tomb Raider."/>
+            <column name="category_id" value="1"/>
+        </insert>
+
+        <insert tableName="pictures">
+            <column name="url" value="https://basket-10.wb.ru/vol1585/part158599/158599742/images/big/1.jpg"/>
+            <column name="product_id" value="77"/>
+            <column name="category_id" value="1"/>
+        </insert>
+
+        <!-- battlefield 5-->
+        <insert tableName="products">
+            <column name="title" value=" Battlefield 5 "/>
+            <column name="price" value="110.99"/>
+            <column name="description" value=" Battlefield 5."/>
+            <column name="category_id" value="1"/>
+        </insert>
+
+        <insert tableName="pictures">
+            <column name="url" value="https://www.digiseller.ru/preview/1018188/p1_3190078_3b171dba.jpg"/>
+            <column name="product_id" value="78"/>
+            <column name="category_id" value="1"/>
+        </insert>
+
+        <!-- Lord of fallen-->
+        <insert tableName="products">
+            <column name="title" value="Lord of fallen"/>
+            <column name="price" value="40.99"/>
+            <column name="description" value="Lord of fallen."/>
+            <column name="category_id" value="1"/>
+        </insert>
+
+        <insert tableName="pictures">
+            <column name="url" value="https://8bit.sale/wp-content/uploads/2020/07/videoigra-lords-of-the-fallen-polnoe-izdanie-complete-edition-russkaya-versiya-xbox-one.jpg"/>
+            <column name="product_id" value="79"/>
+            <column name="category_id" value="1"/>
+        </insert>
+
+
+
+        <!--Doom-->
+        <insert tableName="products">
+            <column name="title" value="Doom-"/>
+            <column name="price" value="50.99"/>
+            <column name="description" value="Doom-."/>
+            <column name="category_id" value="1"/>
+        </insert>
+
+        <insert tableName="pictures">
+            <column name="url" value="https://icegames.store/71b7ddc5-2d1c-4c6f-ab1f-e3b7e83403a2.jpg"/>
+            <column name="product_id" value="80"/>
+            <column name="category_id" value="1"/>
+        </insert>
+
+        <!--Doom Sales-->
+        <insert tableName="products">
+            <column name="title" value="Doom-"/>
+            <column name="price" value="50.99"/>
+            <column name="description" value="Doom-."/>
+            <column name="category_id" value="8"/>
+        </insert>
+
+        <insert tableName="pictures">
+            <column name="url" value="https://icegames.store/71b7ddc5-2d1c-4c6f-ab1f-e3b7e83403a2.jpg"/>
+            <column name="product_id" value="81"/>
+            <column name="category_id" value="1"/>
+        </insert>
+
+
+
+        <!-- Warcraft game -->
+        <insert tableName="products">
+            <column name="title" value="Warcraft game"/>
+            <column name="price" value="99.99"/>
+            <column name="description" value="World of Warcraft ."/>
+            <column name="category_id" value="1"/>
+            <column name="category_id" value="8"/>
+        </insert>
+
+        <insert tableName="pictures">
+            <column name="url" value="https://i.pinimg.com/originals/dc/d9/fa/dcd9fa589f4b36f3add7833b4510b043.jpg"/>
+            <column name="product_id" value="82"/>
+            <column name="category_id" value="1"/>
+        </insert>
+        <!-- Fallout 4 -->
+        <insert tableName="products">
+            <column name="title" value=" Fallout 4 "/>
+            <column name="price" value="39.49"/>
+            <column name="description" value=" Fallout 4  ."/>
+            <column name="category_id" value="1"/>
+            <column name="category_id" value="8"/>
+        </insert>
+
+        <insert tableName="pictures">
+            <column name="url" value="https://icegames.store/f22c1da8-03ff-4dc5-a10b-71d1ea907fc9.jpg"/>
+            <column name="product_id" value="83"/>
+            <column name="category_id" value="1"/>
+        </insert>
+
+        <!--Horizon Zero Dawn-->
+        <insert tableName="products">
+            <column name="title" value="Horizon Zero Dawn "/>
+            <column name="price" value="39.49"/>
+            <column name="description" value="Horizon Zero Dawn ."/>
+            <column name="category_id" value="1"/>
+            <column name="category_id" value="8"/>
+        </insert>
+
+        <insert tableName="pictures">
+            <column name="url" value="https://i.pinimg.com/originals/21/78/9f/21789fa4cd6b75b2e7f964ad607cc360.jpg"/>
+            <column name="product_id" value="84"/>
+            <column name="category_id" value="1"/>
+        </insert>
+
+        <!--PlayerUnknown's Battlegrounds -->
+        <insert tableName="products">
+            <column name="title" value="PlayerUnknown's Battlegrounds "/>
+            <column name="price" value="72.49"/>
+            <column name="description" value="PlayerUnknown's Battlegrounds."/>
+            <column name="category_id" value="1"/>
+            <column name="category_id" value="8"/>
+        </insert>
+
+        <insert tableName="pictures">
+            <column name="url" value="https://cdn.skidka-msk.ru/images/prodacts/sourse/65921/65921437_pubg-corporation-playerunknowns-battleground-pc-tsifrovaya-versiya.jpg"/>
+            <column name="product_id" value="85"/>
+            <column name="category_id" value="1"/>
+        </insert>
+
+        <!--JustCause3-->
+        <insert tableName="products">
+            <column name="title" value="JustCause3 "/>
+            <column name="price" value="22.49"/>
+            <column name="description" value="JustCause3."/>
+            <column name="category_id" value="1"/>
+            <column name="category_id" value="8"/>
+        </insert>
+
+        <insert tableName="pictures">
+            <column name="url" value="https://www.1c-interes.ru/images/2018/08/27160421_JustCause3_PC.jpg"/>
+            <column name="product_id" value="86"/>
+            <column name="category_id" value="1"/>
+        </insert>
+
+        <!--Tomb Raider-->
+        <insert tableName="products">
+            <column name="title" value="Tomb Raider "/>
+            <column name="price" value="29.99"/>
+            <column name="description" value="Tomb Raider."/>
+            <column name="category_id" value="1"/>
+            <column name="category_id" value="8"/>
+        </insert>
+
+        <insert tableName="pictures">
+            <column name="url" value="https://i.playground.ru/e/U1-0ycjdNI2QyAwllbuBcw.jpeg"/>
+            <column name="product_id" value="87"/>
+            <column name="category_id" value="1"/>
+        </insert>
+
+        <!-- Shadow of the Tomb Raider-->
+        <insert tableName="products">
+            <column name="title" value=" Shadow of the Tomb Raider "/>
+            <column name="price" value="29.99"/>
+            <column name="description" value=" Shadow of the Tomb Raider."/>
+            <column name="category_id" value="1"/>
+            <column name="category_id" value="8"/>
+        </insert>
+
+        <insert tableName="pictures">
+            <column name="url" value="https://basket-10.wb.ru/vol1585/part158599/158599742/images/big/1.jpg"/>
+            <column name="product_id" value="88"/>
+            <column name="category_id" value="1"/>
+        </insert>
+
+        <!-- battlefield 5-->
+        <insert tableName="products">
+            <column name="title" value=" Battlefield 5 "/>
+            <column name="price" value="110.99"/>
+            <column name="description" value=" Battlefield 5."/>
+            <column name="category_id" value="1"/>
+            <column name="category_id" value="8"/>
+        </insert>
+
+        <insert tableName="pictures">
+            <column name="url" value="https://www.digiseller.ru/preview/1018188/p1_3190078_3b171dba.jpg"/>
+            <column name="product_id" value="89"/>
+            <column name="category_id" value="1"/>
+        </insert>
+
+        <!-- Lord of fallen-->
+        <insert tableName="products">
+            <column name="title" value="Lord of fallen"/>
+            <column name="price" value="40.99"/>
+            <column name="description" value="Lord of fallen."/>
+            <column name="category_id" value="1"/>
+            <column name="category_id" value="8"/>
+        </insert>
+
+        <insert tableName="pictures">
+            <column name="url" value="https://8bit.sale/wp-content/uploads/2020/07/videoigra-lords-of-the-fallen-polnoe-izdanie-complete-edition-russkaya-versiya-xbox-one.jpg"/>
+            <column name="product_id" value="90"/>
+            <column name="category_id" value="1"/>
+        </insert>
+        <!-- Warcraft game -->
+        <insert tableName="products">
+            <column name="title" value="Warcraft game"/>
+            <column name="price" value="99.99"/>
+            <column name="description" value="World of Warcraft ."/>
+            <column name="category_id" value="1"/>
+        </insert>
+
+        <insert tableName="pictures">
+            <column name="url" value="https://i.pinimg.com/originals/dc/d9/fa/dcd9fa589f4b36f3add7833b4510b043.jpg"/>
+            <column name="product_id" value="91"/>
+            <column name="category_id" value="1"/>
+        </insert>
+        <!-- Product: Iphone 15 Pro Max -->
+        <insert tableName="products">
+            <column name="title" value="Iphone 15 Pro Max"/>
+            <column name="price" value="1479.99"/>
+            <column name="description" value="The iPhone 15 Pro display has rounded corners that follow a beautiful curved design, and these corners are within a standard rectangle."/>
+            <column name="category_id" value="8"/>
+        </insert>
+        <insert tableName="pictures">
+            <column name="url" value="https://cdn.mos.cms.futurecdn.net/b7HJX9i4gGiecMMxbAdFBU-1200-80.jpg"/>
+            <column name="product_id" value="92"/>
+        </insert>
+        <!-- Refrigerator -->
+        <insert tableName="products">
+            <column name="title" value="Refrigerator"/>
+            <column name="price" value="1234.45"/>
+            <column name="description" value="Liebherr CBNbs"/>
+            <column name="category_id" value="8"/>
+        </insert>
+
+        <insert tableName="pictures">
+            <column name="url" value="https://mile.by/images/cache/_thumb_900x900xin_upload_iblock_234_1447978_1.jpg"/>
+            <column name="product_id" value="93"/>
+        </insert>
+
+
+        <!-- Xerox -->
+        <insert tableName="products">
+            <column name="title" value="Xerox"/>
+            <column name="price" value="2346.67"/>
+            <column name="description" value="Xerox B7035 Power Button"/>
+            <column name="category_id" value="8"/>
+        </insert>
+
+        <insert tableName="pictures">
+            <column name="url" value="https://www.stptexas.com/sites/default/files/styles/advanced_blog/public/image-uploads/Website%20Banners-59-min-2-min.png?itok=h1CHfs8e"/>
+            <column name="product_id" value="94"/>
+        </insert>
+
+
+        <!-- Razer Blade 15 Advanced -->
+        <insert tableName="products">
+            <column name="title" value="Razer Blade 15 Advanced"/>
+            <column name="price" value="2499.99"/>
+            <column name="description" value="Premium gaming laptop with Intel Core i7, NVIDIA RTX 3070, and 4K OLED display."/>
+            <column name="category_id" value="8"/>
+        </insert>
+
+        <insert tableName="pictures">
+            <column name="url" value="https://mcsolution.com.bd/wp-content/uploads/2022/06/razer-blade-17-2022-price.webp"/>
+            <column name="product_id" value="95"/>
+        </insert>
+
+
+        <!-- Apple Mac 27-inch -->
+        <insert tableName="products">
+            <column name="title" value="Apple Mac 27-inch"/>
+            <column name="price" value="1799.99"/>
+            <column name="description" value="All-in-one desktop with Retina 5K display, Intel Core i5, and Radeon Pro 5300."/>
+            <column name="category_id" value="8"/>
+        </insert>
+
+        <insert tableName="pictures">
+            <column name="url" value="https://www.itronic.fi/images/banners/GBEN_iMac_1.jpg"/>
+            <column name="product_id" value="96"/>
+        </insert>
+
+
+        <!-- Drone -->
+        <insert tableName="products">
+            <column name="title" value="Drone"/>
+            <column name="price" value="799.99"/>
+            <column name="description" value="Quadcopter drone with 4K camera and GPS."/>
+            <column name="category_id" value="8"/>
+        </insert>
+
+        <insert tableName="pictures">
+            <column name="url" value="https://avatars.mds.yandex.net/get-mpic/11763878/2a0000018b14df672597b1edf8e9bb033bc7/orig"/>
+            <column name="product_id" value="97"/>
+        </insert>
+
+
+        <!-- Virtual Reality Headset -->
+        <insert tableName="products">
+            <column name="title" value="Virtual Reality Headset"/>
+            <column name="price" value="399.99"/>
+            <column name="description" value="VR headset for immersive gaming and virtual experiences."/>
+            <column name="category_id" value="8"/>
+        </insert>
+
+        <insert tableName="pictures">
+            <column name="url" value="https://basket-02.wbbasket.ru/vol264/part26451/26451788/images/big/2.webp"/>
+            <column name="product_id" value="98"/>
+        </insert>
+
+
+        <!-- Nintendo Switch OLED Model -->
+        <insert tableName="products">
+            <column name="title" value="Nintendo Switch OLED Model"/>
+            <column name="price" value="349.99"/>
+            <column name="description" value="Enhanced Nintendo Switch console with vibrant OLED display and improved audio."/>
+            <column name="category_id" value="8"/>
+        </insert>
+
+        <insert tableName="pictures">
+            <column name="url" value="https://cdn1.ozone.ru/s3/multimedia-d/6739294477.jpg"/>
+            <column name="product_id" value="99"/>
+        </insert>
+
+
+
+        <!-- PlayStation 4 Pro -->
+        <insert tableName="products">
+            <column name="title" value="PlayStation 4 Pro"/>
+            <column name="price" value="399.99"/>
+            <column name="description" value="High-performance PlayStation console with 4K gaming and HDR technology."/>
+            <column name="category_id" value="8"/>
+        </insert>
+
+        <insert tableName="pictures">
+            <column name="url" value="https://johnlewis.scene7.com/is/image/JohnLewis/237231759?$rsp-pdp-port-1440$"/>
+            <column name="product_id" value="100"/>
+        </insert>
+
+        <!-- Fitbit Charge 4 -->
+        <insert tableName="products">
+            <column name="title" value="Fitbit Charge 4"/>
+            <column name="price" value="149.99"/>
+            <column name="description" value="Fitness and activity tracker with built-in GPS and heart rate monitoring."/>
+            <column name="category_id" value="8"/>
+        </insert>
+
+        <insert tableName="pictures">
+            <column name="url" value="https://m.media-amazon.com/images/I/71QJF4hIPBL._AC_SL1500_.jpg"/>
+            <column name="product_id" value="101"/>
+        </insert>
+
+
+        <!-- DJI Mavic Air 2 -->
+        <insert tableName="products">
+            <column name="title" value="DJI Mavic Air 2"/>
+            <column name="price" value="799.99"/>
+            <column name="description" value="Foldable drone with 4K camera, 34-minute flight time, and advanced obstacle avoidance."/>
+            <column name="category_id" value="8"/>
+        </insert>
+
+        <insert tableName="pictures">
+            <column name="url" value="https://90.img.avito.st/image/1/1.RV1Dh7a56bR1LiuxRYoGE5Ik7773pOF28iTrsP8u47Y.z5G_ZG3QKWC4wZtlddP0YIfSPzHiivNBUNUwMC40akA"/>
+            <column name="product_id" value="102"/>
+        </insert>
+
+
+
+        <!-- Вставка ролей -->
         <insert tableName="roles">
             <column name="id" value="1"/>
             <column name="name" value="ROLE_USER"/>
@@ -846,7 +1555,8 @@
             <column name="id" value="2"/>
             <column name="name" value="ROLE_ADMIN"/>
         </insert>
-        <!--  Вставка пользователей с ролями  -->
+
+        <!-- Вставка пользователей с ролями -->
         <insert tableName="users">
             <column name="first_name" value="admin"/>
             <column name="last_name" value="admin"/>
@@ -854,8 +1564,11 @@
             <column name="password" value="$2a$08$Sw2l9tnq3kkHkVKJzrM8W.YnCddYaFiLR8dIFITzVWH.a1mPpkK3q"/>
             <column name="username" value="admin"/>
             <column name="avatar_path" value="https://cs13.pikabu.ru/post_img/big/2023/02/13/8/1676296366191520185.png"/>
+
         </insert>
-        <!--  Связь пользователей с ролями  -->
+
+
+        <!-- Связь пользователей с ролями -->
         <insert tableName="users_roles">
             <column name="user_id" value="1"/>
             <column name="role_id" value="2"/>
@@ -865,6 +1578,7 @@
         <insert tableName="carts">
             <column name="user_id" value="1"/>
         </insert>
+
 
     </changeSet>
 </databaseChangeLog>
