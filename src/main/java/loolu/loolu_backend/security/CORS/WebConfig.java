@@ -13,13 +13,13 @@ public class WebConfig implements WebMvcConfigurer {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                // Разрешаем CORS для всех путей (например, для Swagger тоже)
-                registry.addMapping("/**")
-                        .allowedOrigins("*")  // Разрешаем доступ с любых источников
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                registry.addMapping("/api/**")
+                        .allowedOrigins("http://localhost:3000")
+                        .allowedMethods("GET", "POST", "PUT", "DELETE")
                         .allowedHeaders("*")
                         .allowCredentials(true)
-                        .exposedHeaders("Authorization");
+                        .exposedHeaders("Authorization"); // Может помочь с CORS и заголовками
+
             }
         };
     }
