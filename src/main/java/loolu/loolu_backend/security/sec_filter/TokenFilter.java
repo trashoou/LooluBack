@@ -26,9 +26,18 @@ public class TokenFilter extends GenericFilterBean {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
 
-        String token = getTokenFromRequest((HttpServletRequest) request);
+        // Пропускать публичные маршруты, такие как Swagger или регистрации
+        if (httpRequest.getRequestURI().startsWith("/swagger-ui") ||
+                httpRequest.getRequestURI().startsWith("/v3/api-docs") ||
+                httpRequest.getRequestURI().startsWith("/api/users")) {
+            chain.doFilter(request, response);  // Пропускаем запрос без токенов
+            return;
+        }
 
+        // Обработка токена, если запрос защищён
+        String token = getTokenFromRequest(httpRequest);
         if (token != null && service.validateAccessToken(token)) {
             Claims claims = service.getAccessClaims(token);
             AuthInfo authInfo = service.generateAuthInfo(claims);
@@ -36,8 +45,10 @@ public class TokenFilter extends GenericFilterBean {
             SecurityContextHolder.getContext().setAuthentication(authInfo);
         }
 
-        chain.doFilter(request, response);
+        chain.doFilter(request, response);  // Дальше продолжаем выполнение цепочки фильтров
     }
+
+
 
     // Метод доработан.
     // Теперь считываем токен не только из заголовка запроса, но и из куки.
