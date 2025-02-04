@@ -68,7 +68,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/upload/photo/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/auth/profile", "/api/auth/refresh", "/api/auth/logout").permitAll()
-                        .anyRequest().authenticated())
+                        .anyRequest().permitAll())
                 .addFilterAfter(filter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
@@ -76,7 +76,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:3000", "https://clownfish-app-sfegf.ondigitalocean.app"));
+        configuration.setAllowedOrigins(List.of("http://localhost:3000", "https://clownfish-app-sfegf.ondigitalocean.app", "https://warm-inlet-82150-507af867881e.herokuapp.com"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
